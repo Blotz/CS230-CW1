@@ -1,2 +1,2 @@
-# CS270-CW1
+# CS230-CW1
 Programmin part now
