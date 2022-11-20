@@ -74,9 +74,10 @@ public class Main extends Application {
 	 */
 	public void start(Stage primaryStage) {
 		// Load images. Note we use png images with a transparent background.
-		playerImage = new Image("player.png");
-		dirtImage = new Image("dirt.png");
-		iconImage = new Image("icon.png");
+		// TODO: Image urls are "invalid" and "wont load"
+		playerImage = new Image("./player.png");
+		dirtImage = new Image("./dirt.png");
+		iconImage = new Image("./icon.png");
 
 		// Build the GUI 
 		Pane root = buildGUI();
