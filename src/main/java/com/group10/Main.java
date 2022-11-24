@@ -25,6 +25,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.InputStream;
+
 /**
  * Sample application that demonstrates the use of JavaFX Canvas for a Game.
  * This class is intentionally not structured very well. This is just a starting point to show
@@ -74,10 +76,12 @@ public class Main extends Application {
 	 */
 	public void start(Stage primaryStage) {
 		// Load images. Note we use png images with a transparent background.
-		// TODO: Image urls are "invalid" and "wont load"
-		playerImage = new Image("./player.png");
-		dirtImage = new Image("./dirt.png");
-		iconImage = new Image("./icon.png");
+		String url = String.valueOf(Main.class.getResource("player.png"));
+		playerImage = new Image(url);
+		url = String.valueOf(Main.class.getResource("dirt.png"));
+		dirtImage = new Image(url);
+		url = String.valueOf(Main.class.getResource("icon.png"));
+		iconImage = new Image(url);
 
 		// Build the GUI 
 		Pane root = buildGUI();
