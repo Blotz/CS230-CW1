@@ -1,0 +1,12 @@
+4 5
+CYYC RGGB CCCC YYBB RRGG
+BMBM GBRY MMMM BBYY GGGG
+CCRR RRRR BBMM GGGG RRRR
+BBBB MMCC YYYY BBYY CCGG
+(1,2) Player
+(3,4) FloorFollowingThief Green
+(0,2) Ruby
+(1,4) Diamond
+(3,0) Clock
+(2,4) Door
+180
