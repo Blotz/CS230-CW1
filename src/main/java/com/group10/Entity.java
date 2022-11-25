@@ -1,4 +1,6 @@
 package com.group10;
 
-public abstract class Entity {
+public interface Entity {
+    @Override
+    public boolean equals(Object obj);
 }
