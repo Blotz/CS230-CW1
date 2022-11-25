@@ -5,14 +5,23 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+
+/**
+ * Loads information from level file format
+ */
 public class Level {
     private Tile[][] map;
+    private Entity[][] entityMap;
+    private Integer time;
+    private Integer MAX_HEIGHT;
+    private Integer MAX_WIDTH;
+    
     
     public Level(String levelPath) {
         try {
             this.loadLevelFile(levelPath);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException("Invalid file path");
         }
     }
     
@@ -23,15 +32,17 @@ public class Level {
         String posString = in.nextLine();
         Scanner pos = new Scanner(posString).useDelimiter(" ");
         
-        Integer height = pos.nextInt();
-        Integer width = pos.nextInt();
-        map = new Tile[height][width];
+        MAX_HEIGHT = pos.nextInt();
+        MAX_WIDTH = pos.nextInt();
+        
+        map = new Tile[MAX_HEIGHT][MAX_WIDTH];
+        entityMap = new Entity[MAX_HEIGHT][MAX_WIDTH];
         
         // Board
-        for (int i = 0; i < height; i++) {
+        for (int i = 0; i < MAX_HEIGHT; i++) {
             String rowString = in.nextLine();
             Scanner row = new Scanner(rowString).useDelimiter(" ");
-            for (int j = 0; j < width; j++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
                 String tileColors = row.next();
                 map[i][j] = new Tile(tileColors.charAt(0), tileColors.charAt(1), tileColors.charAt(2), tileColors.charAt(3));
             }
@@ -42,9 +53,8 @@ public class Level {
             String creatureRow = in.nextLine();
             
             if (!creatureRow.startsWith("(")) {
-                Integer time = Integer.parseInt(creatureRow);
-                System.out.println("time: " + time);
-                break;  // prolly can return at this point :pp
+                time = Integer.parseInt(creatureRow);
+                continue;
             }
             
             Scanner creature = new Scanner(creatureRow).useDelimiter(" ");
