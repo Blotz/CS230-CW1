@@ -12,9 +12,9 @@ import java.util.Scanner;
 public class Level {
     private Tile[][] map;
     private Entity[][] entityMap;
-    private Integer time;
-    private Integer MAX_HEIGHT;
-    private Integer MAX_WIDTH;
+    private int time;
+    public int MAX_HEIGHT;
+    public int MAX_WIDTH;
     
     
     public Level(String levelPath) {
@@ -64,9 +64,18 @@ public class Level {
             creaturePos = creaturePos.substring(1, creaturePos.length()-1);  // Trim starting and trailing "(" ")"
             Scanner creaturePosParser = new Scanner(creaturePos).useDelimiter(",");
             
-            Integer creatureX = creaturePosParser.nextInt();
-            Integer creatureY = creaturePosParser.nextInt();
+            int creatureX = creaturePosParser.nextInt();
+            int creatureY = creaturePosParser.nextInt();
             System.out.println(creatureName + ": " + creatureX + " " + creatureY);
         }
+    }
+    
+    public char[] getTileColorEntity(Entity entity) {
+        // TODO: remove placeholder code!
+        return new char[]{'a','b','c'};
+    }
+    
+    public char[] getTileColor(Integer x, Integer y) {
+        return map[y][x].getColors();
     }
 }
