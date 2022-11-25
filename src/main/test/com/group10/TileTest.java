@@ -8,7 +8,7 @@ class TileTest {
     
     @Test
     void Tile() {
-        Tile tile = new Tile("r","g","b","c");
+        Tile tile = new Tile('r','g','b','c');
     }
     
 
