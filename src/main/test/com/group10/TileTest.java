@@ -10,6 +10,4 @@ class TileTest {
     void Tile() {
         Tile tile = new Tile('r','g','b','c');
     }
-    
-
 }

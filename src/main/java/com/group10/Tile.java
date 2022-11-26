@@ -13,4 +13,8 @@ public class Tile {
     public String toString() {
         return String.valueOf(tiles[0]) + String.valueOf(tiles[1]) + String.valueOf(tiles[2]) + String.valueOf(tiles[3]);
     }
+    
+    public char[] getColors() {
+        return tiles;
+    }
 }

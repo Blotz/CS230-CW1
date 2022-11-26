@@ -74,7 +74,7 @@ public class Main extends Application {
 	 */
 	public void start(Stage primaryStage) {
 		// Load images. Note we use png images with a transparent background.
-		String url = String.valueOf(Main.class.getResource("player.png"));
+		String url = Main.class.getResource("player.png").toString();
 		playerImage = new Image(url);
 		url = String.valueOf(Main.class.getResource("dirt.png"));
 		dirtImage = new Image(url);
