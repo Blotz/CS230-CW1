@@ -50,7 +50,7 @@ public class Main extends Application {
 	
 	// The width of the grid in number of cells.
 	private static final int GRID_WIDTH = 12;
-	
+	private static final int GRID_HEIGHT = 12;
 	// The canvas in the GUI. This needs to be a global variable
 	// (in this setup) as we need to access it in different methods.
 	// We could use FXML to place code in the controller instead.
@@ -145,11 +145,27 @@ public class Main extends Application {
 		// We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
 		// We draw the row at y value 2.
 		for (int x = 0; x < GRID_WIDTH; x++) {
-			gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, 2 * GRID_CELL_HEIGHT);	
+			for (int y = 0; y < GRID_HEIGHT; y++) {
+				gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+			}
 		}
 		
 		// Draw player at current location
 		gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);			
+	}
+
+	public void drawLevel(Level level){
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.clearRect(0, 0, level.MAX_WIDTH, level.MAX_HEIGHT);
+		gc.setFill(Color.GRAY);
+		gc.fillRect(0, 0, level.MAX_WIDTH, level.MAX_HEIGHT);
+
+		for (int y = 0; y < level.MAX_HEIGHT; y++) {
+			for (int x = 0; x < level.MAX_WIDTH; x++)
+				//Add tiles and entities to canvas from level file
+				//Replace dirt image with tiles
+			gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+		}
 	}
 	
 	/**
