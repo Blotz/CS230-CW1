@@ -125,7 +125,9 @@ public class Game {
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
         // We draw the row at y value 2.
         for (int x = 0; x < GRID_WIDTH; x++) {
-            gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, 2 * GRID_CELL_HEIGHT);
+            for (int y = 0; y < GRID_WIDTH; y++) {
+            gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }
         }
 
         // Draw player at current location
