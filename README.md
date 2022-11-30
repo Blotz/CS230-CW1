@@ -20,3 +20,4 @@ Programmin part now
    - [ ] Loot
 
 Some of the stuff we have to do
+:)
