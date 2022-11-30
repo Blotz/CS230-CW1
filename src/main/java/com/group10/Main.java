@@ -26,6 +26,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * Sample application that demonstrates the use of JavaFX Canvas for a Game.
  * This class is intentionally not structured very well. This is just a starting point to show
@@ -82,6 +87,7 @@ public class Main extends Application {
 		url = String.valueOf(Main.class.getResource("icon.png"));
 		iconImage = new Image(url);
 
+
 		// Build the GUI 
 		Pane root = buildGUI();
 		
@@ -101,14 +107,26 @@ public class Main extends Application {
 		toolbar.setPadding(new Insets(10, 10, 10, 10));
 		root.setTop(toolbar);
 
+		try(InputStream is = Files.newInputStream(Paths.get("src/main/resources/com/group10/BACKROUND.jpg"))){
+			ImageView img = new ImageView(new Image(is));
+			img.setFitWidth(1050);
+			img.setFitHeight(600);
+			//root.getChildren().add(img);
+		}
+		catch(IOException e) {
+			System.out.println("Couldn't load image");
+		}
+
+		//Add a input feature to display motd and leaderboard
 		Label title = new Label("Menu");
 		Label motd = new Label("Message of the day");
+		Label leaderboard = new Label("LeaderBoard");
 
 		Button game = new Button("Go to Level");
 		game.setOnAction(e -> Game.display());
 
 		// We add both buttons at the same time to the timeline (we could have done this in two steps).
-		toolbar.getChildren().addAll(title, game, motd);
+		toolbar.getChildren().addAll(title, game, motd, leaderboard);
 
 		// Finally, return the border pane we built up.
 		return root;
