@@ -146,7 +146,7 @@ public class Game {
         // Draw player at current location
     //    gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
 
-        drawLevel("level/level1.txt");
+        drawLevel("level/level1.txt"); //Change input form
     }
 
     public static void drawLevel(String path) {
