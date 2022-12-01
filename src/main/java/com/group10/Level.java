@@ -30,7 +30,7 @@ public class Level {
     private static final String ENTITY_FORMAT_ERROR = "Entity should be in format '(x,y) Class'";
     private static final String ENTITY_POSITION_FORMAT_ERROR = "Entity position should be in format '(x,y)'";
     private static final String INVALID_ENTITY_NAME = "Entity name doesnt match any Classes";
-    
+    private static final String ENTITY_NOT_FOUND_ERROR = "Entity not found inside Entity Map";
     
     public Level(String levelPath) throws FileNotFoundException {
         
@@ -150,11 +150,28 @@ public class Level {
         return time;
     }
     
-    public char[] getTileColorEntity(Entity entity) {
-        // TODO: remove placeholder code!
-        return new char[]{'a','b','c'};
+    public char[] getEntityTileColor(Entity entity) {
+        int[] pos = getEntityPosition(entity);
+        return getTileColor(pos[0], pos[1]);
     }
     
+    public int[] getEntityPosition(Entity entity) {
+        for (int y=0; y<MAX_HEIGHT; y++) {
+            for (int x = 0; x < MAX_WIDTH; x++) {
+                if (entity.equals(entityMap[y][x])) {
+                    return new int[]{x,y};
+                }
+            }
+        }
+        throw new IllegalArgumentException(ENTITY_NOT_FOUND_ERROR);
+    }
+    
+    public Entity getEntity(int x, int y) {
+        return entityMap[y][x];
+    }
+    public Tile getTile(int x, int y) {
+        return map[y][x];
+    }
     public char[] getTileColor(Integer x, Integer y) {
         return map[y][x].getColors();
     }
