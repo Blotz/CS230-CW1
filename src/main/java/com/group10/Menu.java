@@ -27,7 +27,7 @@ import javafx.scene.text.*;
 
 public class Menu {
 
-    public static Parent createContent() {
+    public static Parent build() {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);

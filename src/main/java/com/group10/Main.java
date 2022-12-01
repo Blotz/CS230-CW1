@@ -53,7 +53,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Scene scene = new Scene(Menu.createContent());
+		Scene scene = new Scene(Menu.build());
 		primaryStage.setTitle("Cave Game");
 		primaryStage.setScene(scene);
 		primaryStage.show();
