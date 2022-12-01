@@ -13,7 +13,7 @@ Programmin part now
 - [ ] Menu
   - [ ] Load games
   - [ ] Highscore Board
-  - [ ] MOTDRetriever
+  - [x] MOTDRetriever
 - [ ] Entity
   - [ ] Pickups
   - [ ] MoveableEntities
