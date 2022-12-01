@@ -21,7 +21,7 @@ public class FlyingAssassin extends MoveableEntity{
         }
     }
 
-    public int[] moveHorizontal(Level level) {
+    private int[] moveHorizontal(Level level) {
         if (direction == Direction.RIGHT) {
             if (x < level.MAX_WIDTH) {
                 return moveRight(level, x, y);
@@ -40,7 +40,7 @@ public class FlyingAssassin extends MoveableEntity{
         return new int[]{x, y};
     }
 
-    public int[] moveVertical(Level level) {
+    private int[] moveVertical(Level level) {
         if (direction == Direction.UP) {
             if (y < level.MAX_HEIGHT) {
                 return moveUp(level, x, y);
