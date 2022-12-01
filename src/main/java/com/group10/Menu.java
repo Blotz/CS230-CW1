@@ -25,9 +25,9 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.*;
 
-public class Menu extends Application{
+public class Menu {
 
-    private Parent createContent() {
+    public static Parent createContent() {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);
@@ -55,13 +55,6 @@ public class Menu extends Application{
 
         return root;
 
-    }
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        Scene scene = new Scene(createContent());
-        primaryStage.setTitle("Cave Game");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     private static class Title extends StackPane{
@@ -130,7 +123,7 @@ public class Menu extends Application{
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-
+                Game.display();
             });
 
             setOnMouseReleased(event -> {
@@ -140,8 +133,4 @@ public class Menu extends Application{
         }
     }
 
-    public static void main(String[] args) {
-
-        launch(args);
-    }
 }
