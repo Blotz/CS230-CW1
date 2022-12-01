@@ -11,6 +11,9 @@ Programmin part now
 - [ ] Tile
 - [ ] Player
 - [ ] Menu
+  - [ ] Load games
+  - [ ] Highscore Board
+  - [x] MOTDRetriever
 - [ ] Entity
   - [ ] Pickups
   - [ ] MoveableEntities
@@ -20,3 +23,4 @@ Programmin part now
    - [ ] Loot
 
 Some of the stuff we have to do
+:)
