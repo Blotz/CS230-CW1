@@ -1,6 +1,10 @@
 package com.group10;
 
 public abstract class MoveableEntity implements Entity {
+
+    enum Direction {
+        RIGHT, LEFT, DOWN, UP
+    }
     public int[] moveRight(Level level, int x, int y) {
         char[] colorsOnCurTile = level.getTileColorEntity(this);
 //        int new_x = x;
