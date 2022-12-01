@@ -137,7 +137,7 @@ public class Level {
             // Save entity to map
             switch (creatureName) {
                 case "Gate":
-                    Gate entity = new Gate();
+                    Gate entity = new Gate("red");
                     entityMap[creatureY][creatureX] = (Entity) entity;
                     break;
                 default:
