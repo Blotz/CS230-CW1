@@ -18,7 +18,7 @@ class LevelTest {
   }
   
   @Test
-  @Disabled
+//  @Disabled
   void loadLevelFile() {
     try {
       Level level = new Level("test/Level/level.txt");

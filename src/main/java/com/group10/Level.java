@@ -14,10 +14,22 @@ public class Level {
     // Final because we won't want to change the size of these arrays
     private final Tile[][] map;
     private final Entity[][] entityMap;
-    
     private int time;
     public final int MAX_HEIGHT;
     public final int MAX_WIDTH;
+    
+    private static final String FILE_NOT_FOUND = " didn't resolve to a file";
+    private static final String NO_WIDTH_HEIGHT = "Please include height and width at the top of the file";
+    private static final String WIDTH_HEIGHT_AND_MORE = "Please only include height and width at the top of the file";
+    private static final String TOO_FEW_ROWS = "Too few rows for the tile format";
+    private static final String INVALID_TILE_STRING = "Incorrectly formatted tile string";
+    private static final String TOO_FEW_COLUMNS = "Too few columns for the tile format";
+    private static final String TOO_MANY_ROWS = "Too many rows for the tile format";
+    private static final String TOO_MANY_COLUMNS = "Too many columns for the tile format";
+    private static final String INVALID_TIME_FORMAT = "Number must be an integer";
+    private static final String ENTITY_FORMAT_ERROR = "Entity should be in format '(x,y) Class'";
+    private static final String ENTITY_POSITION_FORMAT_ERROR = "Entity position should be in format '(x,y)'";
+    private static final String INVALID_ENTITY_NAME = "Entity name doesnt match any Classes";
     
     
     public Level(String levelPath) throws FileNotFoundException {
@@ -26,8 +38,7 @@ public class Level {
         InputStream file = Level.class.getResourceAsStream(levelPath);
         // If the path is invalid, throw an error!
         if (file == null) {
-            System.err.println("File not found!");
-            throw new FileNotFoundException(levelPath + " didn't resolve to a file");
+            throw new FileNotFoundException(levelPath + FILE_NOT_FOUND);
         }
         Scanner in = new Scanner(file);
     
@@ -38,13 +49,11 @@ public class Level {
             MAX_HEIGHT = pos.nextInt();
             MAX_WIDTH = pos.nextInt();
         } catch (NoSuchElementException e) {
-            System.err.println("Please include height and width at the top of the file");
-            throw e;
+            throw new IllegalArgumentException(NO_WIDTH_HEIGHT);
         }
         if (pos.hasNextInt()) {
             pos.close();
-            System.err.println("Please only include height and width at the top of the file");
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(WIDTH_HEIGHT_AND_MORE);
         }
         
         // Initialize our arrays
@@ -56,58 +65,45 @@ public class Level {
             String rowString = in.nextLine();
             Scanner row = new Scanner(rowString).useDelimiter(" ");
             if (rowString.startsWith("(")) {
-                System.err.println("Too few rows for the tile format");
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(TOO_FEW_ROWS);
             }
             try {
                 for (int j = 0; j < MAX_WIDTH; j++) {
                     String tileColors = row.next();
                     if (tileColors.length() != 4) {
-                        System.err.println("Incorrectly formatted tile string");
-                        throw new IllegalArgumentException("Tile needs to be in the format XXXX");
+                        throw new IllegalArgumentException(INVALID_TILE_STRING);
                     }
                     map[i][j] = new Tile(tileColors.charAt(0), tileColors.charAt(1), tileColors.charAt(2), tileColors.charAt(3));
                 }
             } catch (NoSuchElementException e) {  // Catch too little columns
-                System.err.println("Too little columns for the tile format");
-                throw e;
+                throw new IllegalArgumentException(TOO_FEW_COLUMNS);
             }
             // Test for too many columns
             if (row.hasNextLine()) {
                 row.close();
-                System.err.println("Too many columns for the tile format");
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(TOO_MANY_COLUMNS);
             }
             row.close();
         }
     
-        // Check to see if we even have any entities
-        String entityString = in.nextLine();
-        if (!entityString.startsWith("(")) {
-            try {
-                time = Integer.parseInt(entityString);
-            } catch (NumberFormatException e) {
-                // if it's not the time or an entity, it must be an condition where too many
-                // rows from tile setup
-                System.err.println("Too many rows for the tile format");
-                throw new IllegalArgumentException();
-            }
-            in.close();
-            return; // Finished
-        }
+
         
         // Parse at least one entity
         while (in.hasNext()) {
+            String entityString = in.nextLine();
+            
+            
             if (!entityString.startsWith("(")) {
                 try {
                     time = Integer.parseInt(entityString);
                 } catch (NumberFormatException e) {
-                    System.err.println("Number must be an integer");
-                    throw e;
+                    throw new NumberFormatException(INVALID_TIME_FORMAT);
                 }
                 in.close();
                 return; // Finished
             }
+            
+            // Look at creature row
             Scanner creature = new Scanner(entityString).useDelimiter(" ");
             String creaturePos;
             String creatureName;
@@ -115,12 +111,10 @@ public class Level {
                 creaturePos = creature.next();
                 creatureName = creature.next();
             } catch (NoSuchElementException e) {
-                System.err.println("Entity should be in format '(x,y) Class'");
-                throw e;
+                throw new IllegalArgumentException(ENTITY_FORMAT_ERROR);
             }
             if (creature.hasNext()) {
-                System.err.println("Entity should be in format '(x,y) Class'");
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(ENTITY_FORMAT_ERROR);
             }
     
             creaturePos = creaturePos.substring(1, creaturePos.length() - 1);  // Trim starting and trailing "(" ")"
@@ -132,17 +126,23 @@ public class Level {
                 creatureX = creaturePosParser.nextInt();
                 creatureY = creaturePosParser.nextInt();
             } catch (NoSuchElementException e) {
-                System.err.println("Entity position should be in the format '(x,y)'");
-                throw e;
+                throw new IllegalArgumentException(ENTITY_POSITION_FORMAT_ERROR);
             }
             if (creaturePosParser.hasNextInt()) {
                 creaturePosParser.close();
-                System.err.println("Entity position should be in the format '(x,y)'");
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(ENTITY_POSITION_FORMAT_ERROR);
             }
             creaturePosParser.close();
-            return;
+            
             // Save entity to map
+            switch (creatureName) {
+                case "Gate":
+                    Gate entity = new Gate();
+                    entityMap[creatureY][creatureX] = (Entity) entity;
+                    break;
+                default:
+                    throw new IllegalArgumentException(INVALID_ENTITY_NAME);
+            }
         }
     }
     
