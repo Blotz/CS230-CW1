@@ -45,6 +45,11 @@ public class Game {
     private static Image dirtImage;
     private static Image iconImage;
 
+    private static Image redTile;
+    private static Image greenTile;
+    private static Image blueTile;
+    private static Image yellowTile;
+
     // X and Y coordinate of player on the grid.
     private static int playerX = 0;
     private static int playerY = 0;
@@ -60,6 +65,14 @@ public class Game {
         dirtImage = new Image(url);
         url = String.valueOf(Main.class.getResource("icon.png"));
         iconImage = new Image(url);
+        url = String.valueOf(Main.class.getResource("redTile.png"));
+        redTile = new Image(url);
+        url = String.valueOf(Main.class.getResource("greenTile.png"));
+        greenTile = new Image(url);
+        url = String.valueOf(Main.class.getResource("blueTile.png"));
+        blueTile = new Image(url);
+        url = String.valueOf(Main.class.getResource("yellowTile.png"));
+        yellowTile = new Image(url);
 
         // Build the GUI
         Pane root = buildGUI();
@@ -126,7 +139,49 @@ public class Game {
         // We draw the row at y value 2.
         for (int x = 0; x < GRID_WIDTH; x++) {
             for (int y = 0; y < GRID_WIDTH; y++) {
-            gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            gc.drawImage(redTile, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }
+        }
+
+        // Draw player at current location
+        gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+    }
+
+    public static void drawLevel(String path) {
+        Level level = new Level(path);
+
+        // Get the Graphic Context of the canvas. This is what we draw on.
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+
+        // Clear canvas
+        gc.clearRect(0, 0, level.MAX_WIDTH, level.MAX_HEIGHT);
+
+        // Set the background to gray.
+        gc.setFill(Color.GRAY);
+        gc.fillRect(0, 0, level.MAX_WIDTH, level.MAX_HEIGHT);
+
+
+        // Draw row of dirt images
+        // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
+        // We draw the row at y value 2.
+        for (int x = 0; x < level.MAX_WIDTH; x++) {
+            for (int y = 0; y < level.MAX_HEIGHT; y++) {
+
+                char[] colours = level.getTileColor(x,y);
+
+                for (int i = 0; i < colours.length; i++) { // change placement of tiles
+                    if (colours[i] == 'Y') {
+                        gc.drawImage(yellowTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
+                    } else if (colours[i] == 'G') {
+                        gc.drawImage(greenTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
+                    } else if (colours[i] == 'B') {
+                        gc.drawImage(blueTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
+                    } else if (colours[i] == 'R') {
+                        gc.drawImage(redTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
+                    } else {  // Add enitites instead of dirt
+                        gc.drawImage(dirtImage, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
+                    }
+                }
             }
         }
 
