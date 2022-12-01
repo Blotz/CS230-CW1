@@ -1,4 +1,4 @@
-import com.group10.Main;
+package com.group10;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

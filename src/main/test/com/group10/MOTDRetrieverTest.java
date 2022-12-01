@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TileTest {
+class MOTDRetrieverTest {
     
     @Test
-    void Tile() {
-        Tile tile = new Tile('r','g','b','c');
+    void getMOTD() {
+        System.out.println(MOTDRetriever.getMOTD());
     }
 }

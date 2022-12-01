@@ -73,8 +73,4 @@ public class MOTDRetriever {
             return "Connection to cswebcat.swansea.ac.uk/puzzle failed.";
         }
     }
-
-    public static void main(String args[]){
-        System.out.println(getMOTD());
-    }
 }
