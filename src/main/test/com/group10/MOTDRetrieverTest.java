@@ -1,4 +1,4 @@
-import com.group10.MOTDRetriever;
+package com.group10;
 
 import org.junit.jupiter.api.Test;
 
