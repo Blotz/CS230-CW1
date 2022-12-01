@@ -125,26 +125,28 @@ public class Game {
      */
     public static void drawGame() {
         // Get the Graphic Context of the canvas. This is what we draw on.
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+    //    GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Clear canvas
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   //     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Set the background to gray.
-        gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+     //   gc.setFill(Color.GRAY);
+    //    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
         // We draw the row at y value 2.
-        for (int x = 0; x < GRID_WIDTH; x++) {
-            for (int y = 0; y < GRID_WIDTH; y++) {
-            gc.drawImage(redTile, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }
-        }
+    //    for (int x = 0; x < GRID_WIDTH; x++) {
+     //       for (int y = 0; y < GRID_WIDTH; y++) {
+    //        gc.drawImage(redTile, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+    //       }
+    //    }
 
         // Draw player at current location
-        gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+    //    gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+
+        drawLevel("level/level1.txt");
     }
 
     public static void drawLevel(String path) {
