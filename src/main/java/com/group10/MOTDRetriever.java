@@ -1,8 +1,6 @@
 package com.group10;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.http.*;
 
     /**
@@ -13,7 +11,7 @@ import java.net.http.*;
      * and solve the validification puzzle to access the MOTD.
      */
 public class MOTDRetriever {
-    private static String alphabet = "abcdefghijklmnopqrstuvwyxz";
+    private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
      * MOTDGetter sends a GET request and returns the body of the response
@@ -35,26 +33,29 @@ public class MOTDRetriever {
     }
 
     /**
-     * @param puzzle current auth puzzle sent by cswebcat
-     * @return solution to the cracked ciphertext.
+     * Solve takes the puzzle text and returns the correct Solution
+     * @param puzzle The input string to parse into an answer
+     * @return The final output we use in our GET request
      */
     private static String Solve(String puzzle) {
         String password = "";
-        int newIndex;
+        int newIndex; // The index of puzzle[i] in the alphabet
+        int y; // The index + 1, as index 0 is position 1
         for (int i = 0; i < puzzle.length(); i++){
-            newIndex = alphabet.indexOf(puzzle.substring(i));
-            if (i % 2 == 0){
-                newIndex = newIndex + i > 25 
-                    ? (newIndex + i - 25) : newIndex + i;
+            y = i + 1;
+            newIndex = alphabet.indexOf(puzzle.charAt(i));
+            if (y % 2 == 0){ // If pos is even shift forward
+                newIndex = newIndex + y > 25 // Ternary to keep index in range
+                    ? ((newIndex + y) - 26) : newIndex + y;
                 password += alphabet.charAt(newIndex);
-            } else {
-                newIndex = newIndex - i < 0
-                    ? (newIndex + i + 25) : newIndex + i;
-                password += alphabet.charAt(newIndex - i);
+            } else { // Else shift in reverse
+                newIndex = newIndex - y < 0
+                    ? (26 + (newIndex - y)) : newIndex - y;
+                password += alphabet.charAt(newIndex);
             }
         }
-        password = password.length() + password;
         password += "CS-230";
+        password = password.length() + password;
         return password;
     }
 
