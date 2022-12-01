@@ -1,4 +1,4 @@
-package com.group10;
+import com.group10.Tile;
 
 import org.junit.jupiter.api.Test;
 
