@@ -140,6 +140,16 @@ public class Level {
                     Gate entity = new Gate("red");
                     entityMap[creatureY][creatureX] = (Entity) entity;
                     break;
+                case "Player":
+                    break;
+                case "FloorFollowingThief":
+                    break;
+                case "Ruby":
+                    break;
+                case "Diamond":
+                    break;
+                case "Door":
+                    break;
                 default:
                     throw new IllegalArgumentException(INVALID_ENTITY_NAME);
             }
