@@ -8,7 +8,7 @@ public class Switch extends PickUp {
 
     @Override
     public void onInteract(Object o) {
-        System.out.println();
+
     }
 
 }

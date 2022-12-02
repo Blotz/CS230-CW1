@@ -19,7 +19,7 @@ public class Gate implements Entity {
         return isOpen;
     }
 
-    public boolean setIsOpen(String keyColour) {
+    public boolean setIsOpen() {
         return isOpen;
     }
 
