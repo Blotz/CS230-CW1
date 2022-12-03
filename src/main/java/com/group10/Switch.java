@@ -5,10 +5,11 @@ import java.util.ArrayList;
 public class Switch extends PickUp {
 
     private ArrayList<Gate> gates = new ArrayList<>();
+    private char[] colour;
 
-    @Override
-    public void onInteract(Object o) {
-
+    public Switch (char[] col){
+        this.colour = col;
     }
+
 
 }

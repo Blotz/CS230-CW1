@@ -1,6 +1,6 @@
 package com.group10;
 
-public abstract class Loot{
+public abstract class Loot extends PickUp{
 
     private String gemName;
 
@@ -8,11 +8,16 @@ public abstract class Loot{
         gemName = gem;
     }
 
-    public static void onInteract(Loot loot) {
-        if (loot.getGemName() == "Ruby") {
-            // get player score and add x amount
-            // And remove object
-        }
+    public void lootValue(Player player, Loot loot) {
+            if (loot.getGemName() == "Cent") {
+                player.setScore(player.getScore() + 10);
+            } else if (loot.getGemName() == "Dollar") {
+                player.setScore(player.getScore() + 10);
+            } else if (loot.getGemName() == "Ruby") {
+                player.setScore(player.getScore() + 10);
+            } else if (loot.getGemName() == "Diamond") {
+                player.setScore(player.getScore() + 10);
+            }
     }
 
     public String getGemName() {
