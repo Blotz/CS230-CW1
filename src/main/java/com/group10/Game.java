@@ -56,7 +56,7 @@ public class Game {
         // Load images. Note we use png images with a transparent background.
         String url = Main.class.getResource("player.png").toString();
         playerImage = new Image(url);
-        url = String.valueOf(Main.class.getResource("dirt.png"));
+        url = String.valueOf(Main.class.getResource("tile.png"));
         dirtImage = new Image(url);
         url = String.valueOf(Main.class.getResource("icon.png"));
         iconImage = new Image(url);
