@@ -29,8 +29,8 @@ public class Game {
     private static final int CANVAS_HEIGHT = 400;
 
     // The width and height (in pixels) of each cell that makes up the game.
-    private static final int GRID_CELL_WIDTH = 50;
-    private static final int GRID_CELL_HEIGHT = 50;
+    private static final int GRID_CELL_WIDTH = 100;
+    private static final int GRID_CELL_HEIGHT = 100;
 
     // The width of the grid in number of cells.
     private static final int GRID_WIDTH = 12;
@@ -154,34 +154,43 @@ public class Game {
 
         // Get the Graphic Context of the canvas. This is what we draw on.
         GraphicsContext gc = canvas.getGraphicsContext2D();
+        int width = level.MAX_WIDTH;
+        int height = level.MAX_HEIGHT;
 
         // Clear canvas
-        gc.clearRect(0, 0, level.MAX_WIDTH, level.MAX_HEIGHT);
+        gc.clearRect(0, 0, width*100, height*100);
 
         // Set the background to gray.
         gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, level.MAX_WIDTH, level.MAX_HEIGHT);
+        gc.fillRect(0, 0, width*100, height*100);
 
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
         // We draw the row at y value 2.
-        for (int x = 0; x < level.MAX_WIDTH; x++) {
-            for (int y = 0; y < level.MAX_HEIGHT; y++) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
 
                 char[] colours = level.getTileColor(x,y);
 
-                for (int i = 0; i < colours.length; i++) { // change placement of tiles
-                    if (colours[i] == 'Y') {
-                        gc.drawImage(yellowTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
-                    } else if (colours[i] == 'G') {
-                        gc.drawImage(greenTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
-                    } else if (colours[i] == 'B') {
-                        gc.drawImage(blueTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
-                    } else if (colours[i] == 'R') {
-                        gc.drawImage(redTile, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
-                    } else {  // Add enitites instead of dirt
-                        gc.drawImage(dirtImage, x * (GRID_CELL_WIDTH/2), y * (GRID_CELL_HEIGHT/2));
+                int graphX = x * 100; // upscaled to match dimensions of the canvas
+                int graphY = y * 100;
+                int index = 0;
+
+                for (int sy = graphY; sy < graphY+100; sy += 50) {
+                    for (int sx = graphX; sx < graphX+100; sx += 50) {// change placement of tiles
+                        if (colours[index] == 'Y') {
+                            gc.drawImage(yellowTile, sx, sy);
+                        } else if (colours[index] == 'G') {
+                            gc.drawImage(greenTile, sx, sy);
+                        } else if (colours[index] == 'B') {
+                            gc.drawImage(blueTile, sx, sy);
+                        } else if (colours[index] == 'R') {
+                            gc.drawImage(redTile, sx, sy);
+                        } else {  // Add enitites instead of dirt
+                            gc.drawImage(dirtImage, sx, sy);
+                        }
+                        index++;
                     }
                 }
             }
