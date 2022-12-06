@@ -2,12 +2,7 @@ package com.group10;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import javafx.application.*;
-import javafx.stage.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -27,12 +22,12 @@ import javafx.scene.text.*;
 
 public class Menu {
 
-    public static Parent createContent() {
+    public static Parent mainMenu() {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);
 
-        try(InputStream is = Files.newInputStream(Paths.get("src/main/resources/com/group10/Gui/BackGround.jpg"))){
+        try(InputStream is = Menu.class.getResourceAsStream("BACKROUND.jpg")){
             ImageView img = new ImageView(new Image(is));
             img.setFitWidth(1050);
             img.setFitHeight(600);
