@@ -2,12 +2,7 @@ package com.group10;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import javafx.application.*;
-import javafx.stage.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -27,7 +22,7 @@ import javafx.scene.text.*;
 
 public class Menu {
 
-    public static Parent build() {
+    public static Parent mainMenu() {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);
