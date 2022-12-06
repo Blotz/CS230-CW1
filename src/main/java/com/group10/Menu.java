@@ -32,7 +32,7 @@ public class Menu {
 
         root.setPrefSize(1050, 600);
 
-        try(InputStream is = Files.newInputStream(Paths.get("src/main/resources/com/group10/Gui/BackGround.jpg"))){
+        try(InputStream is = Menu.class.getResourceAsStream("BACKROUND.jpg")){
             ImageView img = new ImageView(new Image(is));
             img.setFitWidth(1050);
             img.setFitHeight(600);
