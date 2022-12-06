@@ -59,19 +59,19 @@ public class Game {
     public static void display() {
         Stage primaryStage = new Stage();
         // Load images. Note we use png images with a transparent background.
-        String url = Main.class.getResource("player.png").toString();
+        String url = Game.class.getResource("player.png").toString();
         playerImage = new Image(url);
-        url = String.valueOf(Main.class.getResource("dirt.png"));
+        url = String.valueOf(Game.class.getResource("dirt.png"));
         dirtImage = new Image(url);
-        url = String.valueOf(Main.class.getResource("icon.png"));
+        url = String.valueOf(Game.class.getResource("icon.png"));
         iconImage = new Image(url);
-        url = String.valueOf(Main.class.getResource("redTile.png"));
+        url = String.valueOf(Game.class.getResource("redTile.png"));
         redTile = new Image(url);
-        url = String.valueOf(Main.class.getResource("greenTile.png"));
+        url = String.valueOf(Game.class.getResource("greenTile.png"));
         greenTile = new Image(url);
-        url = String.valueOf(Main.class.getResource("blueTile.png"));
+        url = String.valueOf(Game.class.getResource("blueTile.png"));
         blueTile = new Image(url);
-        url = String.valueOf(Main.class.getResource("yellowTile.png"));
+        url = String.valueOf(Game.class.getResource("yellowTile.png"));
         yellowTile = new Image(url);
 
         // Build the GUI
