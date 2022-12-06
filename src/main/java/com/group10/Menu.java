@@ -138,10 +138,9 @@ public class Menu {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-<<<<<<< Updated upstream
                 Game.display();
             });
-=======
+            setOnMouseClicked(event -> {
                 /* TODO: turn this into a normal method.
                  * This way, we can use the stage attribute to build this submenu in the same screen
                  * Same thing goes for calling the Game. if you pass though the primaryStage, the game can be displayed
@@ -150,7 +149,6 @@ public class Menu {
                 if (name == "Level"){
                     //levelSelect();
                 } else if (name == "Highscore"){
->>>>>>> Stashed changes
 
                 } else if (name == "Profile"){
 
