@@ -20,6 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.FileNotFoundException;
+
 public class Game {
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 500;
@@ -29,8 +31,8 @@ public class Game {
     private static final int CANVAS_HEIGHT = 400;
 
     // The width and height (in pixels) of each cell that makes up the game.
-    private static final int GRID_CELL_WIDTH = 50;
-    private static final int GRID_CELL_HEIGHT = 50;
+    private static final int GRID_CELL_WIDTH = 100;
+    private static final int GRID_CELL_HEIGHT = 100;
 
     // The width of the grid in number of cells.
     private static final int GRID_WIDTH = 12;
@@ -45,6 +47,11 @@ public class Game {
     private static Image dirtImage;
     private static Image iconImage;
 
+    private static Image redTile;
+    private static Image greenTile;
+    private static Image blueTile;
+    private static Image yellowTile;
+
     // X and Y coordinate of player on the grid.
     private static int playerX = 0;
     private static int playerY = 0;
@@ -54,12 +61,21 @@ public class Game {
     public static void display() {
         Stage primaryStage = new Stage();
         // Load images. Note we use png images with a transparent background.
-        String url = Main.class.getResource("newplayer.png").toString();
+
+        String url = Game.class.getResource("player.png").toString();
         playerImage = new Image(url);
-        url = String.valueOf(Main.class.getResource("tile.png"));
+        url = String.valueOf(Game.class.getResource("dirt.png"));
         dirtImage = new Image(url);
-        url = String.valueOf(Main.class.getResource("icon.png"));
+        url = String.valueOf(Game.class.getResource("icon.png"));
         iconImage = new Image(url);
+        url = String.valueOf(Game.class.getResource("redTile.png"));
+        redTile = new Image(url);
+        url = String.valueOf(Game.class.getResource("greenTile.png"));
+        greenTile = new Image(url);
+        url = String.valueOf(Game.class.getResource("blueTile.png"));
+        blueTile = new Image(url);
+        url = String.valueOf(Game.class.getResource("yellowTile.png"));
+        yellowTile = new Image(url);
 
         // Build the GUI
         Pane root = buildGUI();
@@ -112,21 +128,80 @@ public class Game {
      */
     public static void drawGame() {
         // Get the Graphic Context of the canvas. This is what we draw on.
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+    //    GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Clear canvas
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+   //     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Set the background to gray.
-        gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+     //   gc.setFill(Color.GRAY);
+    //    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
         // We draw the row at y value 2.
-        for (int x = 0; x < GRID_WIDTH; x++) {
-            for (int y = 0; y < GRID_WIDTH; y++) {
-            gc.drawImage(dirtImage, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+    //    for (int x = 0; x < GRID_WIDTH; x++) {
+     //       for (int y = 0; y < GRID_WIDTH; y++) {
+    //        gc.drawImage(redTile, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+    //       }
+    //    }
+
+        // Draw player at current location
+    //    gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+
+        drawLevel("level/level1.txt"); //Change input form
+    }
+
+    public static void drawLevel(String path) {
+    
+        Level level = null;
+        try {
+            level = new Level(path);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    
+        // Get the Graphic Context of the canvas. This is what we draw on.
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        int width = level.MAX_WIDTH;
+        int height = level.MAX_HEIGHT;
+
+        // Clear canvas
+        gc.clearRect(0, 0, width*100, height*100);
+
+        // Set the background to gray.
+        gc.setFill(Color.GRAY);
+        gc.fillRect(0, 0, width*100, height*100);
+
+
+        // Draw row of dirt images
+        // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
+        // We draw the row at y value 2.
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+
+                char[] colours = level.getTileColor(x,y);
+
+                int graphX = x * 100; // upscaled to match dimensions of the canvas
+                int graphY = y * 100;
+                int index = 0;
+
+                for (int sy = graphY; sy < graphY+100; sy += 50) {
+                    for (int sx = graphX; sx < graphX+100; sx += 50) {// change placement of tiles
+                        if (colours[index] == 'Y') {
+                            gc.drawImage(yellowTile, sx, sy);
+                        } else if (colours[index] == 'G') {
+                            gc.drawImage(greenTile, sx, sy);
+                        } else if (colours[index] == 'B') {
+                            gc.drawImage(blueTile, sx, sy);
+                        } else if (colours[index] == 'R') {
+                            gc.drawImage(redTile, sx, sy);
+                        } else {  // Add enitites instead of dirt
+                            gc.drawImage(dirtImage, sx, sy);
+                        }
+                        index++;
+                    }
+                }
             }
         }
 
