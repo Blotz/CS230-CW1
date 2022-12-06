@@ -29,7 +29,7 @@ public class Level {
     private static final String INVALID_TIME_FORMAT = "Number must be an integer";
     private static final String ENTITY_FORMAT_ERROR = "Entity should be in format '(x,y) Class'";
     private static final String ENTITY_POSITION_FORMAT_ERROR = "Entity position should be in format '(x,y)'";
-    private static final String INVALID_ENTITY_NAME = "Entity name doesnt match any Classes";
+    private static final String INVALID_ENTITY_NAME = "Entity name %s doesnt match any Classes";
     
     
     public Level(String levelPath) throws FileNotFoundException {
@@ -150,8 +150,10 @@ public class Level {
                     break;
                 case "Door":
                     break;
+                case "Clock":
+                    break;
                 default:
-                    throw new IllegalArgumentException(INVALID_ENTITY_NAME);
+                    throw new IllegalArgumentException(String.format(INVALID_ENTITY_NAME, creatureName));
             }
         }
     }
