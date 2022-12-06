@@ -29,8 +29,8 @@ public class Game {
     private static final int CANVAS_HEIGHT = 400;
 
     // The width and height (in pixels) of each cell that makes up the game.
-    private static final int GRID_CELL_WIDTH = 100;
-    private static final int GRID_CELL_HEIGHT = 100;
+    private static final int GRID_CELL_WIDTH = 50;
+    private static final int GRID_CELL_HEIGHT = 50;
 
     // The width of the grid in number of cells.
     private static final int GRID_WIDTH = 12;
@@ -158,11 +158,11 @@ public class Game {
         int height = level.MAX_HEIGHT;
 
         // Clear canvas
-        gc.clearRect(0, 0, width*100, height*100);
+        gc.clearRect(0, 0, width*50, height*50);
 
         // Set the background to gray.
         gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, width*100, height*100);
+        gc.fillRect(0, 0, width*50, height*50);
 
 
         // Draw row of dirt images
@@ -173,12 +173,12 @@ public class Game {
 
                 char[] colours = level.getTileColor(x,y);
 
-                int graphX = x * 100; // upscaled to match dimensions of the canvas
-                int graphY = y * 100;
+                int graphX = x * 50; // upscaled to match dimensions of the canvas
+                int graphY = y * 50;
                 int index = 0;
 
-                for (int sy = graphY; sy < graphY+100; sy += 50) {
-                    for (int sx = graphX; sx < graphX+100; sx += 50) {// change placement of tiles
+                for (int sy = graphY; sy < graphY+50; sy += 25) {
+                    for (int sx = graphX; sx < graphX+50; sx += 25) {// change placement of tiles
                         if (colours[index] == 'Y') {
                             gc.drawImage(yellowTile, sx, sy);
                         } else if (colours[index] == 'G') {
