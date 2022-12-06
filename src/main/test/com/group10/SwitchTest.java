@@ -7,6 +7,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class SwitchTest {
     @Test
     void Switch () {
-        new Switch();
+
     }
 }

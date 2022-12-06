@@ -9,18 +9,16 @@ public class Gate implements Entity {
     // When gates are created they need to be added to this array //
 
     public Gate(char[] gateColour) {
-
         isOpen = false;
         colour = gateColour;
     }
 
     public boolean getIsOpen() {
-
         return isOpen;
     }
 
     public boolean setIsOpen() {
-        return isOpen;
+        return isOpen = true;
     }
 
     public char[] getColour() {
