@@ -15,10 +15,13 @@ import javafx.stage.Stage;
  * @author Liam O'Reilly
  */
 public class Main extends Application {
+	public static final int WIDTH = 1050;
+	public static final int HEIGHT = 600;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Menu.mainMenu(primaryStage);
+		Menu menu = new Menu(primaryStage);
+		menu.mainMenu();
 	}
 
 	public static void main(String[] args) {

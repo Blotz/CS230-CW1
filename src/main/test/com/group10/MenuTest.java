@@ -10,7 +10,8 @@ class MenuTest {
     @Test
     void mainMenu() {
         Stage stage = new Stage();
-        Menu.mainMenu(stage);
+        new Menu(stage).mainMenu();
+        
         System.out.println("Code complies and returns parent");
     }
 }

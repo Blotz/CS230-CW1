@@ -22,26 +22,38 @@ import javafx.scene.text.*;
 import javafx.stage.Stage;
 
 public class Menu {
-
-    public static void mainMenu(Stage stage) {
+    Stage stage;
+    
+    private static final String BACKGROUND_IMAGE = "BACKROUND.jpg";
+    private static final String IMAGE_NOT_FOUND = "Image '%s' not found";
+    
+    public Menu(Stage stage) {
+        this.stage = stage;
+    }
+    
+    public void mainMenu() {
         Pane root = new Pane();
+        root.setPrefSize(Main.WIDTH, Main.HEIGHT);
 
-        root.setPrefSize(1050, 600);
-
-        try(InputStream is = Menu.class.getResourceAsStream("BACKROUND.jpg")){
-            ImageView img = new ImageView(new Image(is));
-            img.setFitWidth(1050);
-            img.setFitHeight(600);
-            root.getChildren().add(img);
+        // Load background image
+        InputStream is = Menu.class.getResourceAsStream(BACKGROUND_IMAGE);
+        // Catch errors if the image is not found
+        if (is == null) {
+            throw new RuntimeException(String.format(IMAGE_NOT_FOUND, "BACKROUND.jpg"));
         }
-        catch(IOException e) {
-            System.out.println("Couldn't load image");
-        }
-
-        Title title = new Title ("Cave game");
+        
+        // Create and add the background image
+        ImageView img = new ImageView(new Image(is));
+        img.setFitWidth(Main.WIDTH);
+        img.setFitHeight(Main.HEIGHT);
+        root.getChildren().add(img);
+        
+        // Create and add the title
+        StackPane title = createTitle ("Cave game");
         title.setTranslateX(50);
         title.setTranslateY(200);
 
+        // MOTD
         Text motd = new Text();
         motd.setFill(Color.WHITE);
         motd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 16));
@@ -50,7 +62,9 @@ public class Menu {
         motd.setY(500);
         motd.setWrappingWidth(550);
 
-        MenuBox vbox = new MenuBox(new MenuItem("Level", stage));
+        // TODO: Clean up code from here to remove the weird classes. use my code from createTitle as an example
+        // Create and add the buttons
+        MenuBox vbox = new MenuBox(new MenuItem("Level"));
         vbox.setTranslateX(100);
         vbox.setTranslateY(300);
 
@@ -62,23 +76,34 @@ public class Menu {
         stage.show();
     }
 
-    private static class Title extends StackPane{
-        public Title(String name) {
-            Rectangle bg = new Rectangle(375, 60);
-            bg.setStroke(Color.WHITE);
-            bg.setStrokeWidth(2);
-            bg.setFill(null);
-
-            Text text = new Text(name);
-            text.setFill(Color.WHITE);
-            text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 50));
-
-            setAlignment(Pos.CENTER);
-            getChildren().addAll(bg,text);
-        }
+    public void LevelSelect() {
+        // Loop though levels and add them to the menu
+        /* TODO:
+         * I wanna build out a submenu for selecting Levels, I havent starting working on it yet tho sozz
+         *
+         */
+    }
+    
+    private static StackPane createTitle(String name) {
+        StackPane titleRoot = new StackPane();
+        
+        Rectangle bg = new Rectangle(375, 60);
+        bg.setStroke(Color.WHITE);
+        bg.setStrokeWidth(2);
+        bg.setFill(null);
+    
+        Text text = new Text(name);
+        text.setFill(Color.WHITE);
+        text.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 50));
+    
+        titleRoot.setAlignment(Pos.CENTER);
+        titleRoot.getChildren().addAll(bg, text);
+        
+        return titleRoot;
     }
 
-    private static class MenuBox extends VBox{
+    
+    private class MenuBox extends VBox{
         public MenuBox(MenuItem...items) {
             getChildren().add(createSeperator());
 
@@ -96,9 +121,8 @@ public class Menu {
 
     }
 
-
-    private static class MenuItem extends StackPane{
-        public MenuItem(String name, Stage stage) {
+    private class MenuItem extends StackPane{
+        public MenuItem(String name) {
             LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
                     new Stop(0, Color.DARKBLUE),
                     new Stop(0.1, Color.BLACK),
@@ -128,7 +152,12 @@ public class Menu {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-                Game.display(stage);
+                /* TODO: turn this into a normal method.
+                 * This way, we can use the stage attribute to build this submenu in the same screen
+                 * Same thing goes for calling the Game. if you pass though the primaryStage, the game can be displayed
+                 * in the same view port.
+                 */
+                levelSelect();
             });
 
             setOnMouseReleased(event -> {
@@ -137,5 +166,4 @@ public class Menu {
 
         }
     }
-
 }
