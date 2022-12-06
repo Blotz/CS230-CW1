@@ -46,12 +46,20 @@ public class Menu {
         title.setTranslateX(50);
         title.setTranslateY(200);
 
+        Text motd = new Text();
+        motd.setFill(Color.WHITE);
+        motd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        motd.setText(MOTDRetriever.getMOTD());
+        motd.setX(500);
+        motd.setY(500);
+        motd.setWrappingWidth(550);
+
         MenuBox vbox = new MenuBox(
                 new MenuItem("Level"));
         vbox.setTranslateX(100);
         vbox.setTranslateY(300);
 
-        root.getChildren().addAll(title,vbox);
+        root.getChildren().addAll(title,vbox,motd);
 
         return root;
 

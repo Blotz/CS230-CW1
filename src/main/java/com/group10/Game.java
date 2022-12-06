@@ -54,7 +54,7 @@ public class Game {
     public static void display() {
         Stage primaryStage = new Stage();
         // Load images. Note we use png images with a transparent background.
-        String url = Main.class.getResource("player.png").toString();
+        String url = Main.class.getResource("newplayer.png").toString();
         playerImage = new Image(url);
         url = String.valueOf(Main.class.getResource("tile.png"));
         dirtImage = new Image(url);
