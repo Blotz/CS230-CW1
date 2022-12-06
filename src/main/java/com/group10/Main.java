@@ -18,10 +18,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Scene scene = new Scene(Menu.mainMenu());
-		primaryStage.setTitle("Cave Game");
-		primaryStage.setScene(scene);
-		primaryStage.show();
+		Menu.mainMenu(primaryStage);
 	}
 
 	public static void main(String[] args) {

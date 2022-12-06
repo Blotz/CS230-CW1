@@ -19,10 +19,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.*;
+import javafx.stage.Stage;
 
 public class Menu {
 
-    public static Parent mainMenu() {
+    public static void mainMenu(Stage stage) {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);
@@ -49,15 +50,16 @@ public class Menu {
         motd.setY(500);
         motd.setWrappingWidth(550);
 
-        MenuBox vbox = new MenuBox(
-                new MenuItem("Level"));
+        MenuBox vbox = new MenuBox(new MenuItem("Level", stage));
         vbox.setTranslateX(100);
         vbox.setTranslateY(300);
 
         root.getChildren().addAll(title,vbox,motd);
 
-        return root;
-
+        // Create Scene
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private static class Title extends StackPane{
@@ -96,7 +98,7 @@ public class Menu {
 
 
     private static class MenuItem extends StackPane{
-        public MenuItem(String name) {
+        public MenuItem(String name, Stage stage) {
             LinearGradient gradient = new LinearGradient(0, 0, 1, 0, true, CycleMethod.NO_CYCLE, new Stop[] {
                     new Stop(0, Color.DARKBLUE),
                     new Stop(0.1, Color.BLACK),
@@ -126,7 +128,7 @@ public class Menu {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-                Game.display();
+                Game.display(stage);
             });
 
             setOnMouseReleased(event -> {

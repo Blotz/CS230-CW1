@@ -1,6 +1,6 @@
 package com.group10;
 
-import javafx.scene.Parent;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +9,8 @@ class MenuTest {
     
     @Test
     void mainMenu() {
-        Parent parent = Menu.mainMenu();
+        Stage stage = new Stage();
+        Menu.mainMenu(stage);
         System.out.println("Code complies and returns parent");
     }
 }

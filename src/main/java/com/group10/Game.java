@@ -58,8 +58,7 @@ public class Game {
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
-    public static void display() {
-        Stage primaryStage = new Stage();
+    public static void display(Stage stage) {
         // Load images. Note we use png images with a transparent background.
 
         String url = Game.class.getResource("player.png").toString();
@@ -96,8 +95,8 @@ public class Game {
 
         // Display the scene on the stage
         drawGame();
-        primaryStage.setScene(scene);
-        primaryStage.showAndWait();
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 
     /**
