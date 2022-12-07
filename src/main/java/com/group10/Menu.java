@@ -54,15 +54,18 @@ public class Menu {
         vbox.setTranslateX(100);
         vbox.setTranslateY(300);
 
-        MenuBox scoreBoard = new MenuBox(new MenuItem("Highscores"));
+        MenuBox scoreBoard = new MenuBox(
+            new MenuItem("Highscores"));
         scoreBoard.setTranslateX(100);
         scoreBoard.setTranslateY(345);
 
-        MenuBox loadFile = new MenuBox(new MenuItem("Load"));
+        MenuBox loadFile = new MenuBox(
+            new MenuItem("Load"));
         loadFile.setTranslateX(100);
         loadFile.setTranslateY(390);
  
-        MenuBox exit = new MenuBox(new MenuItem("Exit"));
+        MenuBox exit = new MenuBox(
+            new MenuItem("Exit"));
         exit.setTranslateX(100);
         exit.setTranslateY(435);
 
@@ -138,7 +141,6 @@ public class Menu {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-                Game.display();
             });
             setOnMouseClicked(event -> {
                 /* TODO: turn this into a normal method.
@@ -147,6 +149,7 @@ public class Menu {
                  * in the same view port.
                  */
                 if (name == "Level"){
+                    Game.display();
                     //levelSelect();
                 } else if (name == "Highscore"){
 

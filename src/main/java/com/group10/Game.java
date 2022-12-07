@@ -8,7 +8,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -17,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -51,10 +55,17 @@ public class Game {
     private static Image greenTile;
     private static Image blueTile;
     private static Image yellowTile;
+    private static Image magentaTile;
+    private static Image cyanTile;
 
     // X and Y coordinate of player on the grid.
     private static int playerX = 0;
     private static int playerY = 0;
+
+    // Time remaining and Text object to display
+    // initiated here as we need to call it globally
+    private static int levelTime = 90; // TODO: Placeholder variable, should be set to 0 in production
+    private static Text timer = new Text();
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
@@ -68,14 +79,18 @@ public class Game {
         dirtImage = new Image(url);
         url = String.valueOf(Game.class.getResource("icon.png"));
         iconImage = new Image(url);
-        url = String.valueOf(Game.class.getResource("redTile.png"));
+        url = String.valueOf(Game.class.getResource("red.png"));
         redTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("greenTile.png"));
+        url = String.valueOf(Game.class.getResource("green.png"));
         greenTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("blueTile.png"));
+        url = String.valueOf(Game.class.getResource("blue.png"));
         blueTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("yellowTile.png"));
+        url = String.valueOf(Game.class.getResource("yellow.png"));
         yellowTile = new Image(url);
+        url = String.valueOf(Game.class.getResource("magenta.png"));
+        magentaTile = new Image(url);
+        url = String.valueOf(Game.class.getResource("cyan.png"));
+        cyanTile = new Image(url);
 
         // Build the GUI
         Pane root = buildGUI();
@@ -109,7 +124,6 @@ public class Game {
         switch (event.getCode()) {
             case RIGHT:
                 // Right key was pressed. So move the player right by one cell.
-                playerX = playerX + 1;
                 break;
             default:
                 // Do nothing for all other keys.
@@ -165,7 +179,7 @@ public class Game {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int width = level.MAX_WIDTH;
         int height = level.MAX_HEIGHT;
-
+        
         // Clear canvas
         gc.clearRect(0, 0, width*100, height*100);
 
@@ -173,40 +187,70 @@ public class Game {
         gc.setFill(Color.GRAY);
         gc.fillRect(0, 0, width*100, height*100);
 
-
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
         // We draw the row at y value 2.
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
-                char[] colours = level.getTileColor(x,y);
+                Image[] colours = getTileResource(level.getTileColor(x,y));
 
                 int graphX = x * 100; // upscaled to match dimensions of the canvas
-                int graphY = y * 100;
+                int graphY = y * 100 +25;
                 int index = 0;
 
-                for (int sy = graphY; sy < graphY+100; sy += 50) {
-                    for (int sx = graphX; sx < graphX+100; sx += 50) {// change placement of tiles
-                        if (colours[index] == 'Y') {
-                            gc.drawImage(yellowTile, sx, sy);
-                        } else if (colours[index] == 'G') {
-                            gc.drawImage(greenTile, sx, sy);
-                        } else if (colours[index] == 'B') {
-                            gc.drawImage(blueTile, sx, sy);
-                        } else if (colours[index] == 'R') {
-                            gc.drawImage(redTile, sx, sy);
-                        } else {  // Add enitites instead of dirt
-                            gc.drawImage(dirtImage, sx, sy);
-                        }
-                        index++;
-                    }
+                // Code for this is written below.
+                if (colours[0] == dirtImage || colours[1] == dirtImage ||
+                colours[2] == dirtImage || colours[3] == dirtImage){ // As dirt is 50x50 but tiles 25x25
+                    gc.drawImage(dirtImage, graphX, graphX);
+                } else {
+                gc.drawImage(colours[0], graphX, graphY);
+                gc.drawImage(colours[1], graphX+25, graphY);
+                gc.drawImage(colours[2], graphX, graphY-25);
+                gc.drawImage(colours[3], graphX+25, graphY-25);
                 }
+                index++;
             }
         }
 
         // Draw player at current location
         gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+    }
+
+    /**
+     * getTileResource converts a char[] of tile colours
+     * into a Image[] of image resources.
+     * @param tiles The Char value of each tile.
+     * @return An Image[] of the resource for each colour.
+     */
+    public static Image[] getTileResource(char[] tiles){
+        Image[] tileImages = new Image[4];
+        for (int i = 0; i<4; i++){
+            switch(tiles[i]){
+                case 'B':
+                    tileImages[i] = blueTile;
+                    break;
+                case 'R':
+                    tileImages[i] = redTile;
+                    break;
+                case 'Y':
+                    tileImages[i] = yellowTile;
+                    break;
+                case 'G':
+                    tileImages[i] = greenTile;
+                    break;
+                case 'C':
+                    tileImages[i] = cyanTile;
+                    break;
+                case 'M':
+                    tileImages[i] = magentaTile;
+                    break;
+                default:
+                    tileImages[i] = dirtImage;
+                    break;
+            }
+        }
+        return tileImages;
     }
 
     /**
@@ -237,9 +281,17 @@ public class Game {
     public static void tick() {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        playerX = playerX + 1;
+        playerX += 1;
         if (playerX > 11) {
             playerX = 0;
+        }
+        // For each tick we decrease the remaining time by 1
+        // When time <= 0 a fail condition is met
+        levelTime -= 1;
+        if (levelTime <= 0) {
+
+        } else {
+            timer.setText("Time Remaining: " + levelTime);
         }
         // We then redraw the whole canvas.
         drawGame();
@@ -289,7 +341,6 @@ public class Game {
         // Reset Player Location Button
         Button resetPlayerLocationButton = new Button("Reset Player");
         toolbar.getChildren().add(resetPlayerLocationButton);
-
 
         // Setup the behaviour of the button.
         resetPlayerLocationButton.setOnAction(e -> {
@@ -380,6 +431,13 @@ public class Game {
                 event.consume();
             }
         });
+
+        // Create text to display the remaining time in the level
+        timer.setFill(Color.PURPLE);
+        timer.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        timer.setX(200);
+        timer.setY(50);
+        toolbar.getChildren().add(timer);
 
         // Finally, return the border pane we built up.
         return root;

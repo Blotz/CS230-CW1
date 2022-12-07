@@ -167,6 +167,12 @@ public class Level {
         return new char[]{'a','b','c'};
     }
     
+    /**
+     * Return tileColour using getColors from tile.java
+     * @param x the X coordinate of a given tile
+     * @param y the Y coordinate of a given tile
+     * @return Char[] of max length 4
+     */
     public char[] getTileColor(Integer x, Integer y) {
         return map[y][x].getColors();
     }
