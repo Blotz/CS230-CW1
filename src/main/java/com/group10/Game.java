@@ -39,7 +39,9 @@ public class Game {
     private static final int GRID_CELL_HEIGHT = 100;
 
     // The width of the grid in number of cells.
-    private static final int GRID_WIDTH = 12;
+    private static  int GRID_WIDTH = 12;
+
+    private static  int GRID_HEIGHT = 12;
 
     // The canvas in the GUI. This needs to be a global variable
     // (in this setup) as we need to access it in different methods.
@@ -130,6 +132,19 @@ public class Game {
         switch (event.getCode()) {
             case RIGHT:
                 // Right key was pressed. So move the player right by one cell.
+                moveRight();
+                break;
+            case LEFT:
+                // Left key was pressed. So move the player right by one cell.
+                moveLeft();
+                break;
+            case UP:
+                // Up key was pressed. So move the player right by one cell.
+                moveUp();
+                break;
+            case DOWN:
+                // Down key was pressed. So move the player right by one cell.
+                moveDown();
                 break;
             default:
                 // Do nothing for all other keys.
@@ -185,6 +200,10 @@ public class Game {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int width = level.MAX_WIDTH;
         int height = level.MAX_HEIGHT;
+        GRID_WIDTH = level.MAX_WIDTH;
+        GRID_HEIGHT = level.MAX_HEIGHT;  // These variables wre final, change back when we change how level in inputted
+
+
 
         levelTime = (levelTime == -1) ? level.getTime() : levelTime;
         
@@ -304,6 +323,81 @@ public class Game {
         drawGame();
     }
 
+    public static void moveRight() {
+        // Here we move the player right one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerX += 1;
+        if (playerX > GRID_WIDTH) {
+            playerX = 0;
+        }
+        // For each tick we decrease the remaining time by 1
+        // When time <= 0 a fail condition is met
+        levelTime -= 1;
+        if (levelTime <= 0) {
+
+        } else {
+            timer.setText("Time Remaining: " + levelTime);
+        }
+        // We then redraw the whole canvas.
+        drawGame();
+    }
+
+    public static void moveLeft() {
+        // Here we move the player left one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerX -= 1;
+        if (playerX < 0) {
+            playerX = 0;
+        }
+        // For each tick we decrease the remaining time by 1
+        // When time <= 0 a fail condition is met
+        levelTime -= 1;
+        if (levelTime <= 0) {
+
+        } else {
+            timer.setText("Time Remaining: " + levelTime);
+        }
+        // We then redraw the whole canvas.
+        drawGame();
+    }
+
+    public static void moveUp() {
+        // Here we move the player left one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerY -= 1;
+        if (playerY < 0) {
+            playerY = 0;
+        }
+        // For each tick we decrease the remaining time by 1
+        // When time <= 0 a fail condition is met
+        levelTime -= 1;
+        if (levelTime <= 0) {
+
+        } else {
+            timer.setText("Time Remaining: " + levelTime);
+        }
+        // We then redraw the whole canvas.
+        drawGame();
+    }
+
+    public static void moveDown() {
+        // Here we move the player left one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerY += 1;
+        if (playerY > GRID_HEIGHT) {
+            playerY = 0;
+        }
+        // For each tick we decrease the remaining time by 1
+        // When time <= 0 a fail condition is met
+        levelTime -= 1;
+        if (levelTime <= 0) {
+
+        } else {
+            timer.setText("Time Remaining: " + levelTime);
+        }
+        // We then redraw the whole canvas.
+        drawGame();
+    }
     /**
      * React when an object is dragged onto the canvas.
      * @param event The drag event itself which contains data about the drag that occurred.
