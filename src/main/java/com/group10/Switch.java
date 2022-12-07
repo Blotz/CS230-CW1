@@ -14,7 +14,9 @@ public class Switch extends PickUp {
     public void switchPickUp (Switch sw){
         for (int i = 0; i < gates.size(); i++){
             if (sw.getColour() == gates.get(i).getColour()){
-                gates.get(i).setIsOpen();
+                if (!gates.get(i).getIsOpen()){
+                    gates.get(i).setIsOpen();
+                }
             }
         }
     }
