@@ -48,6 +48,7 @@ public class Game {
 
     // Loaded images
     private static Image playerImage;
+    private static Image flyassImage;
     private static Image dirtImage;
     private static Image iconImage;
 
@@ -57,6 +58,7 @@ public class Game {
     private static Image yellowTile;
     private static Image magentaTile;
     private static Image cyanTile;
+    private static Image gridImage;
 
     // X and Y coordinate of player on the grid.
     private static int playerX = 0;
@@ -64,7 +66,7 @@ public class Game {
 
     // Time remaining and Text object to display
     // initiated here as we need to call it globally
-    private static int levelTime = 90; // TODO: Placeholder variable, should be set to 0 in production
+    private static int levelTime = -1;
     private static Text timer = new Text();
 
     // Timeline which will cause tick method to be called periodically.
@@ -73,24 +75,28 @@ public class Game {
         Stage primaryStage = new Stage();
         // Load images. Note we use png images with a transparent background.
 
-        String url = Game.class.getResource("player.png").toString();
+        String url = String.valueOf(Game.class.getResource("images/newplayer.png"));
         playerImage = new Image(url);
-        url = String.valueOf(Game.class.getResource("dirt.png"));
+        url = String.valueOf(Game.class.getResource("images/flyingassassin.png"));
+        flyassImage = new Image(url);
+        url = String.valueOf(Game.class.getResource("images/dirt.png"));
         dirtImage = new Image(url);
-        url = String.valueOf(Game.class.getResource("icon.png"));
+        url = String.valueOf(Game.class.getResource("images/icon.png"));
         iconImage = new Image(url);
-        url = String.valueOf(Game.class.getResource("red.png"));
+        url = String.valueOf(Game.class.getResource("images/red.png"));
         redTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("green.png"));
+        url = String.valueOf(Game.class.getResource("images/green.png"));
         greenTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("blue.png"));
+        url = String.valueOf(Game.class.getResource("images/blue.png"));
         blueTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("yellow.png"));
+        url = String.valueOf(Game.class.getResource("images/yellow.png"));
         yellowTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("magenta.png"));
+        url = String.valueOf(Game.class.getResource("images/magenta.png"));
         magentaTile = new Image(url);
-        url = String.valueOf(Game.class.getResource("cyan.png"));
+        url = String.valueOf(Game.class.getResource("images/cyan.png"));
         cyanTile = new Image(url);
+        url = String.valueOf(Game.class.getResource("images/grid.png"));
+        gridImage = new Image(url);
 
         // Build the GUI
         Pane root = buildGUI();
@@ -179,6 +185,8 @@ public class Game {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int width = level.MAX_WIDTH;
         int height = level.MAX_HEIGHT;
+
+        levelTime = (levelTime == -1) ? level.getTime() : levelTime;
         
         // Clear canvas
         gc.clearRect(0, 0, width*100, height*100);
@@ -197,7 +205,6 @@ public class Game {
 
                 int graphX = x * 100; // upscaled to match dimensions of the canvas
                 int graphY = y * 100 +25;
-                int index = 0;
 
                 // Code for this is written below.
                 if (colours[0] == dirtImage || colours[1] == dirtImage ||
@@ -209,7 +216,7 @@ public class Game {
                 gc.drawImage(colours[2], graphX, graphY-25);
                 gc.drawImage(colours[3], graphX+25, graphY-25);
                 }
-                index++;
+                gc.drawImage(gridImage, graphX, graphY-25);
             }
         }
 
