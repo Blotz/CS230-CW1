@@ -306,9 +306,10 @@ public class Game {
     public static void tick() {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        playerX += 1;
-        if (playerX > 11) {
+        if (playerX >= level.MAX_WIDTH) {
             playerX = 0;
+        } if (playerY >= level.MAX_HEIGHT){
+            playerY = 0;
         }
         // For each tick we decrease the remaining time by 1
         // When time <= 0 a fail condition is met
