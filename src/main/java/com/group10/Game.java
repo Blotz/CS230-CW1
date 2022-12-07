@@ -35,11 +35,12 @@ public class Game {
     private static final int CANVAS_HEIGHT = 400;
 
     // The width and height (in pixels) of each cell that makes up the game.
-    private static final int GRID_CELL_WIDTH = 100;
-    private static final int GRID_CELL_HEIGHT = 100;
+    private static final int GRID_CELL_WIDTH = 50;
+    private static final int GRID_CELL_HEIGHT = 50;
 
-    // The level object that makes up the gameboard.
+    // The level object that makes up the gameboard and the Player
     private static Level level;
+    private static Player player;
 
     // The width of the grid in number of cells.
     private static  int GRID_WIDTH = 12;
@@ -86,6 +87,8 @@ public class Game {
         }
 
         levelTime = level.getTime();
+
+        //Player player = New Player(5,6);
 
         String url = String.valueOf(Game.class.getResource("images/newplayer.png"));
         playerImage = new Image(url);
@@ -330,16 +333,6 @@ public class Game {
         if (playerX > GRID_WIDTH-1) {
             playerX = 0;
         }
-        // For each tick we decrease the remaining time by 1
-        // When time <= 0 a fail condition is met
-        levelTime -= 1;
-        if (levelTime <= 0) {
-
-        } else {
-            timer.setText("Time Remaining: " + levelTime);
-        }
-        // We then redraw the whole canvas.
-        drawGame();
     }
 
     public static void moveLeft() {
@@ -349,16 +342,6 @@ public class Game {
         if (playerX < 0) {
             playerX = 0;
         }
-        // For each tick we decrease the remaining time by 1
-        // When time <= 0 a fail condition is met
-        levelTime -= 1;
-        if (levelTime <= 0) {
-
-        } else {
-            timer.setText("Time Remaining: " + levelTime);
-        }
-        // We then redraw the whole canvas.
-        drawGame();
     }
 
     public static void moveUp() {
@@ -368,16 +351,6 @@ public class Game {
         if (playerY < 0) {
             playerY = 0;
         }
-        // For each tick we decrease the remaining time by 1
-        // When time <= 0 a fail condition is met
-        levelTime -= 1;
-        if (levelTime <= 0) {
-
-        } else {
-            timer.setText("Time Remaining: " + levelTime);
-        }
-        // We then redraw the whole canvas.
-        drawGame();
     }
 
     public static void moveDown() {
@@ -387,16 +360,6 @@ public class Game {
         if (playerY > GRID_HEIGHT-1) {
             playerY = 0;
         }
-        // For each tick we decrease the remaining time by 1
-        // When time <= 0 a fail condition is met
-        levelTime -= 1;
-        if (levelTime <= 0) {
-
-        } else {
-            timer.setText("Time Remaining: " + levelTime);
-        }
-        // We then redraw the whole canvas.
-        drawGame();
     }
     /**
      * React when an object is dragged onto the canvas.
