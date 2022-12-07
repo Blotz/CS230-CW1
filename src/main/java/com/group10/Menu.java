@@ -2,12 +2,7 @@ package com.group10;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import javafx.application.*;
-import javafx.stage.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.image.Image;
@@ -25,14 +20,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.*;
 
-public class Menu extends Application{
+public class Menu {
 
-    private Parent createContent() {
+    public static Parent mainMenu() {
         Pane root = new Pane();
 
         root.setPrefSize(1050, 600);
 
-        try(InputStream is = Files.newInputStream(Paths.get("src/main/resources/com/group10/Gui/BackGround.jpg"))){
+        try(InputStream is = Menu.class.getResourceAsStream("images/menubg.jpg")){
             ImageView img = new ImageView(new Image(is));
             img.setFitWidth(1050);
             img.setFitHeight(600);
@@ -46,22 +41,38 @@ public class Menu extends Application{
         title.setTranslateX(50);
         title.setTranslateY(200);
 
+        Text motd = new Text();
+        motd.setFill(Color.WHITE);
+        motd.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 16));
+        motd.setText(MOTDRetriever.getMOTD());
+        motd.setX(500);
+        motd.setY(500);
+        motd.setWrappingWidth(550);
+
         MenuBox vbox = new MenuBox(
                 new MenuItem("Level"));
         vbox.setTranslateX(100);
         vbox.setTranslateY(300);
 
-        root.getChildren().addAll(title,vbox);
+        MenuBox scoreBoard = new MenuBox(
+            new MenuItem("Highscores"));
+        scoreBoard.setTranslateX(100);
+        scoreBoard.setTranslateY(345);
+
+        MenuBox loadFile = new MenuBox(
+            new MenuItem("Load"));
+        loadFile.setTranslateX(100);
+        loadFile.setTranslateY(390);
+ 
+        MenuBox exit = new MenuBox(
+            new MenuItem("Exit"));
+        exit.setTranslateX(100);
+        exit.setTranslateY(435);
+
+        root.getChildren().addAll(title,vbox,scoreBoard,loadFile,exit,motd);
 
         return root;
 
-    }
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        Scene scene = new Scene(createContent());
-        primaryStage.setTitle("Cave Game");
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     private static class Title extends StackPane{
@@ -130,9 +141,24 @@ public class Menu extends Application{
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-
             });
+            setOnMouseClicked(event -> {
+                /* TODO: turn this into a normal method.
+                 * This way, we can use the stage attribute to build this submenu in the same screen
+                 * Same thing goes for calling the Game. if you pass though the primaryStage, the game can be displayed
+                 * in the same view port.
+                 */
+                if (name == "Level"){
+                    Game.display();
+                    //levelSelect();
+                } else if (name == "Highscore"){
 
+                } else if (name == "Profile"){
+
+                } else if (name == "Exit"){
+                    System.exit(0);
+                }
+            });
             setOnMouseReleased(event -> {
                 bg.setFill(gradient);
             });
@@ -140,8 +166,4 @@ public class Menu extends Application{
         }
     }
 
-    public static void main(String[] args) {
-
-        launch(args);
-    }
 }

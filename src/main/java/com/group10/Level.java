@@ -29,7 +29,7 @@ public class Level {
     private static final String INVALID_TIME_FORMAT = "Number must be an integer";
     private static final String ENTITY_FORMAT_ERROR = "Entity should be in format '(x,y) Class'";
     private static final String ENTITY_POSITION_FORMAT_ERROR = "Entity position should be in format '(x,y)'";
-    private static final String INVALID_ENTITY_NAME = "Entity name doesnt match any Classes";
+    private static final String INVALID_ENTITY_NAME = "Entity name %s doesnt match any Classes";
     
     
     public Level(String levelPath) throws FileNotFoundException {
@@ -140,8 +140,20 @@ public class Level {
                     Gate entity = new Gate("red");
                     entityMap[creatureY][creatureX] = (Entity) entity;
                     break;
+                case "Player":
+                    break;
+                case "FloorFollowingThief":
+                    break;
+                case "Ruby":
+                    break;
+                case "Diamond":
+                    break;
+                case "Door":
+                    break;
+                case "Clock":
+                    break;
                 default:
-                    throw new IllegalArgumentException(INVALID_ENTITY_NAME);
+                    throw new IllegalArgumentException(String.format(INVALID_ENTITY_NAME, creatureName));
             }
         }
     }
@@ -155,6 +167,12 @@ public class Level {
         return new char[]{'a','b','c'};
     }
     
+    /**
+     * Return tileColour using getColors from tile.java
+     * @param x the X coordinate of a given tile
+     * @param y the Y coordinate of a given tile
+     * @return Char[] of max length 4
+     */
     public char[] getTileColor(Integer x, Integer y) {
         return map[y][x].getColors();
     }
