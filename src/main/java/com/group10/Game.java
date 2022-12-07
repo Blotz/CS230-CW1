@@ -38,6 +38,9 @@ public class Game {
     private static final int GRID_CELL_WIDTH = 100;
     private static final int GRID_CELL_HEIGHT = 100;
 
+    // The level object that makes up the gameboard.
+    private static Level level;
+
     // The width of the grid in number of cells.
     private static  int GRID_WIDTH = 12;
 
@@ -76,6 +79,13 @@ public class Game {
     public static void display() {
         Stage primaryStage = new Stage();
         // Load images. Note we use png images with a transparent background.
+        try {
+            level = new Level("level/level1.txt"); // TODO: make this modular using a param selectedLevel
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        levelTime = level.getTime();
 
         String url = String.valueOf(Game.class.getResource("images/newplayer.png"));
         playerImage = new Image(url);
@@ -184,17 +194,10 @@ public class Game {
         // Draw player at current location
     //    gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
 
-        drawLevel("level/level1.txt"); //Change input form
+        drawLevel(); //Change input form
     }
 
-    public static void drawLevel(String path) {
-    
-        Level level = null;
-        try {
-            level = new Level(path);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public static void drawLevel() {
     
         // Get the Graphic Context of the canvas. This is what we draw on.
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -202,10 +205,6 @@ public class Game {
         int height = level.MAX_HEIGHT;
         GRID_WIDTH = level.MAX_WIDTH;
         GRID_HEIGHT = level.MAX_HEIGHT;  // These variables wre final, change back when we change how level in inputted
-
-
-
-        levelTime = (levelTime == -1) ? level.getTime() : levelTime;
         
         // Clear canvas
         gc.clearRect(0, 0, width*100, height*100);
@@ -222,8 +221,8 @@ public class Game {
 
                 Image[] colours = getTileResource(level.getTileColor(x,y));
 
-                int graphX = x * 100; // upscaled to match dimensions of the canvas
-                int graphY = y * 100 +25;
+                int graphX = x * 50; // upscaled to match dimensions of the canvas
+                int graphY = y * 50 +25;
 
                 // Code for this is written below.
                 if (colours[0] == dirtImage || colours[1] == dirtImage ||

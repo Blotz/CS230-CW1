@@ -4,6 +4,9 @@ package com.group10;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
+import javafx.scene.Parent;
+import javafx.scene.layout.Pane;
+
 public class Leaderboard {
     PriorityQueue<String> highScores;
     public Leaderboard() {
@@ -41,5 +44,13 @@ public class Leaderboard {
     
     public void addScore(String score) {
         highScores.add(score);
+    }
+
+    //TODO: Work on this
+    public static Parent leaderboardScene(){
+        Pane root = new Pane();
+        root.setPrefSize(400, 600);
+        
+        return root;
     }
 }
