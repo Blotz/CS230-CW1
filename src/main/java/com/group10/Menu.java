@@ -27,7 +27,7 @@ public class Menu {
 
         root.setPrefSize(1050, 600);
 
-        try(InputStream is = Menu.class.getResourceAsStream("BACKROUND.jpg")){
+        try(InputStream is = Menu.class.getResourceAsStream("images/menubg.jpg")){
             ImageView img = new ImageView(new Image(is));
             img.setFitWidth(1050);
             img.setFitHeight(600);
@@ -54,7 +54,22 @@ public class Menu {
         vbox.setTranslateX(100);
         vbox.setTranslateY(300);
 
-        root.getChildren().addAll(title,vbox,motd);
+        MenuBox scoreBoard = new MenuBox(
+            new MenuItem("Highscores"));
+        scoreBoard.setTranslateX(100);
+        scoreBoard.setTranslateY(345);
+
+        MenuBox loadFile = new MenuBox(
+            new MenuItem("Load"));
+        loadFile.setTranslateX(100);
+        loadFile.setTranslateY(390);
+ 
+        MenuBox exit = new MenuBox(
+            new MenuItem("Exit"));
+        exit.setTranslateX(100);
+        exit.setTranslateY(435);
+
+        root.getChildren().addAll(title,vbox,scoreBoard,loadFile,exit,motd);
 
         return root;
 
@@ -126,9 +141,24 @@ public class Menu {
             });
             setOnMousePressed(event -> {
                 bg.setFill(Color.DARKVIOLET);
-                Game.display();
             });
+            setOnMouseClicked(event -> {
+                /* TODO: turn this into a normal method.
+                 * This way, we can use the stage attribute to build this submenu in the same screen
+                 * Same thing goes for calling the Game. if you pass though the primaryStage, the game can be displayed
+                 * in the same view port.
+                 */
+                if (name == "Level"){
+                    Game.display();
+                    //levelSelect();
+                } else if (name == "Highscore"){
 
+                } else if (name == "Profile"){
+
+                } else if (name == "Exit"){
+                    System.exit(0);
+                }
+            });
             setOnMouseReleased(event -> {
                 bg.setFill(gradient);
             });
