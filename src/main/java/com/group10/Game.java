@@ -327,7 +327,7 @@ public class Game {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
         playerX += 1;
-        if (playerX > GRID_WIDTH) {
+        if (playerX > GRID_WIDTH-1) {
             playerX = 0;
         }
         // For each tick we decrease the remaining time by 1
@@ -384,7 +384,7 @@ public class Game {
         // Here we move the player left one cell and teleport
         // them back to the left side when they reach the right side.
         playerY += 1;
-        if (playerY > GRID_HEIGHT) {
+        if (playerY > GRID_HEIGHT-1) {
             playerY = 0;
         }
         // For each tick we decrease the remaining time by 1
