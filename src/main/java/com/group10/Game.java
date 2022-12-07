@@ -210,11 +210,11 @@ public class Game {
         GRID_HEIGHT = level.MAX_HEIGHT;  // These variables wre final, change back when we change how level in inputted
         
         // Clear canvas
-        gc.clearRect(0, 0, width*100, height*100);
+        gc.clearRect(0, 0, width*50, height*50);
 
         // Set the background to gray.
         gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, width*100, height*100);
+        gc.fillRect(0, 0, width*50, height*50);
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
