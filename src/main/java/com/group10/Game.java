@@ -89,9 +89,11 @@ public class Game {
                     gc.drawImage(colours[2], graphX, graphY-GRID_SIZE/2);
                     gc.drawImage(colours[3], graphX+GRID_SIZE/2, graphY-GRID_SIZE/2);
                 }
+
                 gc.drawImage(gridImage, graphX, graphY-GRID_SIZE/2);
                 // Draw the entities
                 drawEntity(gc, level.getEntity(x, y), x, y);
+
             }
         }
     }
@@ -105,17 +107,17 @@ public class Game {
         } else if (FlyingAssassin.class.isInstance(entity)) {
             gc.drawImage(flyassImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (SmartThief.class.isInstance(entity)) {
-//            gc.drawImage(smartThiefImage, x * GRID_SIZE, y * GRID_SIZE);
+            // gc.drawImage(smartThiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (FloorFollowingThief.class.isInstance(entity)) {
-//            gc.drawImage(floorThiefImage, x * GRID_SIZE, y * GRID_SIZE);
+            // gc.drawImage(floorThiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (Gate.class.isInstance(entity)) {
-//            gc.drawImage(gateImage, x * GRID_SIZE, y * GRID_SIZE);
+            // gc.drawImage(gateImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (Loot.class.isInstance(entity)) {
             Loot loot = (Loot) entity;
             if (loot.value == 10) {
-//            gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
+                // gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
             } else if (loot.value == 20) {
-//            gc.drawImage(emeraldImage, x * GRID_SIZE, y * GRID_SIZE);
+                // gc.drawImage(emeraldImage, x * GRID_SIZE, y * GRID_SIZE);
             }
         }
         
@@ -124,7 +126,7 @@ public class Game {
     
     private static void tick() {
         // Update the level
-//        level.update();
+        // level.update();
         // Redraw the level
         drawLevel();
     }
