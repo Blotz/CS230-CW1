@@ -32,4 +32,33 @@ public class Player extends MoveableEntity {
     public int hashCode() {
         return Objects.hash(score, x, y);
     }
+
+    public int getX() {return this.x;}
+
+    public int getY() {return this.y;}
+
+    public void move(int[] newPos) { // Need better method
+        this.x = newPos[0];
+        this.y = newPos[1];
+    }
+
+    public void movePlayerRight(Level level) {
+        int[] newC = this.moveRight(level, this.x, this.y);
+       this.x = newC[0];
+    }
+
+    public void movePlayerLeft(Level level) {
+        int[] newC = this.moveLeft(level, this.x, this.y);
+        this.x = newC[0];
+    }
+
+    public void movePlayerUp(Level level) {
+        int[] newC = this.moveUp(level, this.x, this.y);
+        this.y = newC[1];
+    }
+
+    public void movePlayerDown(Level level) {
+        int[] newC = this.moveDown(level, this.x, this.y);
+        this.y = newC[1];
+    }
 }

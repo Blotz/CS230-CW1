@@ -29,8 +29,9 @@ public class Level {
     private static final String INVALID_TIME_FORMAT = "Number must be an integer";
     private static final String ENTITY_FORMAT_ERROR = "Entity should be in format '(x,y) Class'";
     private static final String ENTITY_POSITION_FORMAT_ERROR = "Entity position should be in format '(x,y)'";
-    private static final String INVALID_ENTITY_NAME = "Entity name doesnt match any Classes";
     private static final String ENTITY_NOT_FOUND_ERROR = "Entity not found inside Entity Map";
+    private static final String INVALID_ENTITY_NAME = "Entity name %s doesnt match any Classes";
+  
     
     public Level(String levelPath) throws FileNotFoundException {
         
@@ -140,8 +141,30 @@ public class Level {
                     Gate entity = new Gate(new char[] {'R'});
                     entityMap[creatureY][creatureX] = (Entity) entity;
                     break;
+                case "Player":
+                    Player player = new Player(creatureX, creatureY);
+                    entityMap[creatureY][creatureX] = (Player) player;
+                    break;
+                case "FloorFollowingThief":
+                    break;
+                case "FlyingAssassin":
+                    FlyingAssassin fa = new FlyingAssassin(creatureX,creatureY);
+                    entityMap[creatureY][creatureX] = (FlyingAssassin) fa;
+                    break;
+                case "Ruby":
+                   // Loot ruby = new Loot(creatureX,creatureY,10);
+                   // entityMap[creatureY][creatureX] = ruby;
+                    break;
+                case "Diamond":
+                    //Loot Diamond = new Loot(creatureX,creatureY,20);
+                   // entityMap[creatureY][creatureX] =  Diamond;
+                    break;
+                case "Door":
+                    break;
+                case "Clock":
+                    break;
                 default:
-                    throw new IllegalArgumentException(INVALID_ENTITY_NAME);
+                    throw new IllegalArgumentException(String.format(INVALID_ENTITY_NAME, creatureName));
             }
         }
     }
@@ -172,7 +195,52 @@ public class Level {
     public Tile getTile(int x, int y) {
         return map[y][x];
     }
+
+    public Player getPlayer() {
+        // Search entityMap for player
+        for (int i = 0; i < MAX_HEIGHT; i++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
+                if (entityMap[i][j] instanceof Player) {
+                    return (Player) entityMap[i][j];
+                }
+            }
+        }
+        throw new RuntimeException("Player not found");
+    }
+    
+    public char[] getTileColorEntity(Entity entity) {
+        char[] colours = null;
+        for (int row = 0; row < entityMap.length; row++) {
+            for (int col = 0; col < entityMap[row].length; col++) {
+                Entity arrayEntity = entityMap[row][col];
+                if (entity.equals(arrayEntity)) {
+                    colours = map[row][col].getColors();
+                }
+            }
+        }
+        return colours;
+    }
+    
+    /**
+     * Return tileColour using getColors from tile.java
+     * @param x the X coordinate of a given tile
+     * @param y the Y coordinate of a given tile
+     * @return Char[] of max length 4
+     */
     public char[] getTileColor(Integer x, Integer y) {
         return map[y][x].getColors();
+    }
+
+    public Entity getEntity(Integer x, Integer y) {
+        return entityMap[y][x];
+    }
+
+    public void moveEntity(int oldX, int oldY, int[] newP) {
+       //if (entityMap[newP[1]][newP[0]] == null) { // Switched as y and x swap in the classes
+           Entity temp = entityMap[oldY][oldX];
+           entityMap[newP[1]][newP[0]] = temp;
+           entityMap[oldY][oldX] = null;
+       //}
+
     }
 }

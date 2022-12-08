@@ -4,7 +4,7 @@ BMBM GBRY MMMM BBYY GGGG
 CCRR RRRR BBMM GGGG RRRR
 BBBB MMCC YYYY BBYY CCGG
 (1,2) Player
-(3,4) FloorFollowingThief Green
+(3,4) FloorFollowingThief
 (0,2) Ruby
 (1,4) Diamond
 (3,0) Clock

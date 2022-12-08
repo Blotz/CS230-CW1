@@ -1,0 +1,13 @@
+4 5
+BBBB BBBB BBBB BBBB BBBB
+BBBB GGGM MMMM GRRR BBBB
+BBBB GGGG MMMM RRBB BBBB
+BBBB BBBB BBBB BBBB BBBB
+(0,1) Player
+(0,3) FlyingAssassin
+(3,4) FloorFollowingThief
+(0,2) Ruby
+(1,4) Diamond
+(3,0) Clock
+(2,4) Door
+180

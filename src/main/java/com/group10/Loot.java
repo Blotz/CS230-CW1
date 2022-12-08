@@ -1,5 +1,6 @@
 package com.group10;
 
+
 public abstract class Loot extends PickUp{
 
     private String gemName;
