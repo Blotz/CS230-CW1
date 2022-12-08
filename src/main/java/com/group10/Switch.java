@@ -1,23 +1,27 @@
 package com.group10;
 
-public class Switch extends PickUp{
-    private String colour;
+import java.util.ArrayList;
 
-    private Gate operates;
+public class Switch extends PickUp {
 
-    public Switch(String colour, Gate gate){
-        this.colour = colour;
-        this.operates = gate;
+    private ArrayList<Gate> gates = new ArrayList<>();
+    private char[] colour;
+
+    public Switch (char[] col) {
+        this.colour = col;
     }
 
-    public String getColour(){return this.colour;}
-
-
-    @Override
-    public void onInteract(Player player) {
-        if (!operates.getIsOpen()) {
-            operates.setIsOpen(colour);  // Based of gate implmentation (Not 100% sure if this is right)
+    public void switchInteract (Switch sw){
+        for (int i = 0; i < gates.size(); i++){
+            if (sw.getColour() == gates.get(i).getColour()){
+                if (gates.get(i).getIsOpen() == false){
+                    gates.get(i).setIsOpen();
+                }
+            }
         }
     }
 
+    private char[] getColour (){
+        return this.colour;
+    }
 }

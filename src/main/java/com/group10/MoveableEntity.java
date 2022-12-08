@@ -6,9 +6,10 @@ public abstract class MoveableEntity implements Entity {
         RIGHT, LEFT, DOWN, UP
     }
     public int[] moveRight(Level level, int x, int y) {
+
         int[] newPosition = new int[]{x, y};
         char[] colorsOnCurTile = level.getTileColorEntity(this);
-
+        
         // Better code to do for loop rather than while
         for (int new_x = x+1; new_x < level.MAX_WIDTH ; new_x++) {
             char[] colorsOnNewTile = level.getTileColor(new_x, y);
