@@ -1,8 +1,9 @@
-Switch is aclass
-extends somethign
+- [ ] Clock
+- [ ] Bomb
+- [x] Loot
+- [x] Gate
+- [x] Switch
+- [ ] PickUp
+- [ ] Interaction
 
-operates is a list of aomerthinf
-
-- [ ] make class
-- [x] be epic
-- [x] gaming?
+- When player lands on item. Class will get the player location and return it to the desired function, from the item

@@ -11,10 +11,10 @@ public class Switch extends PickUp {
         this.colour = col;
     }
 
-    public void switchPickUp (Switch sw){
+    public void switchInteract (Switch sw){
         for (int i = 0; i < gates.size(); i++){
             if (sw.getColour() == gates.get(i).getColour()){
-                if (!gates.get(i).getIsOpen()){
+                if (gates.get(i).getIsOpen() == false){
                     gates.get(i).setIsOpen();
                 }
             }
