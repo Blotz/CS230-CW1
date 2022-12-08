@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class Menu {
+    private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
     
     private static void changeScene(Scene scene) {
         Main.getStage().setScene(scene);
@@ -45,7 +46,7 @@ public class Menu {
         File folder = new File(Menu.class.getResource("level").getFile());
         File[] files = folder.listFiles();
         
-        int MAX_COLS = 3;
+        
         System.err.println("Warning: levels are loaded out of order");
         for (int i = 0; i < files.length; i++) {
             String filename = files[i].getName();
@@ -57,19 +58,24 @@ public class Menu {
             button.setOnAction(e -> {
                 String levelPath = "level/" + filename;
                 System.out.println("Loading level: " + levelPath);
-        
+                loadLevel(levelPath);
             });
-            grid.add(button, i % MAX_COLS , i / MAX_COLS);
-    
-    
-        }
-        for (File file : files) {
-        
+            grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT , i / MAX_COLS_OF_LEVEL_SELECT);
         }
         changeScene(scene);
     }
     
-    private void loadLevel(String name) {
+    private static void loadLevel(String name) {
+        System.out.println("Loading level: " + name);
+        // Load the level
+//        Level level = new Level(name);
+//        // Load the level scene
+//        Scene scene = getScene("GUI/level.fxml");
+//        // Set the level in the controller
+//        LevelController controller = (LevelController) scene.getUserData();
+//        controller.setLevel(level);
+//        // Change the scene
+//        changeScene(scene);
     }
     
     @FXML
