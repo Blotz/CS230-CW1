@@ -258,13 +258,13 @@ public class Game {
                     } else if (Gate.class.isInstance(entity)) {
                     } else if (Loot.class.isInstance(entity)) {
                         Loot loot = (Loot) entity;
-                        if (loot.value == 10){
+                        //if (loot.value == 10){
                             // Draw ruby
-                            gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
-                        } else if (loot.value == 20){
+                            //gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
+                        //} else if (loot.value == 20){
                             // Draw Diamond
-                            gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
-                        }
+                           // gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
+                       // }
                     }
 
 
