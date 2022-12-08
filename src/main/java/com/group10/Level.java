@@ -165,8 +165,16 @@ public class Level {
     }
     
     public char[] getTileColorEntity(Entity entity) {
-        // TODO: remove placeholder code!
-        return new char[]{'a','b','c'};
+        char[] colours = null;
+        for (int row = 0; row < entityMap.length; row++) {
+            for (int col = 0; col < entityMap[row].length; col++) {
+                Entity arrayEntity = entityMap[row][col];
+                if (entity.equals(arrayEntity)) {
+                    colours = map[row][col].getColors();
+                }
+            }
+        }
+        return colours;
     }
     
     /**
@@ -181,5 +189,27 @@ public class Level {
 
     public Entity getEntity(Integer x, Integer y) {
         return entityMap[y][x];
+    }
+
+    public void moveEntity(int oldX, int oldY, int[] newP) {
+       if (entityMap[newP[1]][newP[0]] == null) { // Switched as y and x swap in the classes
+           Entity temp = entityMap[oldY][oldX];
+           entityMap[newP[1]][newP[0]] = temp;
+           entityMap[oldY][oldX] = null;
+       }
+
+    }
+
+    public Player getPlayer() {
+        Player player = null;
+        for (int row = 0; row < entityMap.length; row++) {
+            for (int col = 0; col < entityMap[row].length; col++) {
+                Entity entity = entityMap[row][col];
+               if (Player.class.isInstance(entity)){
+                   player = (Player) entity;
+               }
+            }
+        }
+    return player;
     }
 }

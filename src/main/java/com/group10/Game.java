@@ -87,6 +87,7 @@ public class Game {
         }
 
         levelTime = level.getTime();
+        player = level.getPlayer();
 
         //Player player = New Player(5,6);
 
@@ -206,8 +207,6 @@ public class Game {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int width = level.MAX_WIDTH;
         int height = level.MAX_HEIGHT;
-        GRID_WIDTH = level.MAX_WIDTH;
-        GRID_HEIGHT = level.MAX_HEIGHT;  // These variables wre final, change back when we change how level in inputted
         
         // Clear canvas
         gc.clearRect(0, 0, width*50, height*50);
@@ -239,12 +238,16 @@ public class Game {
                 }
                 gc.drawImage(gridImage, graphX, graphY-25);
 
+                if (player != null) {
+                    gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
+                }
+
                 Entity entity = level.getEntity(x,y);
 
                 if (entity != null){
                     if (Player.class.isInstance(entity)) {
-                        player = (Player) entity;
-                        gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
+                       player = (Player) entity;
+                       gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
                     } else if (SmartThief.class.isInstance(entity)) {
                     } else if (FlyingAssassin.class.isInstance(entity)) {
                     } else if (FloorFollowingThief.class.isInstance(entity)) {
@@ -254,7 +257,7 @@ public class Game {
 
 
 
-                }
+               }
             }
         }
 
@@ -345,39 +348,36 @@ public class Game {
     }
 
     public static void moveRight() {
-        // Here we move the player right one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerX += 1;
-        if (playerX > GRID_WIDTH-1) {
-            playerX = 0;
-        }
+        // Update player X and Y
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveRight(level, x, y));
+        player.movePlayerRight(level);
     }
 
     public static void moveLeft() {
-        // Here we move the player left one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerX -= 1;
-        if (playerX < 0) {
-            playerX = 0;
-        }
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveLeft(level, x, y));
+        player.movePlayerLeft(level);
     }
 
     public static void moveUp() {
-        // Here we move the player left one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerY -= 1;
-        if (playerY < 0) {
-            playerY = 0;
-        }
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveUp(level, x, y));
+        player.movePlayerUp(level);
     }
 
     public static void moveDown() {
-        // Here we move the player left one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerY += 1;
-        if (playerY > GRID_HEIGHT-1) {
-            playerY = 0;
-        }
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveDown(level, x, y));
+        player.movePlayerDown(level);
     }
     /**
      * React when an object is dragged onto the canvas.
