@@ -6,8 +6,8 @@ public class FlyingAssassin extends MoveableEntity{
     private int x;
     private int y;
     private Direction direction;
-
-    public FlyingAssassin(int x, int y, Direction direction) {
+                                          // changed to make it work for now, cannot create direction from level
+    public FlyingAssassin(int x, int y) {  //public FlyingAssassin(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -90,6 +90,14 @@ public class FlyingAssassin extends MoveableEntity{
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return this.y;
     }
 }
 

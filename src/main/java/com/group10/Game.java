@@ -250,6 +250,8 @@ public class Game {
                        gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
                     } else if (SmartThief.class.isInstance(entity)) {
                     } else if (FlyingAssassin.class.isInstance(entity)) {
+                        FlyingAssassin fa = (FlyingAssassin) entity;
+                        gc.drawImage(flyassImage, fa.getX() * GRID_CELL_WIDTH, fa.getY() * GRID_CELL_HEIGHT);
                     } else if (FloorFollowingThief.class.isInstance(entity)) {
                     } else if (Gate.class.isInstance(entity)) {
                     } else if (Loot.class.isInstance(entity)) {

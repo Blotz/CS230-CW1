@@ -146,6 +146,10 @@ public class Level {
                     break;
                 case "FloorFollowingThief":
                     break;
+                case "FlyingAssassin":
+                    FlyingAssassin fa = new FlyingAssassin(creatureX,creatureY);
+                    entityMap[creatureY][creatureX] = (FlyingAssassin) fa;
+                    break;
                 case "Ruby":
                     break;
                 case "Diamond":
