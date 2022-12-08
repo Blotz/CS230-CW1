@@ -1,5 +1,7 @@
 package com.group10;
 
+import java.util.Objects;
+
 /*
 TODO: Get FFT to pick up loot as it goes over it.
  */
@@ -138,5 +140,18 @@ public class FloorFollowingThief extends MoveableEntity {
             }
         }
         return new int[]{x , y};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FloorFollowingThief that = (FloorFollowingThief) o;
+        return x == that.x && y == that.y && colour == that.colour && direction == that.direction;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, direction, colour);
     }
 }

@@ -1,5 +1,6 @@
 package com.group10;
 
+import java.util.Objects;
 import java.util.Random;
 
 /*
@@ -124,5 +125,18 @@ public class SmartThief extends MoveableEntity {
             }
         }
         return MAX_DEPTH;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SmartThief that = (SmartThief) o;
+        return x == that.x && y == that.y && MAX_DEPTH == that.MAX_DEPTH && direction == that.direction;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, MAX_DEPTH, direction);
     }
 }
