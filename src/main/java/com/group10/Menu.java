@@ -57,6 +57,9 @@ public class Menu {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
+        System.err.println("Warning: level select isnt fully implemented. will only load level1");
+        // Load the game
+        Game.display(Main.getStage());
 //        Game game = new Game(level);
     }
     

@@ -219,17 +219,4 @@ public class Level {
        //}
 
     }
-
-    public Player getPlayer() {
-        Player player = null;
-        for (int row = 0; row < entityMap.length; row++) {
-            for (int col = 0; col < entityMap[row].length; col++) {
-                Entity entity = entityMap[row][col];
-               if (Player.class.isInstance(entity)){
-                   player = (Player) entity;
-               }
-            }
-        }
-    return player;
-    }
 }
