@@ -383,7 +383,6 @@ public class Game {
         level.moveEntity(x, y, player.moveRight(level, x, y));
         //Updates player position in Player
         player.movePlayerRight(level);
-        tick();
     }
 
     public static void moveLeft() {
