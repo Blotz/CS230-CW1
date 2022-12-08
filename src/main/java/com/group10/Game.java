@@ -42,6 +42,8 @@ public class Game {
     private static Level level;
     private static Player player;
 
+    private static FlyingAssassin flyingAssassin;
+
     // The width of the grid in number of cells.
     private static  int GRID_WIDTH = 12;
 
@@ -205,8 +207,6 @@ public class Game {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int width = level.MAX_WIDTH;
         int height = level.MAX_HEIGHT;
-        GRID_WIDTH = level.MAX_WIDTH;
-        GRID_HEIGHT = level.MAX_HEIGHT;  // These variables wre final, change back when we change how level in inputted
         
         // Clear canvas
         gc.clearRect(0, 0, width*50, height*50);
@@ -237,11 +237,45 @@ public class Game {
                 gc.drawImage(colours[3], graphX+25, graphY-25);
                 }
                 gc.drawImage(gridImage, graphX, graphY-25);
+
+                if (player != null) {
+                    gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
+                }
+
+                Entity entity = level.getEntity(x,y);
+
+                if (entity != null){
+                    if (Player.class.isInstance(entity)) { //Probably a better method
+                       player = (Player) entity;
+                       gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
+                    } else if (SmartThief.class.isInstance(entity)) {
+                    } else if (FlyingAssassin.class.isInstance(entity)) {
+                        flyingAssassin = (FlyingAssassin) entity;
+                        gc.drawImage(flyassImage, flyingAssassin.getX() * GRID_CELL_WIDTH, flyingAssassin.getY() * GRID_CELL_HEIGHT);
+                        System.out.println(flyingAssassin.getX());
+                        System.out.println(flyingAssassin.getY());
+                    } else if (FloorFollowingThief.class.isInstance(entity)) {
+                    } else if (Gate.class.isInstance(entity)) {
+                    } else if (Loot.class.isInstance(entity)) {
+                        Loot loot = (Loot) entity;
+                        if (loot.value == 10){
+                            // Draw ruby
+                            gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
+                        } else if (loot.value == 20){
+                            // Draw Diamond
+                            gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
+                        }
+                    }
+
+
+
+               }
             }
         }
 
+
         // Draw player at current location
-        gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+        //gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
     }
 
     /**
@@ -284,9 +318,13 @@ public class Game {
      * Reset the player's location and move them back to (0,0).
      */
     public static void resetPlayerLocation() {
-        playerX = 0;
-        playerY = 0;
-        drawGame();
+        int x = player.getX();
+        int y = player.getY();
+        int[] start = {0,0};
+
+        level.moveEntity(x, y, start);
+        player.move(start);
+        drawGame(); // Until tick is done
     }
 
     /**
@@ -306,13 +344,21 @@ public class Game {
      * over them all and calling their own tick method).
      */
     public static void tick() {
+        int x = player.getX();
+        int y = player.getY();
+
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        if (playerX >= level.MAX_WIDTH) {
-            playerX = 0;
-        } if (playerY >= level.MAX_HEIGHT){
-            playerY = 0;
+        if (x >= level.MAX_WIDTH) {
+            int[] pos = {0,y};
+            level.moveEntity(x, y, pos);
+            player.movePlayerRight(level);
+        } if (y >= level.MAX_HEIGHT){
+            y = 0;
         }
+
+        level.moveEntity(x, y, flyingAssassin.move(level));
+
         // For each tick we decrease the remaining time by 1
         // When time <= 0 a fail condition is met
         levelTime -= 1;
@@ -326,39 +372,40 @@ public class Game {
     }
 
     public static void moveRight() {
-        // Here we move the player right one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerX += 1;
-        if (playerX > GRID_WIDTH-1) {
-            playerX = 0;
-        }
+        // Update player X and Y
+        int x = player.getX();
+        int y = player.getY();
+
+        //Uses player movement method
+
+        //Moves player on entity map
+        level.moveEntity(x, y, player.moveRight(level, x, y));
+        //Updates player position in Player
+        player.movePlayerRight(level);
     }
 
     public static void moveLeft() {
-        // Here we move the player left one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerX -= 1;
-        if (playerX < 0) {
-            playerX = 0;
-        }
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveLeft(level, x, y));
+        player.movePlayerLeft(level);
     }
 
     public static void moveUp() {
-        // Here we move the player left one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerY -= 1;
-        if (playerY < 0) {
-            playerY = 0;
-        }
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveUp(level, x, y));
+        player.movePlayerUp(level);
     }
 
     public static void moveDown() {
-        // Here we move the player left one cell and teleport
-        // them back to the left side when they reach the right side.
-        playerY += 1;
-        if (playerY > GRID_HEIGHT-1) {
-            playerY = 0;
-        }
+        int x = player.getX();
+        int y = player.getY();
+
+        level.moveEntity(x, y, player.moveDown(level, x, y));
+        player.movePlayerDown(level);
     }
     /**
      * React when an object is dragged onto the canvas.

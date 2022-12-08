@@ -4,7 +4,9 @@ public class Loot extends PickUp {
     int value;
     int xpos;
     int ypos;
-    public Loot(int value) {
+    public Loot(int x, int y, int value) {
+        this.xpos = x;
+        this.ypos = y;
         this.value = value;
     }
     
