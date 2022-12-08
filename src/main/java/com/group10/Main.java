@@ -17,13 +17,18 @@ import javafx.stage.Stage;
 public class Main extends Application {
 	public static final int WIDTH = 1050;
 	public static final int HEIGHT = 600;
+	private static Stage stage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		Menu menu = new Menu(primaryStage);
-		menu.mainMenu();
+		Main.stage = primaryStage;
+		Menu.mainMenu();
 	}
-
+	
+	public static Stage getStage() {
+		return stage;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
