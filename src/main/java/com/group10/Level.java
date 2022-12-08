@@ -142,7 +142,7 @@ public class Level {
                     entityMap[creatureY][creatureX] = (Entity) entity;
                     break;
                 case "Player":
-                    Player player = new Player(creatureX, creatureY);
+                    Player player = new Player();
                     entityMap[creatureY][creatureX] = (Player) player;
                     break;
                 case "FloorFollowingThief":
@@ -235,12 +235,9 @@ public class Level {
         return entityMap[y][x];
     }
 
-    public void moveEntity(int oldX, int oldY, int[] newP) {
-       //if (entityMap[newP[1]][newP[0]] == null) { // Switched as y and x swap in the classes
-           Entity temp = entityMap[oldY][oldX];
-           entityMap[newP[1]][newP[0]] = temp;
-           entityMap[oldY][oldX] = null;
-       //}
-
+    public void moveEntity(int oldX, int oldY, int newX, int newY) {
+        Entity temp = entityMap[oldY][oldX];
+        entityMap[oldY][oldX] = entityMap[newY][newX];
+        entityMap[newY][oldX] = temp;
     }
 }
