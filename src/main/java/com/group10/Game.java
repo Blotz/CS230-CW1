@@ -308,9 +308,12 @@ public class Game {
      * Reset the player's location and move them back to (0,0).
      */
     public static void resetPlayerLocation() {
-        playerX = 0;
-        playerY = 0;
-        drawGame();
+        int x = player.getX();
+        int y = player.getY();
+        int[] start = {0,0};
+
+        level.moveEntity(x, y, start);
+        player.movePlayerRight(level);
     }
 
     /**
