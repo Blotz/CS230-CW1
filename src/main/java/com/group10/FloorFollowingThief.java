@@ -1,9 +1,7 @@
 package com.group10;
 
 /*
-TODO: Implement way to get FFT to track to its left hand edge of the chosen colour
-      in a loop around the level.
-      Get FFT to pick up loot as it goes over it.
+TODO: Get FFT to pick up loot as it goes over it.
  */
 public class FloorFollowingThief extends MoveableEntity {
     private int x;
@@ -19,26 +17,75 @@ public class FloorFollowingThief extends MoveableEntity {
     }
 
     public int[] move(Level level) {
-        int[] newPos;
-        if (direction == Direction.RIGHT) {
-            newPos = moveRight(level, x, y);
-            //Needs check for if end has been reached
-            return newPos;
-        } else if (direction == Direction.LEFT) {
-            newPos = moveLeft(level, x, y);
-            return newPos;
-        } else if (direction == Direction.UP) {
-            newPos = moveUp(level, x, y);
-            return newPos;
-        } else if (direction == Direction.DOWN) {
-            newPos = moveDown(level, x, y);
-            return newPos;
-        }
-        return new int[]{x, y};
-    }
+        int[] newPos = {x, y};
+        int[] upPos = moveUp(level,x , y);
+        int[] downPos = moveDown(level, x, y);
+        int[] leftPos = moveLeft(level, x, y);
+        int[] rightPos = moveRight(level, x, y);
 
-    public boolean leftHandTouching() {
-        return true; //Placeholder method to make sure the left hand of FFT is touching a wall with left hand.
+        switch (direction) {
+            case RIGHT:
+                if (upPos != newPos) { //Most important to keep left hand rule.
+                    newPos = upPos;
+                    direction = Direction.UP;
+                } else if (rightPos != newPos) { //Next most important to move straight
+                    newPos = rightPos;
+                    direction = Direction.RIGHT;
+                } else if (downPos != newPos) { //Next most important to move round corners or obstacles
+                    newPos = downPos;
+                    direction = Direction.DOWN;
+                } else { //Final move if a reverse is needed
+                    newPos = leftPos;
+                    direction = Direction.LEFT;
+                }
+                return newPos;
+            case LEFT:
+                if (downPos != newPos) {
+                    newPos = downPos;
+                    direction = Direction.DOWN;
+                } else if (leftPos != newPos) {
+                    newPos = leftPos;
+                    direction = Direction.LEFT;
+                } else if (upPos != newPos) {
+                    newPos = upPos;
+                    direction = Direction.UP;
+                } else {
+                    newPos = rightPos;
+                    direction = Direction.RIGHT;
+                }
+                return newPos;
+            case UP:
+                if (leftPos != newPos) {
+                    newPos = leftPos;
+                    direction = Direction.LEFT;
+                } else if (upPos != newPos) {
+                    newPos = upPos;
+                    direction = Direction.UP;
+                } else if (rightPos != newPos) {
+                    newPos = rightPos;
+                    direction = Direction.RIGHT;
+                } else {
+                    newPos = downPos;
+                    direction = Direction.DOWN;
+                }
+                return newPos;
+            case DOWN:
+                if (rightPos != newPos) {
+                    newPos = rightPos;
+                    direction = Direction.RIGHT;
+                } else if (downPos != newPos) {
+                    newPos = downPos;
+                    direction = Direction.DOWN;
+                } else if (leftPos != newPos) {
+                    newPos = leftPos;
+                    direction = Direction.LEFT;
+                } else {
+                    newPos = upPos;
+                    direction = Direction.UP;
+                }
+                return newPos;
+        }
+        return new int[]{x, y}; //Return no move if it has all gone tits up
     }
 
     @Override

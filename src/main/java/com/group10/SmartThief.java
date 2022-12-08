@@ -78,7 +78,7 @@ public class SmartThief extends MoveableEntity {
         //Check right movement
         int[] rightMove = moveRight(level, x, y);
         if (rightMove[0] != x || rightMove[1] != y) {
-            //Left base case
+            //Right base case
             if (rightMove[0] == Level.isLoot && rightMove[1].isLoot) {
                 direction = Direction.RIGHT;
                 return depth;
@@ -94,7 +94,7 @@ public class SmartThief extends MoveableEntity {
         //Check up movement
         int[] upMove = moveUp(level, x, y);
         if (upMove[0] != x || upMove[1] != y) {
-            //Left base case
+            //Up base case
             if (upMove[0] == Level.isLoot && upMove[1].isLoot) {
                 direction = Direction.UP;
                 return depth;
@@ -110,7 +110,7 @@ public class SmartThief extends MoveableEntity {
         //Check down movement
         int[] downMove = moveDown(level, x, y);
         if (downMove[0] != x || downMove[1] != y) {
-            //Left base case
+            //Down base case
             if (downMove[0] == Level.isLoot && downMove[1].isLoot) {
                 direction = Direction.DOWN;
                 return depth;
