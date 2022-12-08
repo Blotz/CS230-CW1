@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.canvas.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Game">
+   <children>
+      <BorderPane layoutX="-7.0" prefHeight="400.0" prefWidth="606.0">
+         <top>
+            <Pane prefHeight="63.0" prefWidth="606.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Text fill="WHITE" layoutX="492.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="time" text="Timer" />
+               </children></Pane>
+         </top>
+         <center>
+            <GridPane scaleX="0.0" scaleY="0.0" styleClass="grid" BorderPane.alignment="CENTER">
+            </GridPane>
+         </center>
+      </BorderPane>
+   </children>
+</Pane>

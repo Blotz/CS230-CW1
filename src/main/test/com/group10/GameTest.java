@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
     @Test
     void newGame () {
-        Game game = new Game();
+//        Game game = new Game();
     }
 
 }

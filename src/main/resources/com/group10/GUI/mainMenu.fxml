@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="616.0" prefWidth="776.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
+   <children>
+      <Pane prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Text layoutX="105.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Cave Game" textAlignment="CENTER" />
+            <Pane layoutX="388.0" layoutY="118.0" prefHeight="398.0" prefWidth="252.0">
+               <children>
+                  <Button layoutX="31.0" layoutY="69.0" mnemonicParsing="false" onAction="#levelSelect" prefHeight="56.0" prefWidth="187.0" style="marg: 10;" text="Level Select" textAlignment="CENTER" />
+                  <Button layoutX="31.0" layoutY="137.0" mnemonicParsing="false" onAction="#highScores" prefHeight="56.0" prefWidth="187.0" text="HighScores" textAlignment="CENTER" />
+                  <Button layoutX="31.0" layoutY="211.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="187.0" text="Settings" textAlignment="CENTER" />
+                  <Button layoutX="31.0" layoutY="284.0" mnemonicParsing="false" onAction="#quit" prefHeight="56.0" prefWidth="187.0" text="Exit" textAlignment="CENTER" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>
