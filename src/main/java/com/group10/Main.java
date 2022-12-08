@@ -1,6 +1,9 @@
 package com.group10;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -26,6 +29,21 @@ public class Main extends Application {
 	
 	public static Stage getStage() {
 		return stage;
+	}
+	
+	public static void changeScene(Scene scene) {
+		Main.getStage().setScene(scene);
+		Main.getStage().show();
+	}
+	public static Scene getScene(String fxml) {
+		Parent root = null;
+		try {
+			root = FXMLLoader.load(Main.class.getResource(fxml));
+		} catch (Exception e) {
+			System.err.println("Error loading FXML file: " + fxml);
+			e.printStackTrace();
+		}
+		return new Scene(root);
 	}
 	
 	public static void main(String[] args) {

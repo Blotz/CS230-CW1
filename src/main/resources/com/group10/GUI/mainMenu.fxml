@@ -14,7 +14,7 @@
             <Pane layoutX="388.0" layoutY="118.0" prefHeight="398.0" prefWidth="252.0">
                <children>
                   <Button layoutX="31.0" layoutY="69.0" mnemonicParsing="false" onAction="#levelSelect" prefHeight="56.0" prefWidth="187.0" style="marg: 10;" text="Level Select" textAlignment="CENTER" />
-                  <Button layoutX="31.0" layoutY="137.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="187.0" text="HighScores" textAlignment="CENTER" />
+                  <Button layoutX="31.0" layoutY="137.0" mnemonicParsing="false" onAction="#highScores" prefHeight="56.0" prefWidth="187.0" text="HighScores" textAlignment="CENTER" />
                   <Button layoutX="31.0" layoutY="211.0" mnemonicParsing="false" prefHeight="56.0" prefWidth="187.0" text="Settings" textAlignment="CENTER" />
                   <Button layoutX="31.0" layoutY="284.0" mnemonicParsing="false" onAction="#quit" prefHeight="56.0" prefWidth="187.0" text="Exit" textAlignment="CENTER" />
                </children>
