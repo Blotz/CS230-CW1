@@ -141,6 +141,8 @@ public class Level {
                     entityMap[creatureY][creatureX] = (Entity) entity;
                     break;
                 case "Player":
+                    Player player = new Player(creatureX, creatureY);
+                    entityMap[creatureY][creatureX] = (Player) player;
                     break;
                 case "FloorFollowingThief":
                     break;
@@ -175,5 +177,9 @@ public class Level {
      */
     public char[] getTileColor(Integer x, Integer y) {
         return map[y][x].getColors();
+    }
+
+    public Entity getEntity(Integer x, Integer y) {
+        return entityMap[y][x];
     }
 }

@@ -238,11 +238,29 @@ public class Game {
                 gc.drawImage(colours[3], graphX+25, graphY-25);
                 }
                 gc.drawImage(gridImage, graphX, graphY-25);
+
+                Entity entity = level.getEntity(x,y);
+
+                if (entity != null){
+                    if (Player.class.isInstance(entity)) {
+                        player = (Player) entity;
+                        gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
+                    } else if (SmartThief.class.isInstance(entity)) {
+                    } else if (FlyingAssassin.class.isInstance(entity)) {
+                    } else if (FloorFollowingThief.class.isInstance(entity)) {
+                    } else if (Gate.class.isInstance(entity)) {
+                    } else if (Loot.class.isInstance(entity)) {
+                    }
+
+
+
+                }
             }
         }
 
+
         // Draw player at current location
-        gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
+        //gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
     }
 
     /**

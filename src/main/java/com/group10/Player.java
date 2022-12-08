@@ -32,4 +32,8 @@ public class Player extends MoveableEntity {
     public int hashCode() {
         return Objects.hash(score, x, y);
     }
+
+    public int getX() {return this.x;}
+
+    public int getY() {return this.y;}
 }
