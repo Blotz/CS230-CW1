@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 public class Menu {
     Stage stage;
     
-    private static final String BACKGROUND_IMAGE = "BACKROUND.jpg";
+    private static final String BACKGROUND_IMAGE = "GUI/BackGround.jpg";
     private static final String IMAGE_NOT_FOUND = "Image '%s' not found";
     
     public Menu(Stage stage) {
@@ -39,7 +39,7 @@ public class Menu {
         InputStream is = Menu.class.getResourceAsStream(BACKGROUND_IMAGE);
         // Catch errors if the image is not found
         if (is == null) {
-            throw new RuntimeException(String.format(IMAGE_NOT_FOUND, "BACKROUND.jpg"));
+            throw new RuntimeException(String.format(IMAGE_NOT_FOUND, BACKGROUND_IMAGE));
         }
         
         // Create and add the background image
