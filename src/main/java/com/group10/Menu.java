@@ -59,13 +59,19 @@ public class Menu {
         }
         System.err.println("Warning: level select isnt fully implemented. will only load level1");
         // Load the game
-        Game.display(Main.getStage());
-//        Game game = new Game(level);
+        // Game.display(Main.getStage());
+         Game.setLevel(level);
+         Game.start();
     }
     
     @FXML
     public void highScores(ActionEvent event) {
         System.out.println("High Scores");
+    }
+    
+    @FXML
+    public void mainMenu(ActionEvent event) {
+        Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
     }
     
     @FXML

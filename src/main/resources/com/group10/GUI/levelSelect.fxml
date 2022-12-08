@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -18,7 +18,10 @@
             <Pane prefHeight="302.0" prefWidth="74.0" BorderPane.alignment="CENTER" />
          </right>
          <bottom>
-            <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER" />
+            <Pane prefHeight="52.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button layoutX="506.0" layoutY="4.0" mnemonicParsing="false" onAction="#mainMenu" text="Menu" />
+               </children></Pane>
          </bottom>
          <center>
             <GridPane id="grid" styleClass="grid" BorderPane.alignment="CENTER">
