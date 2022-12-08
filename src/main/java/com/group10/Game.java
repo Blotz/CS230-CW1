@@ -79,8 +79,7 @@ public class Game {
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
-    public static void display() {
-        Stage primaryStage = new Stage();
+    public static void display(Stage stage) {
         // Load images. Note we use png images with a transparent background.
         try {
             level = new Level("level/level1.txt"); // TODO: make this modular using a param selectedLevel
@@ -134,8 +133,8 @@ public class Game {
 
         // Display the scene on the stage
         drawGame();
-        primaryStage.setScene(scene);
-        primaryStage.showAndWait();
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 
     /**

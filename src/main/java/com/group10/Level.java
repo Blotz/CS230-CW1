@@ -172,6 +172,18 @@ public class Level {
         return time;
     }
     
+    public Player getPlayer() {
+        // Search entityMap for player
+        for (int i = 0; i < MAX_HEIGHT; i++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
+                if (entityMap[i][j] instanceof Player) {
+                    return (Player) entityMap[i][j];
+                }
+            }
+        }
+        throw new RuntimeException("Player not found");
+    }
+    
     public char[] getTileColorEntity(Entity entity) {
         char[] colours = null;
         for (int row = 0; row < entityMap.length; row++) {
