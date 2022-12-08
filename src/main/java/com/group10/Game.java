@@ -35,11 +35,17 @@ public class Game {
     private static final int CANVAS_HEIGHT = 400;
 
     // The width and height (in pixels) of each cell that makes up the game.
-    private static final int GRID_CELL_WIDTH = 100;
-    private static final int GRID_CELL_HEIGHT = 100;
+    private static final int GRID_CELL_WIDTH = 50;
+    private static final int GRID_CELL_HEIGHT = 50;
+
+    // The level object that makes up the gameboard and the Player
+    private static Level level;
+    private static Player player;
 
     // The width of the grid in number of cells.
-    private static final int GRID_WIDTH = 12;
+    private static  int GRID_WIDTH = 12;
+
+    private static  int GRID_HEIGHT = 12;
 
     // The canvas in the GUI. This needs to be a global variable
     // (in this setup) as we need to access it in different methods.
@@ -73,6 +79,15 @@ public class Game {
     private static Timeline tickTimeline;
     public static void display(Stage stage) {
         // Load images. Note we use png images with a transparent background.
+        try {
+            level = new Level("level/level1.txt"); // TODO: make this modular using a param selectedLevel
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        levelTime = level.getTime();
+
+        //Player player = New Player(5,6);
 
         String url = String.valueOf(Game.class.getResource("images/newplayer.png"));
         playerImage = new Image(url);
@@ -129,6 +144,19 @@ public class Game {
         switch (event.getCode()) {
             case RIGHT:
                 // Right key was pressed. So move the player right by one cell.
+                moveRight();
+                break;
+            case LEFT:
+                // Left key was pressed. So move the player right by one cell.
+                moveLeft();
+                break;
+            case UP:
+                // Up key was pressed. So move the player right by one cell.
+                moveUp();
+                break;
+            case DOWN:
+                // Down key was pressed. So move the player right by one cell.
+                moveDown();
                 break;
             default:
                 // Do nothing for all other keys.
@@ -168,31 +196,24 @@ public class Game {
         // Draw player at current location
     //    gc.drawImage(playerImage, playerX * GRID_CELL_WIDTH, playerY * GRID_CELL_HEIGHT);
 
-        drawLevel("level/level1.txt"); //Change input form
+        drawLevel(); //Change input form
     }
 
-    public static void drawLevel(String path) {
-    
-        Level level = null;
-        try {
-            level = new Level(path);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public static void drawLevel() {
     
         // Get the Graphic Context of the canvas. This is what we draw on.
         GraphicsContext gc = canvas.getGraphicsContext2D();
         int width = level.MAX_WIDTH;
         int height = level.MAX_HEIGHT;
-
-        levelTime = (levelTime == -1) ? level.getTime() : levelTime;
+        GRID_WIDTH = level.MAX_WIDTH;
+        GRID_HEIGHT = level.MAX_HEIGHT;  // These variables wre final, change back when we change how level in inputted
         
         // Clear canvas
-        gc.clearRect(0, 0, width*100, height*100);
+        gc.clearRect(0, 0, width*50, height*50);
 
         // Set the background to gray.
         gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, width*100, height*100);
+        gc.fillRect(0, 0, width*50, height*50);
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
@@ -202,8 +223,8 @@ public class Game {
 
                 Image[] colours = getTileResource(level.getTileColor(x,y));
 
-                int graphX = x * 100; // upscaled to match dimensions of the canvas
-                int graphY = y * 100 +25;
+                int graphX = x * 50; // upscaled to match dimensions of the canvas
+                int graphY = y * 50 +25;
 
                 // Code for this is written below.
                 if (colours[0] == dirtImage || colours[1] == dirtImage ||
@@ -287,9 +308,10 @@ public class Game {
     public static void tick() {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        playerX += 1;
-        if (playerX > 11) {
+        if (playerX >= level.MAX_WIDTH) {
             playerX = 0;
+        } if (playerY >= level.MAX_HEIGHT){
+            playerY = 0;
         }
         // For each tick we decrease the remaining time by 1
         // When time <= 0 a fail condition is met
@@ -303,6 +325,41 @@ public class Game {
         drawGame();
     }
 
+    public static void moveRight() {
+        // Here we move the player right one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerX += 1;
+        if (playerX > GRID_WIDTH-1) {
+            playerX = 0;
+        }
+    }
+
+    public static void moveLeft() {
+        // Here we move the player left one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerX -= 1;
+        if (playerX < 0) {
+            playerX = 0;
+        }
+    }
+
+    public static void moveUp() {
+        // Here we move the player left one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerY -= 1;
+        if (playerY < 0) {
+            playerY = 0;
+        }
+    }
+
+    public static void moveDown() {
+        // Here we move the player left one cell and teleport
+        // them back to the left side when they reach the right side.
+        playerY += 1;
+        if (playerY > GRID_HEIGHT-1) {
+            playerY = 0;
+        }
+    }
     /**
      * React when an object is dragged onto the canvas.
      * @param event The drag event itself which contains data about the drag that occurred.
