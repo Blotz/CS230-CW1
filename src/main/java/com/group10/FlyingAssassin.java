@@ -2,6 +2,9 @@ package com.group10;
 
 import java.util.Objects;
 
+/*TODO: If the Flying Assassin collides with the player, the player should loose
+        and the game should end or level reset.
+*  */
 public class FlyingAssassin extends MoveableEntity{
     private int x;
     private int y;

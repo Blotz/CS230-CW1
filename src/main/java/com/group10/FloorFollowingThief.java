@@ -1,5 +1,10 @@
 package com.group10;
 
+/*
+TODO: Implement way to get FFT to track to its left hand edge of the chosen colour
+      in a loop around the level.
+      Get FFT to pick up loot as it goes over it.
+ */
 public class FloorFollowingThief extends MoveableEntity {
     private int x;
     private int y;

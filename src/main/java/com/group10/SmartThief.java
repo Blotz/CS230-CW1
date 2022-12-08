@@ -1,5 +1,13 @@
 package com.group10;
 
+import java.util.Random;
+
+/*
+ TODO: If the Smart Thief goes over loot it should be picked up.
+       Once all the loot is picked up the Smart Thief should go to
+       the exit.
+       Smart Thief should not go through players, bombs or other NPCs.
+ */
 public class SmartThief extends MoveableEntity {
     private int x;
     private int y;
@@ -15,7 +23,7 @@ public class SmartThief extends MoveableEntity {
     public int[] move(Level level) {
         int depth = findClosestLoot(level, x, y, 0);
         if (depth >= MAX_DEPTH) {
-            //Move in random direction
+            return randomMove(level);
         } else {
             switch (direction) {
                 case UP:
@@ -26,11 +34,23 @@ public class SmartThief extends MoveableEntity {
                     return moveLeft(level, x, y);
                 case RIGHT:
                     return moveRight(level, x, y);
-                default:
-                    //Move in random direction
             }
         }
         return new int[]{x, y};
+    }
+
+    private int[] randomMove(Level level) {
+        Random rand = new Random();
+        int randNum = rand.nextInt(3);
+        if (randNum == 0) {
+            return moveUp(level, x, y);
+        } else if (randNum == 1) {
+            return moveDown(level, x, y);
+        } else if (randNum == 2) {
+            return moveLeft(level, x, y);
+        } else {
+            return moveRight(level, x ,y);
+        }
     }
 
     private int findClosestLoot(Level level, int x, int y, int depth) {
