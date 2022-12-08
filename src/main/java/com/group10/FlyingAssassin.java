@@ -2,6 +2,9 @@ package com.group10;
 
 import java.util.Objects;
 
+/*TODO: If the Flying Assassin collides with the player, the player should loose
+        and the game should end or level reset.
+*  */
 public class FlyingAssassin extends MoveableEntity{
     private int x;
     private int y;
@@ -60,9 +63,7 @@ public class FlyingAssassin extends MoveableEntity{
     }
 
     @Override
-    public int[] moveRight(Level level, int x, int y) {
-        return new int[]{x + 1, y};
-    }
+    public int[] moveRight(Level level, int x, int y) {return new int[]{x + 1, y};}
 
     @Override
     public int[] moveLeft(Level level, int x, int y) {
@@ -84,12 +85,12 @@ public class FlyingAssassin extends MoveableEntity{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FlyingAssassin that = (FlyingAssassin) o;
-        return x == that.x && y == that.y;
+        return x == that.x && y == that.y && direction == that.direction;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y);
+        return Objects.hash(x, y, direction);
     }
 }
 
