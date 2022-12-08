@@ -1,15 +1,15 @@
 package com.group10;
 
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.io.File;
 
 public class Menu {
     
@@ -39,19 +39,37 @@ public class Menu {
         Parent root = scene.getRoot();
         // Find the grid
         GridPane grid = (GridPane) root.lookup("#grid");
-        // Add a bunch of filler text
         
-        for (int i = 0; i < grid.getRowCount(); i++) {
-            for (int j = 0; j < grid.getColumnCount(); j++) {
-                grid.add(new javafx.scene.control.Label("Level " + (i * 10 + j)), j, i);
-            }
+        // Add the levels
+        // Read levels from level folder using resources
+        File folder = new File(Menu.class.getResource("level").getFile());
+        File[] files = folder.listFiles();
+        
+        int MAX_COLS = 3;
+        System.err.println("Warning: levels are loaded out of order");
+        for (int i = 0; i < files.length; i++) {
+            String filename = files[i].getName();
+            System.out.println(filename);
+            // Create a button which points to that level
+            // Add the button to the grid
+    
+            Button button = new Button(filename);
+            button.setOnAction(e -> {
+                String levelPath = "level/" + filename;
+                System.out.println("Loading level: " + levelPath);
+        
+            });
+            grid.add(button, i % MAX_COLS , i / MAX_COLS);
+    
+    
+        }
+        for (File file : files) {
+        
         }
         changeScene(scene);
     }
     
-    @FXML
-    public void settings(ActionEvent event) {
-        System.out.println("Settings");
+    private void loadLevel(String name) {
     }
     
     @FXML
