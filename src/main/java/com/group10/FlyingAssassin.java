@@ -2,27 +2,35 @@ package com.group10;
 
 import java.util.Objects;
 
+import static com.group10.MoveableEntity.Direction.RIGHT;
+
 public class FlyingAssassin extends MoveableEntity{
     private int x;
     private int y;
-    private Direction direction;
+    private Direction direction = RIGHT;
                                           // changed to make it work for now, cannot create direction from level
     public FlyingAssassin(int x, int y) {  //public FlyingAssassin(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
-        this.direction = direction;
+      //  this.direction = direction;
     }
 
     public int[] move(Level level) {
         if (direction == Direction.UP || direction == Direction.DOWN) {
+            int[] pos = moveVertical(level);
+            this.x = pos[0];
+            this.y = pos[1];
             return moveVertical(level);
         } else {
+            int[] pos = moveHorizontal(level);
+            this.x = pos[0];
+            this.y = pos[1];
             return moveHorizontal(level);
         }
     }
 
     private int[] moveHorizontal(Level level) {
-        if (direction == Direction.RIGHT) {
+        if (direction == RIGHT) {
             if (x < level.MAX_WIDTH) {
                 return moveRight(level, x, y);
             } else {
@@ -33,7 +41,7 @@ public class FlyingAssassin extends MoveableEntity{
             if (x > 0) {
                 return moveLeft(level, x, y);
             } else {
-                direction = Direction.RIGHT;
+                direction = RIGHT;
                 return moveRight(level, x, y);
             }
         }

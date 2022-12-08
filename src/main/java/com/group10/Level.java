@@ -151,8 +151,12 @@ public class Level {
                     entityMap[creatureY][creatureX] = (FlyingAssassin) fa;
                     break;
                 case "Ruby":
+                   // Loot ruby = new Loot(creatureX,creatureY,10);
+                   // entityMap[creatureY][creatureX] = ruby;
                     break;
                 case "Diamond":
+                    //Loot Diamond = new Loot(creatureX,creatureY,20);
+                   // entityMap[creatureY][creatureX] =  Diamond;
                     break;
                 case "Door":
                     break;
@@ -196,11 +200,11 @@ public class Level {
     }
 
     public void moveEntity(int oldX, int oldY, int[] newP) {
-       if (entityMap[newP[1]][newP[0]] == null) { // Switched as y and x swap in the classes
+       //if (entityMap[newP[1]][newP[0]] == null) { // Switched as y and x swap in the classes
            Entity temp = entityMap[oldY][oldX];
            entityMap[newP[1]][newP[0]] = temp;
            entityMap[oldY][oldX] = null;
-       }
+       //}
 
     }
 

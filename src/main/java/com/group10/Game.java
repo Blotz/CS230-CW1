@@ -42,6 +42,8 @@ public class Game {
     private static Level level;
     private static Player player;
 
+    private static FlyingAssassin flyingAssassin;
+
     // The width of the grid in number of cells.
     private static  int GRID_WIDTH = 12;
 
@@ -87,7 +89,6 @@ public class Game {
         }
 
         levelTime = level.getTime();
-        player = level.getPlayer();
 
         //Player player = New Player(5,6);
 
@@ -245,16 +246,26 @@ public class Game {
                 Entity entity = level.getEntity(x,y);
 
                 if (entity != null){
-                    if (Player.class.isInstance(entity)) {
+                    if (Player.class.isInstance(entity)) { //Probably a better method
                        player = (Player) entity;
                        gc.drawImage(playerImage, player.getX() * GRID_CELL_WIDTH, player.getY() * GRID_CELL_HEIGHT);
                     } else if (SmartThief.class.isInstance(entity)) {
                     } else if (FlyingAssassin.class.isInstance(entity)) {
-                        FlyingAssassin fa = (FlyingAssassin) entity;
-                        gc.drawImage(flyassImage, fa.getX() * GRID_CELL_WIDTH, fa.getY() * GRID_CELL_HEIGHT);
+                        flyingAssassin = (FlyingAssassin) entity;
+                        gc.drawImage(flyassImage, flyingAssassin.getX() * GRID_CELL_WIDTH, flyingAssassin.getY() * GRID_CELL_HEIGHT);
+                        System.out.println(flyingAssassin.getX());
+                        System.out.println(flyingAssassin.getY());
                     } else if (FloorFollowingThief.class.isInstance(entity)) {
                     } else if (Gate.class.isInstance(entity)) {
                     } else if (Loot.class.isInstance(entity)) {
+                        Loot loot = (Loot) entity;
+                        if (loot.value == 10){
+                            // Draw ruby
+                            gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
+                        } else if (loot.value == 20){
+                            // Draw Diamond
+                            gc.drawImage(dirtImage, loot.xpos * GRID_CELL_WIDTH, loot.ypos * GRID_CELL_HEIGHT);
+                        }
                     }
 
 
@@ -313,7 +324,8 @@ public class Game {
         int[] start = {0,0};
 
         level.moveEntity(x, y, start);
-        player.movePlayerRight(level);
+        player.move(start);
+        drawGame(); // Until tick is done
     }
 
     /**
@@ -333,13 +345,21 @@ public class Game {
      * over them all and calling their own tick method).
      */
     public static void tick() {
+        int x = player.getX();
+        int y = player.getY();
+
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        if (playerX >= level.MAX_WIDTH) {
-            playerX = 0;
-        } if (playerY >= level.MAX_HEIGHT){
-            playerY = 0;
+        if (x >= level.MAX_WIDTH) {
+            int[] pos = {0,y};
+            level.moveEntity(x, y, pos);
+            player.movePlayerRight(level);
+        } if (y >= level.MAX_HEIGHT){
+            y = 0;
         }
+
+        level.moveEntity(x, y, flyingAssassin.move(level));
+
         // For each tick we decrease the remaining time by 1
         // When time <= 0 a fail condition is met
         levelTime -= 1;
@@ -357,8 +377,13 @@ public class Game {
         int x = player.getX();
         int y = player.getY();
 
+        //Uses player movement method
+
+        //Moves player on entity map
         level.moveEntity(x, y, player.moveRight(level, x, y));
+        //Updates player position in Player
         player.movePlayerRight(level);
+        tick();
     }
 
     public static void moveLeft() {

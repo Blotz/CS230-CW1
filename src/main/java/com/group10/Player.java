@@ -37,6 +37,11 @@ public class Player extends MoveableEntity {
 
     public int getY() {return this.y;}
 
+    public void move(int[] newPos) { // Need better method
+        this.x = newPos[0];
+        this.y = newPos[1];
+    }
+
     public void movePlayerRight(Level level) {
         int[] newC = this.moveRight(level, this.x, this.y);
        this.x = newC[0];
