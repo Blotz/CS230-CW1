@@ -3,128 +3,168 @@ package com.group10;
 import java.util.Objects;
 import java.util.Random;
 
-/*
- TODO: If the Smart Thief goes over loot it should be picked up.
-       Once all the loot is picked up the Smart Thief should go to
-       the exit.
-       Smart Thief should not go through players, bombs or other NPCs.
- */
-public class SmartThief extends MoveableEntity {
-    private int x;
-    private int y;
-    private int MAX_DEPTH = 5;
-    private Direction direction;
 
-    public SmartThief(int x, int y, Direction direction) {
-        this.x = x;
-        this.y = y;
-        this.direction = direction;
+public class SmartThief extends MoveableEntity {
+    private static final int MAX_DEPTH = 5;
+    private Direction direction = Direction.UP;
+
+    public SmartThief() {
     }
+
     public int[] move(Level level) {
-        int depth = findClosestLoot(level, x, y, 0);
-        if (depth >= MAX_DEPTH) {
-            return randomMove(level);
-        } else {
-            switch (direction) {
-                case UP:
-                    return moveUp(level, x ,y);
-                case DOWN:
-                    return moveDown(level, x, y);
-                case LEFT:
-                    return moveLeft(level, x, y);
-                case RIGHT:
-                    return moveRight(level, x, y);
-            }
+        int[] pos = level.getEntityPosition(this);
+        int x = pos[0];
+        int y = pos[1];
+
+        // Is there loot on the map?
+        if (level.isLootOnMap()) {
+            int depth = findClosestLoot(level, x, y, 0);
+            return moveInDirection(level, x, y);
+        }
+        // Move towards exit
+        int depth = findClosestExit(level, x, y, 0);
+        return moveInDirection(level, x, y);
+
+    }
+
+    private int[] moveInDirection(Level level, int x, int y) {
+        switch (direction) {
+            case UP:
+                return moveUp(level, x, y);
+            case DOWN:
+                return moveDown(level, x, y);
+            case LEFT:
+                return moveLeft(level, x, y);
+            case RIGHT:
+                return moveRight(level, x, y);
         }
         return new int[]{x, y};
     }
 
-    private int[] randomMove(Level level) {
+    private int randomMove(int depth) {
         Random rand = new Random();
-        int randNum = rand.nextInt(3);
+        int randNum = rand.nextInt(4);
         if (randNum == 0) {
-            return moveUp(level, x, y);
+            this.direction = Direction.UP;
+            return depth;
         } else if (randNum == 1) {
-            return moveDown(level, x, y);
+            this.direction = Direction.DOWN;
+            return depth;
         } else if (randNum == 2) {
-            return moveLeft(level, x, y);
+            this.direction = Direction.LEFT;
+            return depth;
         } else {
-            return moveRight(level, x ,y);
+            this.direction = Direction.RIGHT;
+            return depth;
         }
     }
 
     private int findClosestLoot(Level level, int x, int y, int depth) {
-//        //Base case
-//        if (depth >= MAX_DEPTH) {
-//            return MAX_DEPTH;
-//        }
-//        int curDepth = MAX_DEPTH;
-//
-//        //Check left movement
-//        int[] leftMove = moveLeft(level, x, y);
-//        if (leftMove[0] != x || leftMove[1] != y) {
-//            //Left base case
-//            if (leftMove[0] == Level.isLoot && leftMove[1].isLoot) {
-//                direction = Direction.LEFT;
-//                return depth;
-//            } else {
-//                int newDepth = findClosestLoot(level, leftMove[0], leftMove[1], depth + 1);
-//                if (newDepth < curDepth) {
-//                    curDepth = newDepth;
-//                    direction = Direction.LEFT;
-//                }
-//            }
-//        }
-//        //Check right movement
-//        int[] rightMove = moveRight(level, x, y);
-//        if (rightMove[0] != x || rightMove[1] != y) {
-//            //Right base case
-//            if (rightMove[0] == Level.isLoot && rightMove[1].isLoot) {
-//                direction = Direction.RIGHT;
-//                return depth;
-//            } else {
-//                int newDepth = findClosestLoot(level, rightMove[0], rightMove[1], depth + 1);
-//                if (newDepth < curDepth) {
-//                    curDepth = newDepth;
-//                    direction = Direction.RIGHT;
-//                    return depth;
-//                }
-//            }
-//        }
-//        //Check up movement
-//        int[] upMove = moveUp(level, x, y);
-//        if (upMove[0] != x || upMove[1] != y) {
-//            //Up base case
-//            if (upMove[0] == Level.isLoot && upMove[1].isLoot) {
-//                direction = Direction.UP;
-//                return depth;
-//            } else {
-//                int newDepth = findClosestLoot(level, upMove[0], upMove[1], depth + 1);
-//                if (newDepth < curDepth) {
-//                    curDepth = newDepth;
-//                    direction = Direction.UP;
-//                    return depth;
-//                }
-//            }
-//        }
-//        //Check down movement
-//        int[] downMove = moveDown(level, x, y);
-//        if (downMove[0] != x || downMove[1] != y) {
-//            //Down base case
-//            if (downMove[0] == Level.isLoot && downMove[1].isLoot) {
-//                direction = Direction.DOWN;
-//                return depth;
-//            } else {
-//                int newDepth = findClosestLoot(level, downMove[0], downMove[1], depth + 1);
-//                if (newDepth < curDepth) {
-//                    curDepth = newDepth;
-//                    direction = Direction.DOWN;
-//                    return depth;
-//                }
-//            }
-//        }
-//        return MAX_DEPTH;
-        return 0;
+        //Base case
+        if (depth >= MAX_DEPTH) {
+            return MAX_DEPTH;
+        }
+        int leftDepth = MAX_DEPTH;
+        int rightDepth = MAX_DEPTH;
+        int upDepth = MAX_DEPTH;
+        int downDepth = MAX_DEPTH;
+
+
+        int[] left = moveLeft(level, x, y);
+        if (level.getEntity(left[0], left[1]) instanceof Loot) {
+            direction = Direction.LEFT;
+            return depth;
+        } else if (level.getEntity(left[0], left[1]) == null) {
+            leftDepth = findClosestLoot(level, left[0], left[1], depth + 1);
+        }
+        int[] right = moveRight(level, x, y);
+        if (level.getEntity(right[0], right[1]) instanceof Loot) {
+            direction = Direction.RIGHT;
+            return depth;
+        } else if (level.getEntity(right[0], right[1]) == null) {
+            rightDepth = findClosestLoot(level, right[0], right[1], depth + 1);
+        }
+        int[] up = moveUp(level, x, y);
+        if (level.getEntity(up[0], up[1]) instanceof Loot) {
+            direction = Direction.UP;
+            return depth;
+        } else if (level.getEntity(up[0], up[1]) == null) {
+            upDepth = findClosestLoot(level, up[0], up[1], depth + 1);
+        }
+        int[] down = moveDown(level, x, y);
+        if (level.getEntity(down[0], down[1]) instanceof Loot) {
+            direction = Direction.DOWN;
+            return depth;
+        } else if (level.getEntity(down[0], down[1]) == null) {
+            downDepth = findClosestLoot(level, down[0], down[1], depth + 1);
+        }
+
+        // set direction to closest loot
+        return findClosest(depth, leftDepth, rightDepth, upDepth, downDepth);
+    }
+
+    private int findClosestExit(Level level, int x, int y, int depth) {
+        //Base case
+        if (depth >= MAX_DEPTH) {
+            return MAX_DEPTH;
+        }
+        int leftDepth = MAX_DEPTH;
+        int rightDepth = MAX_DEPTH;
+        int upDepth = MAX_DEPTH;
+        int downDepth = MAX_DEPTH;
+
+
+        int[] left = moveLeft(level, x, y);
+        if (level.getEntity(left[0], left[1]) instanceof Exit) {
+            direction = Direction.LEFT;
+            return depth;
+        } else if (level.getEntity(left[0], left[1]) == null) {
+            leftDepth = findClosestLoot(level, left[0], left[1], depth + 1);
+        }
+        int[] right = moveRight(level, x, y);
+        if (level.getEntity(right[0], right[1]) instanceof Exit) {
+            direction = Direction.RIGHT;
+            return depth;
+        } else if (level.getEntity(right[0], right[1]) == null) {
+            rightDepth = findClosestLoot(level, right[0], right[1], depth + 1);
+        }
+        int[] up = moveUp(level, x, y);
+        if (level.getEntity(up[0], up[1]) instanceof Exit) {
+            direction = Direction.UP;
+            return depth;
+        } else if (level.getEntity(up[0], up[1]) == null) {
+            upDepth = findClosestLoot(level, up[0], up[1], depth + 1);
+        }
+        int[] down = moveDown(level, x, y);
+        if (level.getEntity(down[0], down[1]) instanceof Exit) {
+            direction = Direction.DOWN;
+            return depth;
+        } else if (level.getEntity(down[0], down[1]) == null) {
+            downDepth = findClosestLoot(level, down[0], down[1], depth + 1);
+        }
+
+        // set direction to closest loot
+        return findClosest(depth, leftDepth, rightDepth, upDepth, downDepth);
+    }
+
+    private int findClosest(int depth, int leftDepth, int rightDepth, int upDepth, int downDepth) {
+        if (leftDepth < rightDepth && leftDepth < upDepth && leftDepth < downDepth) {
+            direction = Direction.LEFT;
+            return leftDepth;
+        }
+        if (rightDepth < leftDepth && rightDepth < upDepth && rightDepth < downDepth) {
+            direction = Direction.RIGHT;
+            return rightDepth;
+        }
+        if (upDepth < leftDepth && upDepth < rightDepth && upDepth < downDepth) {
+            direction = Direction.UP;
+            return upDepth;
+        }
+        if (downDepth < leftDepth && downDepth < rightDepth && downDepth < upDepth) {
+            direction = Direction.DOWN;
+            return downDepth;
+        }
+        return randomMove(depth);
     }
 
     @Override
@@ -132,11 +172,11 @@ public class SmartThief extends MoveableEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SmartThief that = (SmartThief) o;
-        return x == that.x && y == that.y && MAX_DEPTH == that.MAX_DEPTH && direction == that.direction;
+        return direction == that.direction;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, MAX_DEPTH, direction);
+        return Objects.hash(direction);
     }
 }

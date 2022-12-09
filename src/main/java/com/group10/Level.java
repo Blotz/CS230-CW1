@@ -165,7 +165,7 @@ public class Level {
                 case "FloorFollowingThief":
                     direction = stringToDirection(creature.next());
                     color = charToColor(creature.next().charAt(0));
-                    FloorFollowingThief floorFollowingThief = new FloorFollowingThief(direction, color); // TODO: Fix this
+                    FloorFollowingThief floorFollowingThief = new FloorFollowingThief(direction, color);
                     entityMap[creatureY][creatureX] = floorFollowingThief;
                     npcs.add(floorFollowingThief);
                     break;
@@ -176,7 +176,7 @@ public class Level {
                     npcs.add(fa);  // Add npc to list for later use
                     break;
                 case "SmartThief":
-                    SmartThief smartThief = new SmartThief(creatureX, creatureY, Direction.RIGHT); // TODO: Fix this
+                    SmartThief smartThief = new SmartThief();
                     entityMap[creatureY][creatureX] = smartThief;
                     npcs.add(smartThief);
                     break;
@@ -230,6 +230,17 @@ public class Level {
             default:
                 throw new IllegalArgumentException(String.format(INVALID_DIRECTION, s));
         }
+    }
+
+    public boolean isLootOnMap() {
+        for (int i = 0; i < MAX_HEIGHT; i++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
+                if (entityMap[i][j] instanceof Loot) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     public int getTime() {
         return time;
