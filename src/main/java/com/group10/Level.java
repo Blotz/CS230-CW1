@@ -218,7 +218,7 @@ public class Level {
         }
     }
     private static Direction stringToDirection(String s) {
-        switch (s.toLowerCase()) {>>
+        switch (s.toLowerCase()) {
             case "up":
                 return Direction.UP;
             case "down":
