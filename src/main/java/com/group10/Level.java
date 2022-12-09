@@ -238,6 +238,6 @@ public class Level {
     public void moveEntity(int oldX, int oldY, int newX, int newY) {
         Entity temp = entityMap[oldY][oldX];
         entityMap[oldY][oldX] = entityMap[newY][newX];
-        entityMap[newY][oldX] = temp;
+        entityMap[newY][newX] = temp;
     }
 }
