@@ -5,14 +5,10 @@ public abstract class Loot extends PickUp{
 
     private String gemName;
     int value;
-    int xpos;
-    int ypos;
     
 
-    public Loot(String gem, int xpos, int ypos){
+    public Loot(String gem){
         gemName = gem;
-        this.xpos = xpos;
-        this.ypos = ypos;
         switch (gem) {
             case "Cent":
                 value = 5;

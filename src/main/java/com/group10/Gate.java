@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Gate implements Entity {
     private boolean isOpen;
-    private char[] colour;
+    private Color[] colour;
 
-    public Gate(char[] gateColour) {
+    public Gate(Color[] gateColour) {
         isOpen = false;
         colour = gateColour;
     }
@@ -19,7 +19,7 @@ public class Gate implements Entity {
         return isOpen = true;
     }
 
-    public char[] getColour() {
+    public Color[] getColour() {
         return colour;
     }
 }

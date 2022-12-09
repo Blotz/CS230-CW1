@@ -1,7 +1,6 @@
 package com.group10;
 
 import java.util.Objects;
-import static com.group10.MoveableEntity.Direction.RIGHT;
 
 
 /*TODO: If the Flying Assassin collides with the player, the player should loose
@@ -10,12 +9,11 @@ import static com.group10.MoveableEntity.Direction.RIGHT;
 public class FlyingAssassin extends MoveableEntity{
     private int x;
     private int y;
-    private Direction direction = RIGHT;
+    private Direction direction;
                                           // changed to make it work for now, cannot create direction from level
-    public FlyingAssassin(int x, int y) {  //public FlyingAssassin(int x, int y, Direction direction) {
-        this.x = x;
-        this.y = y;
-      //  this.direction = direction;
+    public FlyingAssassin(Direction direction) {  //public FlyingAssassin(int x, int y, Direction direction) {
+        this.direction = direction;
+        int[] pos = {0, 0};
     }
 
     public int[] move(Level level) {
@@ -33,7 +31,7 @@ public class FlyingAssassin extends MoveableEntity{
     }
 
     private int[] moveHorizontal(Level level) {
-        if (direction == RIGHT) {
+        if (direction == Direction.RIGHT) {
             if (x < level.MAX_WIDTH) {
                 return moveRight(level, x, y);
             } else {
@@ -44,7 +42,7 @@ public class FlyingAssassin extends MoveableEntity{
             if (x > 0) {
                 return moveLeft(level, x, y);
             } else {
-                direction = RIGHT;
+                direction = Direction.RIGHT;
                 return moveRight(level, x, y);
             }
         }

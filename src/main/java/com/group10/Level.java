@@ -3,6 +3,7 @@ package com.group10;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class Level {
     // Final because we won't want to change the size of these arrays
     private final Tile[][] map;
     private final Entity[][] entityMap;
+    private ArrayList<MoveableEntity> npcs = new ArrayList<MoveableEntity>();
     private int time;
     public final int MAX_HEIGHT;
     public final int MAX_WIDTH;
@@ -31,6 +33,8 @@ public class Level {
     private static final String ENTITY_POSITION_FORMAT_ERROR = "Entity position should be in format '(x,y)'";
     private static final String ENTITY_NOT_FOUND_ERROR = "Entity not found inside Entity Map";
     private static final String INVALID_ENTITY_NAME = "Entity name %s doesnt match any Classes";
+    private static final String INVALID_COLOR = "Invalid color %s";
+    private static final String INVALID_DIRECTION = "Invalid direction %s";
   
     
     public Level(String levelPath) throws FileNotFoundException {
@@ -74,7 +78,12 @@ public class Level {
                     if (tileColors.length() != 4) {
                         throw new IllegalArgumentException(INVALID_TILE_STRING);
                     }
-                    map[i][j] = new Tile(tileColors.charAt(0), tileColors.charAt(1), tileColors.charAt(2), tileColors.charAt(3));
+                    
+                    map[i][j] = new Tile(
+                      charToColor(tileColors.charAt(0)),
+                      charToColor(tileColors.charAt(1)),
+                      charToColor(tileColors.charAt(2)),
+                      charToColor(tileColors.charAt(3)));
                 }
             } catch (NoSuchElementException e) {  // Catch too little columns
                 throw new IllegalArgumentException(TOO_FEW_COLUMNS);
@@ -86,8 +95,6 @@ public class Level {
             }
             row.close();
         }
-    
-
         
         // Parse at least one entity
         while (in.hasNext()) {
@@ -114,9 +121,6 @@ public class Level {
             } catch (NoSuchElementException e) {
                 throw new IllegalArgumentException(ENTITY_FORMAT_ERROR);
             }
-            if (creature.hasNext()) {
-                throw new IllegalArgumentException(ENTITY_FORMAT_ERROR);
-            }
     
             creaturePos = creaturePos.substring(1, creaturePos.length() - 1);  // Trim starting and trailing "(" ")"
             Scanner creaturePosParser = new Scanner(creaturePos).useDelimiter(",");
@@ -136,20 +140,34 @@ public class Level {
             creaturePosParser.close();
             
             // Save entity to map
+            Direction direction;
+            Color color;
             switch (creatureName) {
-                case "Gate":
-                    Gate entity = new Gate(new char[] {'R'});
-                    entityMap[creatureY][creatureX] = (Entity) entity;
-                    break;
                 case "Player":
                     Player player = new Player();
-                    entityMap[creatureY][creatureX] = (Player) player;
+                    entityMap[creatureY][creatureX] = player;
                     break;
                 case "FloorFollowingThief":
+                    direction = stringToDirection(creature.next());
+                    color = charToColor(creature.next().charAt(0));
+                    FloorFollowingThief floorFollowingThief = new FloorFollowingThief(direction, color); // TODO: Fix this
+                    entityMap[creatureY][creatureX] = floorFollowingThief;
+                    npcs.add(floorFollowingThief);
                     break;
                 case "FlyingAssassin":
-                    FlyingAssassin fa = new FlyingAssassin(creatureX,creatureY);
-                    entityMap[creatureY][creatureX] = (FlyingAssassin) fa;
+                    direction = stringToDirection(creature.next());
+                    FlyingAssassin fa = new FlyingAssassin(direction);
+                    entityMap[creatureY][creatureX] = fa;
+                    npcs.add(fa);  // Add npc to list for later use
+                    break;
+                case "SmartThief":
+                    SmartThief smartThief = new SmartThief(creatureX, creatureY, 10, Direction.RIGHT); // TODO: Fix this
+                    entityMap[creatureY][creatureX] = smartThief;
+                    npcs.add(smartThief);
+                    break;
+                case "Exit":
+                    Exit exit = new Exit();
+                    entityMap[creatureY][creatureX] = exit;
                     break;
                 case "Ruby":
                    // Loot ruby = new Loot(creatureX,creatureY,10);
@@ -169,11 +187,43 @@ public class Level {
         }
     }
     
+    private static Color charToColor(char c) {
+        switch (Character.toLowerCase(c)) {
+            case 'r':
+                return Color.RED;
+            case 'g':
+                return Color.GREEN;
+            case 'b':
+                return Color.BLUE;
+            case 'y':
+                return Color.YELLOW;
+            case 'c':
+                return Color.CYAN;
+            case 'm':
+                return Color.MAGENTA;
+            default:
+                throw new IllegalArgumentException(String.format(INVALID_COLOR, c));
+        }
+    }
+    private static Direction stringToDirection(String s) {
+        switch (s.toLowerCase()) {
+            case "up":
+                return Direction.UP;
+            case "down":
+                return Direction.DOWN;
+            case "left":
+                return Direction.LEFT;
+            case "right":
+                return Direction.RIGHT;
+            default:
+                throw new IllegalArgumentException(String.format(INVALID_DIRECTION, s));
+        }
+    }
     public int getTime() {
         return time;
     }
     
-    public char[] getEntityTileColor(Entity entity) {
+    public Color[] getEntityTileColor(Entity entity) {
         int[] pos = getEntityPosition(entity);
         return getTileColor(pos[0], pos[1]);
     }
@@ -208,17 +258,16 @@ public class Level {
         throw new RuntimeException("Player not found");
     }
     
-    public char[] getTileColorEntity(Entity entity) {
-        char[] colours = null;
+    public Color[] getTileColorEntity(Entity entity) {
         for (int row = 0; row < entityMap.length; row++) {
             for (int col = 0; col < entityMap[row].length; col++) {
                 Entity arrayEntity = entityMap[row][col];
                 if (entity.equals(arrayEntity)) {
-                    colours = map[row][col].getColors();
+                    return map[row][col].getColors();
                 }
             }
         }
-        return colours;
+        return null;
     }
     
     /**
@@ -227,7 +276,7 @@ public class Level {
      * @param y the Y coordinate of a given tile
      * @return Char[] of max length 4
      */
-    public char[] getTileColor(Integer x, Integer y) {
+    public Color[] getTileColor(Integer x, Integer y) {
         return map[y][x].getColors();
     }
 

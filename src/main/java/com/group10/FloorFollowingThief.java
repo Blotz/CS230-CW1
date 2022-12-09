@@ -6,31 +6,28 @@ import java.util.Objects;
 TODO: Get FFT to pick up loot as it goes over it.
  */
 public class FloorFollowingThief extends MoveableEntity {
-    private int x;
-    private int y;
     private Direction initDirection;
     private Direction direction;
-    private char colour;
+    private final Color colour;
 
-    public FloorFollowingThief(int x, int y, Direction initDirection, char colour) {
-        this.x = x;
-        this.y = y;
+    public FloorFollowingThief(Direction initDirection, Color colour) {
         this.initDirection = initDirection;
         this.direction = initDirection;
         this.colour = colour;
     }
 
     public int[] move(Level level) {
-        int[] newPos = {x, y};
-        int[] upPos = moveUp(level,x , y);
-        int[] downPos = moveDown(level, x, y);
-        int[] leftPos = moveLeft(level, x, y);
-        int[] rightPos = moveRight(level, x, y);
+        int[] pos = level.getEntityPosition(this);
+        int[] upPos = moveUp(level, pos[0] , pos[1]);
+        int[] downPos = moveDown(level, pos[0], pos[1]);
+        int[] leftPos = moveLeft(level, pos[0], pos[1]);
+        int[] rightPos = moveRight(level, pos[0], pos[1]);
         //Need to do if FFT is initilised in diffrent directions
-        return moveClockwise(level, newPos, upPos, downPos, leftPos, rightPos);
+        return moveClockwise(level, pos, upPos, downPos, leftPos, rightPos);
     }
 
-    public int[] moveClockwise(Level level, int[] newPos, int[] upPos, int[] downPos, int[] leftPos, int[] rightPos) {
+    public int[] moveClockwise(Level level, int[] startingPos, int[] upPos, int[] downPos, int[] leftPos, int[] rightPos) {
+        int[] newPos = startingPos;
         switch (direction) {
             case RIGHT:
                 if (upPos != newPos) { //Most important to keep left hand rule.
@@ -93,10 +90,11 @@ public class FloorFollowingThief extends MoveableEntity {
                 }
                 return newPos;
         }
-        return new int[]{x, y}; //Return no move if it has all gone tits up
+        return startingPos; //Return no move if it has all gone tits up
     }
 
-    public int[] moveAntiClockwise(Level level, int[] newPos, int[] upPos, int[] downPos, int[] leftPos, int[] rightPos) {
+    public int[] moveAntiClockwise(Level level, int[] startingPos, int[] upPos, int[] downPos, int[] leftPos, int[] rightPos) {
+        int[] newPos = startingPos;
         //PLACEHOLDER CODE...
         switch (direction) {
             case RIGHT:
@@ -160,14 +158,14 @@ public class FloorFollowingThief extends MoveableEntity {
                 }
                 return newPos;
         }
-        return new int[]{x, y}; //Return no move if it has all gone tits up
+        return startingPos; //Return no move if it has all gone tits up
     }
 
     @Override
     public int[] moveRight(Level level, int x, int y) {
         if (x + 1 <= level.MAX_WIDTH) {
-            char[] colorsOnNewTile = level.getTileColor(x + 1, y);
-            for (char newColor : colorsOnNewTile) {
+            Color[] colorsOnNewTile = level.getTileColor(x + 1, y);
+            for (Color newColor : colorsOnNewTile) {
                 if (newColor == colour) {
                     return new int[]{x + 1, y};
                 }
@@ -179,8 +177,8 @@ public class FloorFollowingThief extends MoveableEntity {
     @Override
     public int[] moveLeft(Level level, int x, int y) {
         if (x - 1 >= 0) {
-            char[] colorsOnNewTile = level.getTileColor(x - 1, y);
-            for (char newColor : colorsOnNewTile) {
+            Color[] colorsOnNewTile = level.getTileColor(x - 1, y);
+            for (Color newColor : colorsOnNewTile) {
                 if (newColor == colour) {
                     return new int[]{x - 1, y};
                 }
@@ -192,8 +190,8 @@ public class FloorFollowingThief extends MoveableEntity {
     @Override
     public int[] moveDown(Level level, int x, int y) {
         if (y - 1 >= 0) {
-            char[] colorsOnNewTile = level.getTileColor(x, y - 1);
-            for (char newColor : colorsOnNewTile) {
+            Color[] colorsOnNewTile = level.getTileColor(x, y - 1);
+            for (Color newColor : colorsOnNewTile) {
                 if (newColor == colour) {
                     return new int[]{x, y - 1};
                 }
@@ -205,8 +203,8 @@ public class FloorFollowingThief extends MoveableEntity {
     @Override
     public int[] moveUp(Level level, int x, int y) {
         if (y + 1 <= level.MAX_HEIGHT) {
-            char[] colorsOnNewTile = level.getTileColor(x, y + 1);
-            for (char newColor : colorsOnNewTile) {
+            Color[] colorsOnNewTile = level.getTileColor(x, y + 1);
+            for (Color newColor : colorsOnNewTile) {
                 if (newColor == colour) {
                     return new int[]{x, y + 1};
                 }
@@ -214,17 +212,17 @@ public class FloorFollowingThief extends MoveableEntity {
         }
         return new int[]{x , y};
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FloorFollowingThief that = (FloorFollowingThief) o;
-        return x == that.x && y == that.y && colour == that.colour && direction == that.direction;
+        return initDirection == that.initDirection && direction == that.direction && colour == that.colour;
     }
-
+    
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, direction, colour);
+        return Objects.hash(initDirection, direction, colour);
     }
 }

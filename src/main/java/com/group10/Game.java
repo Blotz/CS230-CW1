@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
+import static com.group10.Color.RED;
+
 public class Game {
     private static Level level = null;
     private static Player player;
@@ -72,7 +74,7 @@ public class Game {
         // Draw the level
         for (int x = 0; x < level.MAX_WIDTH; x++) {
             for (int y = 0; y < level.MAX_HEIGHT; y++) {
-                Image[] colours = convertCharToImage(level.getTileColor(x,y));
+                Image[] colours = convertColorToImage(level.getTileColor(x,y));
                 
                 int graphX = x * GRID_SIZE;
                 int graphY = y * GRID_SIZE + GRID_SIZE / 2;
@@ -130,26 +132,26 @@ public class Game {
         // Redraw the level
         drawLevel();
     }
-    private static Image[] convertCharToImage(char[] tiles) {
+    private static Image[] convertColorToImage(Color[] tiles) {
         Image[] tileImages = new Image[4];
         for (int i = 0; i<4; i++){
             switch(tiles[i]){
-                case 'B':
+                case BLUE:
                     tileImages[i] = blueTile;
                     break;
-                case 'R':
+                case RED:
                     tileImages[i] = redTile;
                     break;
-                case 'Y':
+                case YELLOW:
                     tileImages[i] = yellowTile;
                     break;
-                case 'G':
+                case GREEN:
                     tileImages[i] = greenTile;
                     break;
-                case 'C':
+                case CYAN:
                     tileImages[i] = cyanTile;
                     break;
-                case 'M':
+                case MAGENTA:
                     tileImages[i] = magentaTile;
                     break;
                 default:
