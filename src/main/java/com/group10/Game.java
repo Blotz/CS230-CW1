@@ -17,6 +17,8 @@ import javafx.util.Duration;
 public class Game {
     private static Level level = null;
     private static Player player;
+
+    private static FlyingAssassin[] faArray;
     private static Scene scene;
     private static Timeline tickTimeline;
     private static final int GRID_SIZE = 50;
@@ -126,7 +128,7 @@ public class Game {
     
     private static void tick() {
         // Update the level
-        // level.update();
+        level.update();
         // Redraw the level
         drawLevel();
     }

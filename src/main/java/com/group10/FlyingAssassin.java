@@ -10,12 +10,12 @@ import static com.group10.MoveableEntity.Direction.RIGHT;
 public class FlyingAssassin extends MoveableEntity{
     private int x;
     private int y;
-    private Direction direction = RIGHT;
+    private Direction direction;
                                           // changed to make it work for now, cannot create direction from level
     public FlyingAssassin(int x, int y) {  //public FlyingAssassin(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
-      //  this.direction = direction;
+      this.direction = RIGHT;
     }
 
     public int[] move(Level level) {

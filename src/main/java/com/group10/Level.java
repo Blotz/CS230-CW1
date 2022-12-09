@@ -240,4 +240,17 @@ public class Level {
         entityMap[oldY][oldX] = entityMap[newY][newX];
         entityMap[newY][newX] = temp;
     }
+
+    public void update() {
+        for (int y=0; y<MAX_HEIGHT; y++) {
+            for (int x = 0; x < MAX_WIDTH; x++) {
+                if (entityMap[y][x] instanceof FlyingAssassin) {
+                     FlyingAssassin fa = (FlyingAssassin) entityMap[y][x];
+                    int[] pos = fa.move(this);
+                    moveEntity(x, y, pos[0], pos[1]);
+                }
+
+            }
+        }
+    }
 }
