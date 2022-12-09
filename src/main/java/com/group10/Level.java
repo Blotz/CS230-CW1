@@ -253,12 +253,13 @@ public class Level {
         }
         throw new IllegalArgumentException(ENTITY_NOT_FOUND_ERROR);
     }
-    
+
     public Entity getEntity(int x, int y) {
         return entityMap[y][x];
     }
-    public void setEntity(Entity e, int x, int y) {
-        entityMap[y][x] = e;
+
+    public void setEntity(Entity entity, int x, int y) {
+        entityMap[y][x] = entity;
     }
 
     public Tile getTile(int x, int y) {
