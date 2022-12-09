@@ -184,15 +184,12 @@ public class Level {
                     Exit exit = new Exit();
                     entityMap[creatureY][creatureX] = exit;
                     break;
+                case "Cent":
+                case "Dollar":
                 case "Ruby":
-                   // Loot ruby = new Loot(creatureX,creatureY,10);
-                   // entityMap[creatureY][creatureX] = ruby;
-                    break;
                 case "Diamond":
-                    //Loot Diamond = new Loot(creatureX,creatureY,20);
-                   // entityMap[creatureY][creatureX] =  Diamond;
-                    break;
-                case "Door":
+                    Loot loot = new Loot(creatureName);
+                    entityMap[creatureY][creatureX] = loot;
                     break;
                 case "Clock":
                     break;
@@ -261,7 +258,6 @@ public class Level {
     public void setEntity(Entity entity, int x, int y) {
         entityMap[y][x] = entity;
     }
-
     public Tile getTile(int x, int y) {
         return map[y][x];
     }
@@ -317,7 +313,6 @@ public class Level {
 
                 PickUp item = (PickUp) targetEntity;
                 item.onInteract(movingEntity, this);
-
                 // TODO: BOMBA logic
 
                 // move
