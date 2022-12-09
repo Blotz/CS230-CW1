@@ -95,13 +95,15 @@ public class Menu {
             System.out.println(filename);
             // Create a button which points to that level
             // Add the button to the grid
-    
-            Button button = new Button(filename);
-            button.setOnAction(e -> {
-                String levelPath = "level/" + filename;
-                loadLevel(levelPath);
-            });
-            grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT , i / MAX_COLS_OF_LEVEL_SELECT);
+            int levelNum = Integer.parseInt(filename.replaceAll("[\\D]", ""));
+            if (userProfile.getMaxLevel() >= levelNum) {
+                Button button = new Button(filename);
+                button.setOnAction(e -> {
+                    String levelPath = "level/" + filename;
+                    loadLevel(levelPath);
+                });
+                grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT, i / MAX_COLS_OF_LEVEL_SELECT);
+            }
         }
         Main.changeScene(scene);
     }
