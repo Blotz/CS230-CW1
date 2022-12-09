@@ -33,7 +33,6 @@ public class ProfileHandler {
             try {
                 String playerName = profileInfo.next();
                 int maxLevel = profileInfo.nextInt();
-                System.out.println(playerName + "," + maxLevel);
                 profiles.add(new Profile(playerName, maxLevel));
             } catch (NoSuchElementException e) {
                 throw new IllegalArgumentException(INCORRECT_NAME_AND_LEVEL);

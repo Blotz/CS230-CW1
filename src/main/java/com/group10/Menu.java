@@ -37,10 +37,7 @@ public class Menu {
     @FXML
     public void createProfileMenu(ActionEvent event) {
         System.out.println("Create Profile");
-        Scene scene = Main.getScene("GUI/createProfileMenu.fxml");
-        Parent root = scene.getRoot();
-        GridPane grid = (GridPane) root.lookup("#grid");
-        Main.changeScene(scene);
+        Main.changeScene(Main.getScene("GUI/createProfileMenu.fxml"));
     }
 
     @FXML
