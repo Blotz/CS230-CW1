@@ -248,6 +248,14 @@ public class Level {
                      FlyingAssassin fa = (FlyingAssassin) entityMap[y][x];
                     int[] pos = fa.move(this);
                     moveEntity(x, y, pos[0], pos[1]);
+                } else if (entityMap[y][x] instanceof FloorFollowingThief) {
+                    FloorFollowingThief fft = (FloorFollowingThief) entityMap[y][x];
+                    int[] pos = fft.move(this);
+                    moveEntity(x, y, pos[0], pos[1]);
+                } else if (entityMap[y][x] instanceof SmartThief) {
+                    SmartThief st = (SmartThief) entityMap[y][x];
+                    int[] pos = st.move(this);
+                    moveEntity(x, y, pos[0], pos[1]);
                 }
 
             }
