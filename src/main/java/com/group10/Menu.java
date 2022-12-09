@@ -19,6 +19,7 @@ public class Menu {
     private TextField playerName;
 
     private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
+    private static final int MAX_COLS_OF_PROFILE_SELECT = 5;
     
     public static void mainMenu() {
         Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
@@ -57,7 +58,7 @@ public class Menu {
     @FXML
     public void selectProfile(ActionEvent event) {
         System.out.println("Select Profile");
-        Scene scene = Main.getScene("GUI/levelSelect.fxml");
+        Scene scene = Main.getScene("GUI/selectProfile.fxml");
         Parent root = scene.getRoot();
         // Find the grid
         GridPane grid = (GridPane) root.lookup("#grid");
@@ -71,7 +72,7 @@ public class Menu {
                 userProfile = profiles.get(finalI);
                 mainMenu();
             });
-            grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT , i / MAX_COLS_OF_LEVEL_SELECT);
+            grid.add(button, i % MAX_COLS_OF_PROFILE_SELECT , i / MAX_COLS_OF_PROFILE_SELECT);
         }
     }
 
