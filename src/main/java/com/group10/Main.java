@@ -24,7 +24,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		Main.stage = primaryStage;
-		Menu.mainMenu();
+		Menu.profileMenu();
 	}
 	
 	public static Stage getStage() {

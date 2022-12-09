@@ -11,13 +11,14 @@ different class but I need somewhere to put the code for now.
  */
 public class ProfileHandler {
     private ArrayList<Profile> profiles;
-    private static String PROFILES_PATH;
 
+    private static final String PROFILES_PATH = "src/main/resources/com/group10/profiles.txt";
     private static final String FILE_NOT_FOUND = " didn't resolve to a file";
     private static final String INCORRECT_NAME_AND_LEVEL = " Incorrect file format, should be in: profileName|maxLevel";
 
-    public ProfileHandler(String profilesPath) throws FileNotFoundException {
-        PROFILES_PATH = profilesPath;
+    public ProfileHandler() throws FileNotFoundException {
+        profiles = new ArrayList<Profile>();
+        String profilesPath = "profiles.txt";
         // Load file from resources path
         InputStream file = ProfileHandler.class.getResourceAsStream(profilesPath);
         // If the path is invalid, throw an error!
@@ -26,12 +27,13 @@ public class ProfileHandler {
         }
         Scanner in = new Scanner(file);
         while (in.hasNextLine()) {
-            String profileInfoString = in.next();
-            Scanner profileInfo = new Scanner(profileInfoString).useDelimiter("|");
+            String profileInfoString = in.nextLine();
+            Scanner profileInfo = new Scanner(profileInfoString).useDelimiter(",");
             // If file format is incorrect, throw an error
             try {
                 String playerName = profileInfo.next();
                 int maxLevel = profileInfo.nextInt();
+                System.out.println(playerName + "," + maxLevel);
                 profiles.add(new Profile(playerName, maxLevel));
             } catch (NoSuchElementException e) {
                 throw new IllegalArgumentException(INCORRECT_NAME_AND_LEVEL);
@@ -53,9 +55,10 @@ public class ProfileHandler {
         profiles.add(newProfile);
         //Code to write the new profile to profiles.txt
         try {
-            FileWriter myWriter = new FileWriter(PROFILES_PATH);
-            myWriter.write(playerName + "|" + "1");
-            myWriter.close();
+            OutputStream os = new FileOutputStream(PROFILES_PATH, true);
+            String data = playerName + "," + "1" + "\n";
+            os.write(data.getBytes(), 0, data.length());
+            os.close();
             System.out.println("New profile created!");
         } catch (IOException e) {
             System.out.println("An error occurred");
