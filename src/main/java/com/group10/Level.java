@@ -339,7 +339,7 @@ public class Level {
     }
 
 
-    public void moveEntity(int oldX, int oldY, int newX, int newY) {
+    public void moveEntity(int oldX,  int oldY, int newX, int newY) {
         Entity movingEntity = entityMap[oldY][oldX];
         Entity targetEntity = entityMap[newY][newX];
         // Lovely. just working on all the move interactions. ive decided to jsut code it here
