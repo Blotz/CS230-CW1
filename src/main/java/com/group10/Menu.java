@@ -56,7 +56,23 @@ public class Menu {
 
     @FXML
     public void selectProfile(ActionEvent event) {
+        System.out.println("Select Profile");
+        Scene scene = Main.getScene("GUI/levelSelect.fxml");
+        Parent root = scene.getRoot();
+        // Find the grid
+        GridPane grid = (GridPane) root.lookup("#grid");
+        Main.changeScene(scene);
 
+        ArrayList<Profile> profiles = profileHandler.selectProfiles();
+        for (int i = 0; i <profiles.size(); i++) {
+            Button button = new Button(profiles.get(i).getPlayerName());
+            int finalI = i;
+            button.setOnAction(e -> {
+                userProfile = profiles.get(finalI);
+                mainMenu();
+            });
+            grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT , i / MAX_COLS_OF_LEVEL_SELECT);
+        }
     }
 
     @FXML
