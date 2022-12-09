@@ -34,6 +34,8 @@ public class Level {
     private int time;
     public final int MAX_HEIGHT;
     public final int MAX_WIDTH;
+    private boolean gameOver = false;
+    private boolean win = false;
     
     private static final String FILE_NOT_FOUND = " didn't resolve to a file";
     private static final String NO_WIDTH_HEIGHT = "Please include height and width at the top of the file";
@@ -50,7 +52,7 @@ public class Level {
     private static final String INVALID_ENTITY_NAME = "Entity name %s doesnt match any Classes";
     private static final String INVALID_COLOR = "Invalid color %s";
     private static final String INVALID_DIRECTION = "Invalid direction %s";
-  
+
     
     public Level(String levelPath) throws FileNotFoundException {
         
@@ -242,6 +244,18 @@ public class Level {
         }
         return false;
     }
+
+    public boolean isSwitchOnMap() {
+        for (int i = 0; i < MAX_HEIGHT; i++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
+                if (entityMap[i][j] instanceof Switch) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public int getTime() {
         return time;
     }
@@ -310,6 +324,21 @@ public class Level {
         return entityMap[y][x];
     }
 
+    public void setWin(boolean win) {
+        this.win = win;
+    }
+
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+    public boolean getGameOver() {
+        return gameOver;
+    }
+    public boolean getWin() {
+        return win;
+    }
+
+
     public void moveEntity(int oldX, int oldY, int newX, int newY) {
         Entity movingEntity = entityMap[oldY][oldX];
         Entity targetEntity = entityMap[newY][newX];
@@ -318,7 +347,14 @@ public class Level {
         if (movingEntity instanceof Player) {
             if (targetEntity instanceof Exit) {
                 // Winn condidtion
-                // TOOD: Add win condition
+                if (!isLootOnMap() && !isSwitchOnMap()) {
+                    setGameOver(true);
+                    setWin(true);
+                    // move
+                    entityMap[newY][newX] = movingEntity;
+                    entityMap[oldY][oldX] = null;
+                }
+
             } else if (targetEntity instanceof PickUp) {
 
                 PickUp item = (PickUp) targetEntity;
@@ -330,7 +366,12 @@ public class Level {
                 entityMap[oldY][oldX] = null;
             }
         } else if (movingEntity instanceof SmartThief) {
-            if (targetEntity instanceof Loot) {
+            if (targetEntity instanceof Exit) {
+                if (!isLootOnMap() && !isSwitchOnMap()) {
+                    setGameOver(true);
+                    setWin(false);
+                }
+            }else if (targetEntity instanceof Loot) {
                 // move
                 entityMap[newY][newX] = movingEntity;
                 entityMap[oldY][oldX] = null;
