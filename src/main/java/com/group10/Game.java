@@ -12,6 +12,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import static com.group10.Color.RED;
@@ -160,14 +161,12 @@ public class Game {
         if (level.getGameOver()) {
             tickTimeline.stop();
             if (level.getWin()) {
-                System.out.println("winner");
-//                Main.changeScene(Main.getScene("GUI/win.fxml"));
+                scoreText();
+                return;
             } else {
-                System.out.println("loser");
-//                Main.changeScene(Main.getScene("GUI/lose.fxml"));
+                 Main.changeScene(Main.getScene("GUI/lossScreen.fxml"));
+                 return;
             }
-            // Go to main
-            Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
         }
         // Redraw the level
         drawLevel();
@@ -280,6 +279,14 @@ public class Game {
         System.out.println("Stopping ticks");
         // Stop the ticks
         tickTimeline.stop();
+    }
+
+    private static void scoreText(){
+        Scene scene = Main.getScene("GUI/WinScreen.fxml");
+        Parent root = scene.getRoot();
+        Text score = (Text) root.lookup(".score");
+        score.setText(String.format("%s", player.getScore()));
+        Main.changeScene(scene);
     }
     
 }
