@@ -27,7 +27,14 @@ public class Game {
     private static Image flyassImage;
     private static Image smartthiefImage;
     private static Image floorthiefImage;
+
     private static Image exitImage;
+
+    private static Image rubyImage;
+    private static Image diamondImage;
+    private static Image dollarImage;
+    private static Image centImage;
+
     private static Image dirtImage;
     private static Image redTile;
     private static Image greenTile;
@@ -52,6 +59,11 @@ public class Game {
         floorthiefImage = new Image(Game.class.getResource("images/entity/floorfollowingthief.png").toString());
 
         exitImage = new Image(Game.class.getResource("images/entity/exit.png").toString());
+
+        rubyImage = new Image(Game.class.getResource("images/entity/ruby.png").toString());
+        diamondImage = new Image(Game.class.getResource("images/entity/diamond.png").toString());
+        dollarImage = new Image(Game.class.getResource("images/entity/dollar.png").toString());
+        centImage = new Image(Game.class.getResource("images/entity/cent.png").toString());
 
         dirtImage = new Image(Game.class.getResource("images/dirt.png").toString());
         redTile = new Image(Game.class.getResource("images/red.png").toString());
@@ -123,6 +135,22 @@ public class Game {
              gc.drawImage(floorthiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (entity instanceof Exit) {
              gc.drawImage(exitImage, x * GRID_SIZE, y * GRID_SIZE);
+        } else if (entity instanceof Loot) {
+            String gemName = ((Loot) entity).getGemName();
+            switch (gemName) {
+                case "Ruby":
+                    gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
+                    break;
+                case "Diamond":
+                    gc.drawImage(diamondImage, x * GRID_SIZE, y * GRID_SIZE);
+                    break;
+                case "Dollar":
+                    gc.drawImage(dollarImage, x * GRID_SIZE, y * GRID_SIZE);
+                    break;
+                case "Cent":
+                    gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
+                    break;
+            }
         }
     }
     

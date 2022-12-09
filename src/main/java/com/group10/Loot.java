@@ -1,7 +1,7 @@
 package com.group10;
 
 
-public abstract class Loot extends PickUp{
+public class Loot extends PickUp{
 
     private String gemName;
     int value;
@@ -34,7 +34,6 @@ public abstract class Loot extends PickUp{
             Player player = (Player) entity;
             player.setScore(player.getScore() + value);
         }
-    
         int[] pos = level.getEntityPosition(this);
         level.setEntity(null, pos[0], pos[1]);
     }
