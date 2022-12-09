@@ -1,5 +1,4 @@
-
-import com.group10.Level;
+package com.group10;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 

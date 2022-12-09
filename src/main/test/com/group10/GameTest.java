@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TileTest {
-    
+class GameTest {
     @Test
-    void Tile() {
-        Tile tile = new Tile(Color.RED,Color.RED,Color.RED,Color.RED);
+    void newGame () {
+//        Game game = new Game();
     }
+
 }

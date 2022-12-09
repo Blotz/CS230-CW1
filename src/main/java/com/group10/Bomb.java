@@ -48,4 +48,3 @@ public class Bomb extends Interaction {
             }
 
 
-

@@ -1,33 +1,42 @@
 package com.group10;
 
+
 public abstract class Loot extends PickUp{
 
     private String gemName;
+    int value;
+    
 
     public Loot(String gem){
         gemName = gem;
+        switch (gem) {
+            case "Cent":
+                value = 5;
+                break;
+            case "Dollar":
+                value = 10;
+                break;
+            case "Ruby":
+                value = 15;
+                break;
+            case "Diamond":
+                value = 20;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid gem name");
+        }
+        
     }
 
     @Override
-    public void onInteract(Level level) {
-    }
-
-    public void lootInteract(Loot loot, Player player) {
-        if (loot.getGemName() == "Cent") {
-            player.setScore(player.getScore() + 5);
+    public void onInteract(Entity entity, Level level) {
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            player.setScore(player.getScore() + value);
         }
-        else if (loot.getGemName() == "Dollar"){
-            player.setScore(player.getScore() + 10);
-        }
-        else if (loot.getGemName() == "Ruby"){
-            player.setScore(player.getScore() + 15);
-        }
-        else if (loot.getGemName() == "Diamond"){
-            player.setScore(player.getScore() + 20);
-        }
-        else {
-            System.out.println("This is an invalid loot name");
-        }
+    
+        int[] pos = level.getEntityPosition(this);
+        level.setEntity(null, pos[0], pos[1]);
     }
 
     public String getGemName() {

@@ -1,11 +1,10 @@
 package com.group10;
 
-public class Interaction extends PickUp {
-
+public abstract class Interaction extends PickUp {
     private int duration;
 
     @Override
-    public void onInteract(Level l){
+    public void onInteract(Entity player, Level lvl){
     }
 
     public void effect(){
