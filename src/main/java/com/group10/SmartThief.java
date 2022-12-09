@@ -12,13 +12,12 @@ import java.util.Random;
 public class SmartThief extends MoveableEntity {
     private int x;
     private int y;
-    private int MAX_DEPTH;
+    private int MAX_DEPTH = 5;
     private Direction direction;
 
-    public SmartThief(int x, int y, int MAX_DEPTH, Direction direction) {
+    public SmartThief(int x, int y, Direction direction) {
         this.x = x;
         this.y = y;
-        this.MAX_DEPTH = MAX_DEPTH;
         this.direction = direction;
     }
     public int[] move(Level level) {

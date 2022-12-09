@@ -4,8 +4,8 @@ BBBB GGGM MMMM GRRR BBBB
 BBBB GGGG MMMM RRBB BBBB
 BBBB BBBB BBBB BBBB BBBB
 (0,1) Player
-(0,3) FlyingAssassin
-(3,4) FloorFollowingThief
+(0,2) FlyingAssassin left
+(3,3) FloorFollowingThief up b
 (0,2) Ruby
 (1,4) Diamond
 (3,0) Clock

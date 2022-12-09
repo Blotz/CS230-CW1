@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Switch extends PickUp {
 
     private ArrayList<Gate> gates = new ArrayList<>();
-    private char[] colour;
+    private Color[] colour;
 
-    public Switch (char[] col) {
+    public Switch (Color[] col) {
         this.colour = col;
     }
 
@@ -21,7 +21,11 @@ public class Switch extends PickUp {
         }
     }
 
-    private char[] getColour (){
+    public void onInteract(Entity entity, Level level) {
+        switchInteract(this);
+    }
+
+    private Color[] getColour (){
         return this.colour;
     }
 }
