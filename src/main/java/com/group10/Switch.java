@@ -21,6 +21,10 @@ public class Switch extends PickUp {
         }
     }
 
+    public void onInteract(Entity entity, Level level) {
+        switchInteract(this);
+    }
+
     private Color[] getColour (){
         return this.colour;
     }

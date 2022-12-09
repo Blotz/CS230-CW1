@@ -16,6 +16,21 @@ public class Level {
     private final Tile[][] map;
     private final Entity[][] entityMap;
     private ArrayList<MoveableEntity> npcs = new ArrayList<MoveableEntity>();
+    /*
+    right so this is the new npcs arraylist
+    basically its conna contain all the npcs and let us easily access them
+
+    in the update code we can loop though this arraylist and call their respective move code
+
+    im gonna be workin ongetting Exit working!
+    yeah i saw, looks gd
+    there are also  a couple other changes
+    there is a new file called Color and file called Direction
+    they are both enums which lets us standardise what a direction is  and all posible colours
+    ive already changed the code to use them
+    #bangin
+
+     */
     private int time;
     public final int MAX_HEIGHT;
     public final int MAX_WIDTH;
@@ -161,7 +176,7 @@ public class Level {
                     npcs.add(fa);  // Add npc to list for later use
                     break;
                 case "SmartThief":
-                    SmartThief smartThief = new SmartThief(creatureX, creatureY, 10, Direction.RIGHT); // TODO: Fix this
+                    SmartThief smartThief = new SmartThief(creatureX, creatureY, Direction.RIGHT); // TODO: Fix this
                     entityMap[creatureY][creatureX] = smartThief;
                     npcs.add(smartThief);
                     break;
@@ -242,6 +257,10 @@ public class Level {
     public Entity getEntity(int x, int y) {
         return entityMap[y][x];
     }
+    public void setEntity(Entity e, int x, int y) {
+        entityMap[y][x] = e;
+    }
+
     public Tile getTile(int x, int y) {
         return map[y][x];
     }
@@ -285,8 +304,65 @@ public class Level {
     }
 
     public void moveEntity(int oldX, int oldY, int newX, int newY) {
-        Entity temp = entityMap[oldY][oldX];
-        entityMap[oldY][oldX] = entityMap[newY][newX];
-        entityMap[newY][newX] = temp;
+        Entity movingEntity = entityMap[oldY][oldX];
+        Entity targetEntity = entityMap[newY][newX];
+        // Lovely. just working on all the move interactions. ive decided to jsut code it here
+
+        if (movingEntity instanceof Player) {
+            if (targetEntity instanceof Exit) {
+                // Winn condidtion
+                // TOOD: Add win condition
+            } else if (targetEntity instanceof PickUp) {
+
+                PickUp item = (PickUp) targetEntity;
+                item.onInteract(movingEntity, this);
+
+                // TODO: BOMBA logic
+
+                // move
+                entityMap[newY][newX] = movingEntity;
+                entityMap[oldY][oldX] = null;
+            }
+        } else if (movingEntity instanceof SmartThief) {
+            if (targetEntity instanceof Loot) {
+                // move
+                entityMap[newY][newX] = movingEntity;
+                entityMap[oldY][oldX] = null;
+            }
+        }
+        if (targetEntity != null) {
+            // Trying to move into Entity
+            // dont move
+            return;
+        }
+        // move
+        entityMap[newY][newX] = movingEntity;
+        entityMap[oldY][oldX] = targetEntity;
+    }
+
+
+    public void update() {
+        for(Entity entity : npcs) {
+            if (entity instanceof FlyingAssassin) {
+                FlyingAssassin flyingAssassin = (FlyingAssassin) entity;
+                int[] oldPos = getEntityPosition(flyingAssassin);
+                int[] newPos = flyingAssassin.move(this);
+
+                moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
+            } else if (entity instanceof SmartThief) {
+                SmartThief smartThief = (SmartThief) entity;
+                int[] oldPos = getEntityPosition(smartThief);
+                int[] newPos = smartThief.move(this);
+
+                moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
+            } else if (entity instanceof FloorFollowingThief) {
+                FloorFollowingThief floorFollowingThief = (FloorFollowingThief) entity;
+                int[] oldPos = getEntityPosition(floorFollowingThief);
+                int[] newPos = floorFollowingThief.move(this);
+
+                moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
+            }
+        }
+
     }
 }

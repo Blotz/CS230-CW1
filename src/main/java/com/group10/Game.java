@@ -27,6 +27,7 @@ public class Game {
     private static Image flyassImage;
     private static Image smartthiefImage;
     private static Image floorthiefImage;
+    private static Image exitImage;
     private static Image dirtImage;
     private static Image redTile;
     private static Image greenTile;
@@ -49,6 +50,9 @@ public class Game {
         flyassImage = new Image(Game.class.getResource("images/entity/flyingassassin.png").toString());
         smartthiefImage = new Image(Game.class.getResource("images/entity/smartthief.png").toString());
         floorthiefImage = new Image(Game.class.getResource("images/entity/floorfollowingthief.png").toString());
+
+        exitImage = new Image(Game.class.getResource("images/entity/exit.png").toString());
+
         dirtImage = new Image(Game.class.getResource("images/dirt.png").toString());
         redTile = new Image(Game.class.getResource("images/red.png").toString());
         greenTile = new Image(Game.class.getResource("images/green.png").toString());
@@ -108,31 +112,23 @@ public class Game {
         if (entity == null) {
             return;
         }
-        if (Player.class.isInstance(entity)) {
+
+        if (entity instanceof Player) {
             gc.drawImage(playerImage, x * GRID_SIZE, y * GRID_SIZE);
-        } else if (FlyingAssassin.class.isInstance(entity)) {
+        } else if (entity instanceof FlyingAssassin) {
             gc.drawImage(flyassImage, x * GRID_SIZE, y * GRID_SIZE);
-        } else if (SmartThief.class.isInstance(entity)) {
+        } else if (entity instanceof SmartThief) {
              gc.drawImage(smartthiefImage, x * GRID_SIZE, y * GRID_SIZE);
-        } else if (FloorFollowingThief.class.isInstance(entity)) {
+        } else if (entity instanceof FloorFollowingThief) {
              gc.drawImage(floorthiefImage, x * GRID_SIZE, y * GRID_SIZE);
-        } else if (Gate.class.isInstance(entity)) {
-            // gc.drawImage(gateImage, x * GRID_SIZE, y * GRID_SIZE);
-        } else if (Loot.class.isInstance(entity)) {
-            Loot loot = (Loot) entity;
-            if (loot.value == 10) {
-                // gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
-            } else if (loot.value == 20) {
-                // gc.drawImage(emeraldImage, x * GRID_SIZE, y * GRID_SIZE);
-            }
+        } else if (entity instanceof Exit) {
+             gc.drawImage(exitImage, x * GRID_SIZE, y * GRID_SIZE);
         }
-        
-        
     }
     
     private static void tick() {
         // Update the level
-        // level.update();
+         level.update(); // that was commented out
         // Redraw the level
         drawLevel();
     }
@@ -191,39 +187,34 @@ public class Game {
     }
     
     private static void moveRight() {
-        int x = player.getX(level);
-        int y = player.getY(level);
-        int[] pos = player.moveRight(level, x, y);
-        level.moveEntity(x, y, pos[0], pos[1]);
+        int[] oldPos = level.getEntityPosition(player);
+        int[] newPos = player.moveRight(level,oldPos[0], oldPos[1]);
+        level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
     private static void moveLeft() {
-        int x = player.getX(level);
-        int y = player.getY(level);
-        int[] pos = player.moveLeft(level, x, y);
-        level.moveEntity(x, y, pos[0], pos[1]);
+        int[] oldPos = level.getEntityPosition(player);
+        int[] newPos = player.moveLeft(level,oldPos[0], oldPos[1]);
+        level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
     private static void moveUp() {
-        int x = player.getX(level);
-        int y = player.getY(level);
-        int[] pos = player.moveUp(level, x, y);
-        level.moveEntity(x, y, pos[0], pos[1]);
+        int[] oldPos = level.getEntityPosition(player);
+        int[] newPos = player.moveUp(level,oldPos[0], oldPos[1]);
+        level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
     private static void moveDown() {
-        int x = player.getX(level);
-        int y = player.getY(level);
-        int[] pos = player.moveDown(level, x, y);
-        level.moveEntity(x, y, pos[0], pos[1]);
+        int[] oldPos = level.getEntityPosition(player);
+        int[] newPos = player.moveDown(level,oldPos[0], oldPos[1]);
+        level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
     
     @FXML
     public void resetPlayerLocation(ActionEvent event) {
         System.out.println("Resetting player location");
         // Reset the player location
-        int x = player.getX(level);
-        int y = player.getY(level);
+        int[] oldPos = level.getEntityPosition(player);
         int[] start = {0, 0};
     
-        level.moveEntity(x, y, start[0], start[1]);
+        level.moveEntity(oldPos[0], oldPos[1], start[0], start[1]);
         drawLevel();
     }
     
@@ -231,9 +222,9 @@ public class Game {
     public void movePlayerCenter(ActionEvent event) {
         System.out.println("Move player to center");
         // Move the player to the center of the level
-        int x = player.getX(level);
-        int y = player.getY(level);
-        level.moveEntity(x, y, level.MAX_WIDTH / 2, level.MAX_HEIGHT / 2);
+        int[] oldPos = level.getEntityPosition(player);
+
+        level.moveEntity(oldPos[0], oldPos[1], level.MAX_WIDTH / 2, level.MAX_HEIGHT / 2);
         drawLevel();
     }
     

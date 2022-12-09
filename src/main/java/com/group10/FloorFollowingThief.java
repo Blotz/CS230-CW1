@@ -18,161 +18,55 @@ public class FloorFollowingThief extends MoveableEntity {
 
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
-        int[] upPos = moveUp(level, pos[0] , pos[1]);
-        int[] downPos = moveDown(level, pos[0], pos[1]);
-        int[] leftPos = moveLeft(level, pos[0], pos[1]);
-        int[] rightPos = moveRight(level, pos[0], pos[1]);
-        //Need to do if FFT is initilised in diffrent directions
-        return moveClockwise(level, pos, upPos, downPos, leftPos, rightPos);
+        int[] newPos;
+
+        // Turn left?
+        newPos = switch (direction) {
+            case UP -> moveLeft(level, pos[0], pos[1]);
+            case DOWN -> moveRight(level, pos[0], pos[1]);
+            case LEFT -> moveDown(level, pos[0], pos[1]);
+            case RIGHT -> moveUp(level, pos[0], pos[1]);
+        };
+
+        if (newPos[0] != pos[0] || newPos[1] != pos[1]) {
+            direction = switch (direction) {
+                case UP -> Direction.LEFT;
+                case DOWN -> Direction.RIGHT;
+                case LEFT -> Direction.DOWN;
+                case RIGHT -> Direction.UP;
+            };
+            return newPos;
+        }
+        // Move forward?
+        newPos = switch (direction) {
+            case UP -> moveUp(level, pos[0], pos[1]);
+            case DOWN -> moveDown(level, pos[0], pos[1]);
+            case LEFT -> moveLeft(level, pos[0], pos[1]);
+            case RIGHT -> moveRight(level, pos[0], pos[1]);
+        };
+        if (newPos[0] != pos[0] || newPos[1] != pos[1]) {
+            return newPos;
+        }
+        // Turn right!
+        this.direction = switch (direction) {
+            case UP -> Direction.RIGHT;
+            case DOWN -> Direction.LEFT;
+            case LEFT -> Direction.UP;
+            case RIGHT -> Direction.DOWN;
+        };
+        newPos = switch (direction) {
+            case UP -> moveUp(level, pos[0], pos[1]);
+            case DOWN -> moveDown(level, pos[0], pos[1]);
+            case LEFT -> moveLeft(level, pos[0], pos[1]);
+            case RIGHT -> moveRight(level, pos[0], pos[1]);
+        };
+//        System.out.println("direction: " + direction);
+//        System.out.println("old pos: " + pos[0] + ", " + pos[1]);
+//        System.out.println("newPos: " + newPos[0] + ", " + newPos[1]);
+        return newPos;
     }
 
-    public int[] moveClockwise(Level level, int[] startingPos, int[] upPos, int[] downPos, int[] leftPos, int[] rightPos) {
-        int[] newPos = startingPos;
-        switch (direction) {
-            case RIGHT:
-                if (upPos != newPos) { //Most important to keep left hand rule.
-                    newPos = upPos;
-                    direction = Direction.UP;
-                } else if (rightPos != newPos) { //Next most important to move straight
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                } else if (downPos != newPos) { //Next most important to move round corners or obstacles
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                } else { //Final move if a reverse is needed
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                }
-                return newPos;
-            case LEFT:
-                if (downPos != newPos) {
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                } else if (leftPos != newPos) {
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                } else if (upPos != newPos) {
-                    newPos = upPos;
-                    direction = Direction.UP;
-                } else {
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                }
-                return newPos;
-            case UP:
-                if (leftPos != newPos) {
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                } else if (upPos != newPos) {
-                    newPos = upPos;
-                    direction = Direction.UP;
-                } else if (rightPos != newPos) {
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                } else {
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                }
-                return newPos;
-            case DOWN:
-                if (rightPos != newPos) {
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                } else if (downPos != newPos) {
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                } else if (leftPos != newPos) {
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                } else {
-                    newPos = upPos;
-                    direction = Direction.UP;
-                }
-                return newPos;
-        }
-        return startingPos; //Return no move if it has all gone tits up
-    }
 
-    public int[] moveAntiClockwise(Level level, int[] startingPos, int[] upPos, int[] downPos, int[] leftPos, int[] rightPos) {
-        int[] newPos = startingPos;
-        //PLACEHOLDER CODE...
-        switch (direction) {
-            case RIGHT:
-                if (upPos != newPos) { //Most important to keep left hand rule.
-                    newPos = upPos;
-                    direction = Direction.UP;
-                } else if (rightPos != newPos) { //Next most important to move straight
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                } else if (downPos != newPos) { //Next most important to move round corners or obstacles
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                } else { //Final move if a reverse is needed
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                }
-                return newPos;
-            case LEFT:
-                if (downPos != newPos) {
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                } else if (leftPos != newPos) {
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                } else if (upPos != newPos) {
-                    newPos = upPos;
-                    direction = Direction.UP;
-                } else {
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                }
-                return newPos;
-            case UP:
-                if (leftPos != newPos) {
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                } else if (upPos != newPos) {
-                    newPos = upPos;
-                    direction = Direction.UP;
-                } else if (rightPos != newPos) {
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                } else {
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                }
-                return newPos;
-            case DOWN:
-                if (rightPos != newPos) {
-                    newPos = rightPos;
-                    direction = Direction.RIGHT;
-                } else if (downPos != newPos) {
-                    newPos = downPos;
-                    direction = Direction.DOWN;
-                } else if (leftPos != newPos) {
-                    newPos = leftPos;
-                    direction = Direction.LEFT;
-                } else {
-                    newPos = upPos;
-                    direction = Direction.UP;
-                }
-                return newPos;
-        }
-        return startingPos; //Return no move if it has all gone tits up
-    }
-
-    @Override
-    public int[] moveRight(Level level, int x, int y) {
-        if (x + 1 <= level.MAX_WIDTH) {
-            Color[] colorsOnNewTile = level.getTileColor(x + 1, y);
-            for (Color newColor : colorsOnNewTile) {
-                if (newColor == colour) {
-                    return new int[]{x + 1, y};
-                }
-            }
-        }
-        return new int[]{x , y};
-    }
 
     @Override
     public int[] moveLeft(Level level, int x, int y) {
@@ -189,6 +83,19 @@ public class FloorFollowingThief extends MoveableEntity {
 
     @Override
     public int[] moveDown(Level level, int x, int y) {
+        if (y + 1 < level.MAX_HEIGHT) {
+            Color[] colorsOnNewTile = level.getTileColor(x, y + 1);
+            for (Color newColor : colorsOnNewTile) {
+                if (newColor == colour) {
+                    return new int[]{x, y + 1};
+                }
+            }
+        }
+        return new int[]{x , y};
+    }
+
+    @Override
+    public int[] moveUp(Level level, int x, int y) {
         if (y - 1 >= 0) {
             Color[] colorsOnNewTile = level.getTileColor(x, y - 1);
             for (Color newColor : colorsOnNewTile) {
@@ -201,12 +108,12 @@ public class FloorFollowingThief extends MoveableEntity {
     }
 
     @Override
-    public int[] moveUp(Level level, int x, int y) {
-        if (y + 1 <= level.MAX_HEIGHT) {
-            Color[] colorsOnNewTile = level.getTileColor(x, y + 1);
+    public int[] moveRight(Level level, int x, int y) {
+        if (x + 1 < level.MAX_WIDTH) {
+            Color[] colorsOnNewTile = level.getTileColor(x + 1, y);
             for (Color newColor : colorsOnNewTile) {
                 if (newColor == colour) {
-                    return new int[]{x, y + 1};
+                    return new int[]{x + 1, y};
                 }
             }
         }

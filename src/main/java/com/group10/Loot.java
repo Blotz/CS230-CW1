@@ -29,10 +29,14 @@ public abstract class Loot extends PickUp{
     }
 
     @Override
-    public void onInteract(Player p, Level lvl, int currX, int currY) {
-        Loot loot = (Loot) lvl.getEntity(currX, currY);
+    public void onInteract(Entity entity, Level level) {
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            player.setScore(player.getScore() + value);
+        }
     
-        p.setScore(p.getScore() + value);
+        int[] pos = level.getEntityPosition(this);
+        level.setEntity(null, pos[0], pos[1]);
     }
 
     public String getGemName() {
