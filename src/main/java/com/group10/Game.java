@@ -157,6 +157,18 @@ public class Game {
     private static void tick() {
         // Update the level
          level.update(); // that was commented out
+        if (level.getGameOver()) {
+            tickTimeline.stop();
+            if (level.getWin()) {
+                System.out.println("winner");
+//                Main.changeScene(Main.getScene("GUI/win.fxml"));
+            } else {
+                System.out.println("loser");
+//                Main.changeScene(Main.getScene("GUI/lose.fxml"));
+            }
+            // Go to main
+            Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
+        }
         // Redraw the level
         drawLevel();
     }
