@@ -4,9 +4,9 @@ public class Profile {
     private String playerName;
     private int maxLevel;
 
-    public Profile(String playerName) {
+    public Profile(String playerName, int maxLevel) {
         this.playerName = playerName;
-        maxLevel = 1;
+        this.maxLevel = maxLevel;
     }
 
     public int getMaxLevel() {
