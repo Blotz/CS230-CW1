@@ -25,6 +25,8 @@ public class Game {
     
     private static Image playerImage;
     private static Image flyassImage;
+    private static Image smartthiefImage;
+    private static Image floorthiefImage;
     private static Image dirtImage;
     private static Image redTile;
     private static Image greenTile;
@@ -43,8 +45,10 @@ public class Game {
         Game.tickTimeline.setCycleCount(Animation.INDEFINITE);
         
         // Load images
-        playerImage = new Image(Game.class.getResource("images/newplayer.png").toString());
-        flyassImage = new Image(Game.class.getResource("images/flyingassassin.png").toString());
+        playerImage = new Image(Game.class.getResource("images/entity/player.png").toString());
+        flyassImage = new Image(Game.class.getResource("images/entity/flyingassassin.png").toString());
+        smartthiefImage = new Image(Game.class.getResource("images/entity/smartthief.png").toString());
+        floorthiefImage = new Image(Game.class.getResource("images/entity/floorfollowingthief.png").toString());
         dirtImage = new Image(Game.class.getResource("images/dirt.png").toString());
         redTile = new Image(Game.class.getResource("images/red.png").toString());
         greenTile = new Image(Game.class.getResource("images/green.png").toString());
@@ -109,9 +113,9 @@ public class Game {
         } else if (FlyingAssassin.class.isInstance(entity)) {
             gc.drawImage(flyassImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (SmartThief.class.isInstance(entity)) {
-            // gc.drawImage(smartThiefImage, x * GRID_SIZE, y * GRID_SIZE);
+             gc.drawImage(smartthiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (FloorFollowingThief.class.isInstance(entity)) {
-            // gc.drawImage(floorThiefImage, x * GRID_SIZE, y * GRID_SIZE);
+             gc.drawImage(floorthiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (Gate.class.isInstance(entity)) {
             // gc.drawImage(gateImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (Loot.class.isInstance(entity)) {
