@@ -34,6 +34,8 @@ public class Menu {
         Profile.loadProfile(playerName.getText());
         System.out.println("Profile loaded");
         System.out.println(Profile.getMaxLevel());
+        System.out.println("Current level saved");
+        System.out.println(Profile.getLevel());
         
         mainMenu();
     }

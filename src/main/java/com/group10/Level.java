@@ -269,7 +269,7 @@ public class Level {
                 }
             }
         }
-        levelString += time;
+        levelString += time + "\n";
         return levelString;
     }
     
