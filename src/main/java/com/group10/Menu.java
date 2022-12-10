@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +22,18 @@ public class Menu {
     private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
     
     public static void mainMenu() {
-        Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
+        Scene scene = Main.getScene("GUI/mainMenu.fxml");
+        Parent root = scene.getRoot();
+        
+        if (!Profile.getLevel().equals("")) {
+            System.out.println("Level: " + Profile.getLevel());
+            Button loadLevelButton = (Button) root.lookup("#levelLoadButton");
+    
+            // Make visible
+            loadLevelButton.setVisible(true);
+        }
+        
+        Main.changeScene(scene);
     }
 
     public static void profileMenu() {
@@ -34,12 +46,20 @@ public class Menu {
         Profile.loadProfile(playerName.getText());
         System.out.println("Profile loaded");
         System.out.println(Profile.getMaxLevel());
-        System.out.println("Current level saved");
-        System.out.println(Profile.getLevel());
         
         mainMenu();
     }
 
+    @FXML void loadLevel(ActionEvent event) {
+        System.out.println("Loading level: " + Profile.getLevel());
+        String[] levelString = Profile.getLevel().split("\n", 2);
+        System.out.println(Arrays.toString(levelString));
+        int levelNumber = Integer.parseInt(levelString[0]);
+        String levelData = levelString[1];
+        Level level = new Level(levelData, levelNumber);
+        Game.setLevel(level);
+        Game.start();
+    }
     @FXML
     public void levelSelect(ActionEvent event) {
         System.out.println("Level Select");
