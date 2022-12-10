@@ -54,6 +54,7 @@ public class Level {
     private static final String INVALID_ENTITY_NAME = "Entity name %s doesnt match any Classes";
     private static final String INVALID_COLOR = "Invalid color %s";
     private static final String INVALID_DIRECTION = "Invalid direction %s";
+    private static final String ENTITY_FORMAT = "(%d,%d) %s%n";
 
     
     public Level(String levelData, int levelNumber) {
@@ -157,7 +158,8 @@ public class Level {
             Color color;
             switch (creatureName) {
                 case "Player":
-                    Player player = new Player();
+                    int score = creature.nextInt();
+                    Player player = new Player(score);
                     entityMap[creatureY][creatureX] = player;
                     break;
                 case "FloorFollowingThief":
@@ -214,10 +216,34 @@ public class Level {
         return levelString;
     }
     
+    public String saveLevel() {
+        String levelString = "";
+        levelString += String.valueOf(getLevelNumber()) + "\n";
+        levelString += MAX_HEIGHT + " " + MAX_WIDTH + "\n";
+        
+        for (int i = 0; i < MAX_HEIGHT; i++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
+                levelString += map[i][j].toString();
+                if (j != MAX_WIDTH - 1) {
+                    levelString += " ";
+                }
+            }
+            levelString += "\n";
+        }
+        for (int i = 0; i < MAX_HEIGHT; i++) {
+            for (int j = 0; j < MAX_WIDTH; j++) {
+                if (entityMap[i][j] != null) {
+                    levelString += String.format(ENTITY_FORMAT, j, i, entityMap[i][j].toString());
+                }
+            }
+        }
+        levelString += time;
+        return levelString;
+    }
+    
     public int getLevelNumber() {
         return levelNumber;
     }
-    
     private static Color charToColor(char c) {
         switch (Character.toLowerCase(c)) {
             case 'r':
@@ -236,18 +262,50 @@ public class Level {
                 throw new IllegalArgumentException(String.format(INVALID_COLOR, c));
         }
     }
+    public static char colorToChar(Color c) {
+        switch (c) {
+            case RED:
+                return 'R';
+            case BLUE:
+                return 'B';
+            case GREEN:
+                return 'G';
+            case YELLOW:
+                return 'Y';
+            case MAGENTA:
+                return 'M';
+            case CYAN:
+                return 'C';
+            default:
+                    throw new IllegalArgumentException(String.format(INVALID_COLOR, c));
+        }
+    }
     private static Direction stringToDirection(String s) {
-        switch (s.toLowerCase()) {
-            case "up":
+        switch (s.toUpperCase()) {
+            case "UP":
                 return Direction.UP;
-            case "down":
+            case "DOWN":
                 return Direction.DOWN;
-            case "left":
+            case "LEFT":
                 return Direction.LEFT;
-            case "right":
+            case "RIGHT":
                 return Direction.RIGHT;
             default:
                 throw new IllegalArgumentException(String.format(INVALID_DIRECTION, s));
+        }
+    }
+    public static String directionToString(Direction d) {
+        switch (d) {
+            case UP:
+                return "UP";
+            case DOWN:
+                return "DOWN";
+            case LEFT:
+                return "LEFT";
+            case RIGHT:
+                return "RIGHT";
+            default:
+                throw new IllegalArgumentException(String.format(INVALID_DIRECTION, d));
         }
     }
 

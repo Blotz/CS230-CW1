@@ -6,9 +6,19 @@ public class Switch extends PickUp {
 
     private ArrayList<Gate> gates = new ArrayList<>();
     private Color[] colour;
+    private static final String FORMAT = "Switch %s";
 
     public Switch (Color[] col) {
         this.colour = col;
+    }
+    
+    @Override
+    public String toString() {
+        String switchColour = "";
+        for (Color c : colour) {
+            switchColour += Level.colorToChar(c);
+        }
+        return String.format(FORMAT, switchColour);
     }
 
     public void switchInteract (Switch sw){

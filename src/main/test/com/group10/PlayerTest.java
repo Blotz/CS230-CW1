@@ -8,7 +8,7 @@ class PlayerTest {
     
     @Test
     void score() {
-        Player player = new Player();
+        Player player = new Player(0);
         assertEquals(0, player.getScore());
         player.setScore(1);
         assertEquals(1, player.getScore());

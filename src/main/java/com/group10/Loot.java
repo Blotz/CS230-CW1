@@ -6,7 +6,8 @@ public class Loot extends PickUp{
     private String gemName;
     int value;
     
-
+    private static final String FORMAT = "Loot %s";
+    
     public Loot(String gem){
         gemName = gem;
         switch (gem) {
@@ -25,9 +26,13 @@ public class Loot extends PickUp{
             default:
                 throw new IllegalArgumentException("Invalid gem name");
         }
-        
     }
-
+    
+    @Override
+    public String toString() {
+        return String.format(FORMAT, gemName);
+    }
+    
     @Override
     public void onInteract(Entity entity, Level level) {
         if (entity instanceof Player) {
