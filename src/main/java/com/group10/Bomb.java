@@ -1,50 +1,63 @@
 package com.group10;
 
 public class Bomb extends Interaction {
-    private int timer = 3;
-    private boolean isExploded = false;
+    private int currTimer;
+    private boolean timerBegun = false;
     private int tempX = 0;
     private int tempY = 0;
 
-    public void explosion(Level level, int bombX, int bombY) {
+    public void explosion(Level level) {
+
+        // Collects the y : [0] and x : [1] for the bomb position
+        int[] bombPos = level.getEntityPosition(this);
+
         for (int i = tempX; i < level.MAX_HEIGHT; i++) {
-            if (level.getEntity(i, bombY) != null) {
-                Entity e = (level.getEntity(i, bombX));
+            if (level.getEntity(i, bombPos[0]) != null) {
+                Entity e = (level.getEntity(i, bombPos[0]));
 
                 //Change to Door not switch just place holder.
                 boolean val = e instanceof Switch;
                 boolean val2 = e instanceof Gate;
                 if (val != true && val2 != true) {
-                    level.setEntity(null, tempX, bombY);
+                    level.setEntity(null, tempX, bombPos[0]);
                 }
             }
         }
         for (int p = tempY; p < level.MAX_WIDTH; p++) {
-            if (level.getEntity(p, bombX) != null) {
-                Entity c = (level.getEntity(p, bombY));
+            if (level.getEntity(p, bombPos[0]) != null) {
+                Entity c = (level.getEntity(p, bombPos[1]));
 
                 //Change to Door not switch just place holder.
                 boolean val3 = c instanceof Switch;
                 boolean val4 = c instanceof Gate;
                 if (val3 != true && val4 != true) {
-                    level.setEntity(null, tempX, bombY);
+                    level.setEntity(null, bombPos[1], tempY);
 
                 }
             }
         }
+
+        // Sets the bombs timer state to false, so it can't keep getting referenced
+        timerBegun = false;
     }
 
-                public void bombStart(Entity entity){
-                    for (int i = timer; i > 0; i--) {
-                        if (i == 0) {
-                            isExploded = true;
-                        }
-                        else if (entity.equals(null)){
-                            isExploded = true;
-                        }
+    // add bomb to npc array in level. Check if explosion is true. UPDATE function updates every tick
+    public void startBomb(int timer) {
 
-                    }
-                }
-            }
+        currTimer = timer;
+        timerBegun = true;
+    }
 
+    public boolean hasTimerBegun() {
+        return timerBegun;
+    }
+
+    public int getTimer() {
+        return currTimer;
+    }
+
+    public int countdownTimer(int countdownValue) {
+        return currTimer - countdownValue;
+    }
+}
 

@@ -366,6 +366,11 @@ public class Level {
     public int getTime() {
         return time;
     }
+
+    public int setTime(int t) {
+        time = t;
+        return time;
+    }
     
     public Color[] getEntityTileColor(Entity entity) {
         int[] pos = getEntityPosition(entity);
@@ -466,8 +471,16 @@ public class Level {
             } else if (targetEntity instanceof PickUp) {
 
                 PickUp item = (PickUp) targetEntity;
-                item.onInteract(movingEntity, this);
-                // TODO: BOMBA logic
+
+                // Checks if item is bomb
+                if (item instanceof Bomb) {
+                    // Starts the timer for the bomb
+                    ((Bomb) item).startBomb(3);
+                }
+
+                if (item instanceof Clock) {
+                    ((Clock) item).onInteract(movingEntity, this);
+                }
 
                 // move
                 entityMap[newY][newX] = movingEntity;
@@ -517,7 +530,20 @@ public class Level {
 
                 moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
             }
-        }
 
+            // Bomb timer code
+            else if (entity instanceof Bomb) {
+                Bomb bomb = (Bomb) entity;
+                // If the bombs timer has already begun, then countdown
+                if (bomb.hasTimerBegun() == true) {
+                    if (bomb.getTimer() > 0) {
+                        bomb.countdownTimer(1);
+                    }
+                    else if (bomb.getTimer() == 0) {
+                        bomb.explosion(this);
+                    }
+                }
+            }
+        }
     }
 }
