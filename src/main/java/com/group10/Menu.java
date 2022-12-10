@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -62,7 +63,7 @@ public class Menu {
                 Button button = new Button(filename.replace(".txt", ""));
                 button.setOnAction(e -> {
                     String levelPath = "level/" + filename;
-                    loadLevel(levelPath);
+                    loadLevel(levelPath, levelNum);
                 });
                 grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT, i / MAX_COLS_OF_LEVEL_SELECT);
             }
@@ -70,16 +71,17 @@ public class Menu {
         Main.changeScene(scene);
     }
     
-    private static void loadLevel(String name) {
+    private static void loadLevel(String name, int levelNum) {
         System.out.println("Loading level: " + name);
         // Load the level
-        Level level;
+        String levelData;
         try {
-            level = new Level(name);
+            levelData = Level.loadLevel(name);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        System.err.println("Warning: level select isnt fully implemented. will only load level1");
+        Level level = new Level(levelData, levelNum);
+        
         // Load the game
         // Game.display(Main.getStage());
          Game.setLevel(level);
