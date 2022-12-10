@@ -5,27 +5,29 @@ import java.util.ArrayList;
 public class Switch extends PickUp {
 
     private ArrayList<Gate> gates = new ArrayList<>();
-    private Color[] colour;
+    private Color colour;
 
-    public Switch (Color[] col) {
+    public Switch (Color col) {
         this.colour = col;
     }
 
-    public void switchInteract (Switch sw){
-        for (int i = 0; i < gates.size(); i++){
-            if (sw.getColour() == gates.get(i).getColour()){
-                if (gates.get(i).getIsOpen() == false){
-                    gates.get(i).setIsOpen();
-                }
-            }
+    public void addGate(Gate gate) {
+        if (gate.getColour() == colour) {
+            gates.add(gate);
+        } else {
+            System.out.println("Switch is not the same color as the gate");
         }
     }
 
     public void onInteract(Entity entity, Level level) {
-        switchInteract(this);
+        if (entity instanceof Player) {
+            for (Gate g : gates) {
+                g.setOpen(level);
+            }
+        }
     }
 
-    private Color[] getColour (){
+    public Color getColour (){
         return this.colour;
     }
 }
