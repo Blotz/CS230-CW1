@@ -161,7 +161,7 @@ public class Game {
         if (level.getGameOver()) {
             tickTimeline.stop();
             if (level.getWin()) {
-                scoreText();
+                winScreen();
                 return;
             } else {
                  Main.changeScene(Main.getScene("GUI/lossScreen.fxml"));
@@ -281,11 +281,16 @@ public class Game {
         tickTimeline.stop();
     }
 
-    private static void scoreText(){
+    private static void winScreen(){
+        int levelNum = level.getLevelNumber() + 1;
+        Profile.updateProfile(levelNum);
+        int score = player.getScore();
+        // TODO: Update the score in the database
+        
         Scene scene = Main.getScene("GUI/WinScreen.fxml");
         Parent root = scene.getRoot();
-        Text score = (Text) root.lookup(".score");
-        score.setText(String.format("%s", player.getScore()));
+        Text scoreText = (Text) root.lookup(".score");
+        scoreText.setText(String.format("%s", score));
         Main.changeScene(scene);
     }
     
