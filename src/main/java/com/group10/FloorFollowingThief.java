@@ -9,13 +9,19 @@ public class FloorFollowingThief extends MoveableEntity {
     private Direction initDirection;
     private Direction direction;
     private final Color colour;
+    private static final String FORMAT = "FloorFollowingThief %s %s";
 
     public FloorFollowingThief(Direction initDirection, Color colour) {
         this.initDirection = initDirection;
         this.direction = initDirection;
         this.colour = colour;
     }
-
+    
+    @Override
+    public String toString() {
+        return String.format(FORMAT, Level.directionToString(initDirection), Level.colorToChar(colour));
+    }
+    
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;
@@ -65,9 +71,7 @@ public class FloorFollowingThief extends MoveableEntity {
 //        System.out.println("newPos: " + newPos[0] + ", " + newPos[1]);
         return newPos;
     }
-
-
-
+    
     @Override
     public int[] moveLeft(Level level, int x, int y) {
         if (x - 1 >= 0) {

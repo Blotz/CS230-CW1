@@ -8,11 +8,18 @@ import java.util.Objects;
 *  */
 public class FlyingAssassin extends MoveableEntity{
     private Direction direction;
+    
+    private static final String FORMAT = "FlyingAssassin %s";
                                           // changed to make it work for now, cannot create direction from level
     public FlyingAssassin(Direction direction) {  //public FlyingAssassin(int x, int y, Direction direction) {
         this.direction = direction;
     }
-
+    
+    @Override
+    public String toString() {
+        return String.format(FORMAT, Level.directionToString(direction));
+    }
+    
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;

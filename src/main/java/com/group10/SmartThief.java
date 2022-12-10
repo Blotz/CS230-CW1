@@ -8,7 +8,14 @@ public class SmartThief extends MoveableEntity {
     private static final int MAX_DEPTH = 5;
     private Direction direction = Direction.UP;
 
+    private static final String FORMAT = "SmartThief";
+    
     public SmartThief() {
+    }
+    
+    @Override
+    public String toString() {
+        return String.format(FORMAT);
     }
 
     public int[] move(Level level) {

@@ -5,8 +5,15 @@ import java.util.Objects;
 public class Exit implements Entity{
     private boolean isOpen;
     
+    private static final String FORMAT = "Exit";
+    
     public Exit() {
         isOpen = false;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format(FORMAT);
     }
     
     public boolean isOpen() {

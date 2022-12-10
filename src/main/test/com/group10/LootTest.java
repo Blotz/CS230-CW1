@@ -8,7 +8,7 @@ class LootTest {
     
     @Test
     void onInteract() {
-        Player player = new Player();
+        Player player = new Player(0);
 //        Loot loot = new Loot(100);
 //
 //        assertEquals(0, player.getScore());

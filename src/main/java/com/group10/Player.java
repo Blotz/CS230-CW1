@@ -5,7 +5,14 @@ import java.util.Objects;
 public class Player extends MoveableEntity {
     private int score = 0;
     
-    public Player() {
+    private static final String FORMAT = "Player %d";
+    public Player(int score) {
+        this.score = score;
+    }
+    
+    @Override
+    public String toString() {
+        return String.format(FORMAT, score);
     }
     
     public int getScore() {

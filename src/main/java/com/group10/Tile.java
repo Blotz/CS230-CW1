@@ -11,7 +11,11 @@ public class Tile {
     
     @Override
     public String toString() {
-        return String.valueOf(tiles[0]) + String.valueOf(tiles[1]) + String.valueOf(tiles[2]) + String.valueOf(tiles[3]);
+        String s = "";
+        for (Color c : tiles) {
+            s += Level.colorToChar(c);
+        }
+        return s;
     }
     
     public Color[] getColors() {
