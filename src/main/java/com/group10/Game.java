@@ -36,6 +36,10 @@ public class Game {
     private static Image dollarImage;
     private static Image centImage;
 
+    private static Image redGateImage;
+    private static Image blueGateImage;
+    private static Image greenGateImage;
+
     private static Image dirtImage;
     private static Image redTile;
     private static Image greenTile;
@@ -65,6 +69,10 @@ public class Game {
         diamondImage = new Image(Game.class.getResource("images/entity/diamond.png").toString());
         dollarImage = new Image(Game.class.getResource("images/entity/dollar.png").toString());
         centImage = new Image(Game.class.getResource("images/entity/cent.png").toString());
+
+        redGateImage = new Image(Game.class.getResource("images/entity/redGate.png").toString());
+        blueGateImage = new Image(Game.class.getResource("images/entity/blueGate.png").toString());
+        greenGateImage = new Image(Game.class.getResource("images/entity/greenGate.png").toString());
 
         dirtImage = new Image(Game.class.getResource("images/dirt.png").toString());
         redTile = new Image(Game.class.getResource("images/red.png").toString());
@@ -151,6 +159,13 @@ public class Game {
                 case "Cent":
                     gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
                     break;
+            }
+        } else if (entity instanceof Gate) {
+            Color gateColor = ((Gate) entity).getColour();
+            switch (gateColor) {
+                case RED -> gc.drawImage(redGateImage, x * GRID_SIZE, y * GRID_SIZE);
+                case GREEN -> gc.drawImage(greenGateImage, x * GRID_SIZE, y * GRID_SIZE);
+                case BLUE -> gc.drawImage(blueGateImage, x * GRID_SIZE, y * GRID_SIZE);
             }
         }
     }
