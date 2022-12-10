@@ -6,7 +6,7 @@ public class Loot extends PickUp{
     private String gemName;
     int value;
     
-    private static final String FORMAT = "Loot %s";
+    private static final String FORMAT = "%s";
     
     public Loot(String gem){
         gemName = gem;
