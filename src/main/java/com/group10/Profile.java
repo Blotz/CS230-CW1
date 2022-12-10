@@ -215,4 +215,8 @@ public class Profile {
     public static int getMaxLevel() {
         return maxLevel;
     }
+    
+    public static String getLevel() {
+        return currentLevel;
+    }
 }
