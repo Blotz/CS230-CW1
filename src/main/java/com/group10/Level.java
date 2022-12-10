@@ -16,6 +16,12 @@ public class Level {
     private final Tile[][] map;
     private final Entity[][] entityMap;
     private ArrayList<MoveableEntity> npcs = new ArrayList<MoveableEntity>();
+
+    /*
+    probably a better way to populate switches with the correct gates but
+    current file format does not specify which comes first so ive done it
+    in a method after file has been read.
+     */
     private ArrayList<Gate> gates = new ArrayList<Gate>();
     private ArrayList<Switch> switches = new ArrayList<Switch>();
     /*
