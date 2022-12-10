@@ -164,7 +164,7 @@ public class Game {
                 winScreen();
                 return;
             } else {
-                 Main.changeScene(Main.getScene("GUI/lossScreen.fxml"));
+                 Main.changeScene(Main.getScene("GUI/LossScreen.fxml"));
                  return;
             }
         }
@@ -282,10 +282,10 @@ public class Game {
     }
 
     private static void winScreen(){
-        int levelNum = level.getLevelNumber() + 1;
-        Profile.updateProfile(levelNum);
+        int levelNum = level.getLevelNumber();
+        Profile.updateProfile(levelNum + 1);
         int score = player.getScore();
-        // TODO: Update the score in the database
+        Highscores.addHighscore(Profile.getProfileName(), levelNum, score);
         
         Scene scene = Main.getScene("GUI/WinScreen.fxml");
         Parent root = scene.getRoot();

@@ -20,16 +20,16 @@ public class Highscores {
         }
         
         for (int i = 0; i < highscores.size(); i++) {
-            Scanner highscore = new Scanner(highscores.get(i));
-            highscore.useDelimiter(" ");
-            String oldProfileName = highscore.next();  // Throw away the name
-            int highscoreScore = highscore.nextInt();
+            String highscore = highscores.get(i);
+            String[] highscoreSplit = highscore.split("\"");
+            String oldProfileName = highscoreSplit[1];
+            int highscoreScore = Integer.parseInt(highscoreSplit[2].strip());
             if (score > highscoreScore) {
                 replaceHighscore(
                   profileName,
                   level,
                   score,
-                  String.format(HIGHSCORES_FORMAT, oldProfileName, level, highscoreScore)
+                  String.format(HIGHSCORES_FORMAT, oldProfileName, level, highscoreScore).strip()
                 );
                 break;
             }
@@ -47,14 +47,12 @@ public class Highscores {
         // Loop though and find the profile account
         while (in.hasNext()) {
             String highscore = in.nextLine();
-            if (highscore.equals(oldHighscore)) {
-                fileContents += String.format(HIGHSCORES_FORMAT, profileName, level, score);
-            } else {
-                fileContents += String.format(highscore);
+            if (!highscore.equals(oldHighscore)) {
+                fileContents += String.format(highscore + "%n");
             }
         }
         in.close();
-        
+        fileContents += String.format(HIGHSCORES_FORMAT, profileName, level, score);
         String path = Highscores.class.getResource(HIGHSCORES_PATH).getPath();
         // Write the file
         try {
@@ -89,13 +87,13 @@ public class Highscores {
         
         while (in.hasNext()) {
             String line = in.nextLine();
-            Scanner lineScanner = new Scanner(line);
-            lineScanner.useDelimiter(" ");
-            String profileName = lineScanner.next();
-            int level = lineScanner.nextInt();
-            int score = lineScanner.nextInt();
+            String[] lineSplit = line.split("\"");
+            String profileName = lineSplit[1];
+            Scanner scoreNum = new Scanner(lineSplit[2].strip()).useDelimiter(" ");
+            int level = scoreNum.nextInt();
+            int score = scoreNum.nextInt();
             if (level == targetLevel) {
-                highscores.add(String.format("%s %d", profileName, score));
+                highscores.add(String.format("\"%s\" %d", profileName, score));
             }
         }
         return highscores;
