@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Switch extends PickUp {
 
     private ArrayList<Gate> gates = new ArrayList<>();
-    private Color[] colour;
+    private Color colour;
     private static final String FORMAT = "Switch %s";
 
     public Switch (Color col) {
@@ -14,11 +14,7 @@ public class Switch extends PickUp {
     
     @Override
     public String toString() {
-        String switchColour = "";
-        for (Color c : colour) {
-            switchColour += Level.colorToChar(c);
-        }
-        return String.format(FORMAT, switchColour);
+        return String.format(FORMAT, Level.colorToChar(colour));
     }
 
     public void addGate(Gate gate) {
