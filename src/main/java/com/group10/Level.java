@@ -18,6 +18,14 @@ public class Level {
     private final Tile[][] map;
     private final Entity[][] entityMap;
     private ArrayList<MoveableEntity> npcs = new ArrayList<MoveableEntity>();
+
+    /*
+    probably a better way to populate switches with the correct gates but
+    current file format does not specify which comes first so ive done it
+    in a method after file has been read.
+     */
+    private ArrayList<Gate> gates = new ArrayList<Gate>();
+    private ArrayList<Switch> switches = new ArrayList<Switch>();
     /*
     right so this is the new npcs arraylist
     basically its conna contain all the npcs and let us easily access them
@@ -193,8 +201,32 @@ public class Level {
                     break;
                 case "Clock":
                     break;
+                case "Switch":
+                    color = charToColor(creature.next().charAt(0));
+                    Switch sw = new Switch(color);
+                    switches.add(sw);
+                    entityMap[creatureY][creatureX] = sw;
+                    break;
+                case "Gate":
+                    color = charToColor(creature.next().charAt(0));
+                    Gate gate = new Gate(color);
+                    gates.add(gate);
+                    entityMap[creatureY][creatureX] = gate;
+                    break;
                 default:
                     throw new IllegalArgumentException(String.format(INVALID_ENTITY_NAME, creatureName));
+            }
+        }
+        //Populating the switches with gates so they are all unlocked on interact
+        linkSwitchesToGates();
+    }
+
+    private void linkSwitchesToGates() {
+        for (Gate gate : gates) {
+            for (Switch sw : switches) {
+                if (gate.getColour() == sw.getColour()) {
+                    sw.addGate(gate);
+                }
             }
         }
     }
