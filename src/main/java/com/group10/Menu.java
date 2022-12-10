@@ -10,14 +10,14 @@ import javafx.scene.layout.GridPane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 public class Menu {
     @FXML
     private TextField playerName;
 
     private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
-    private static final int MAX_COLS_OF_PROFILE_SELECT = 5;
     
     public static void mainMenu() {
         Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
@@ -49,9 +49,8 @@ public class Menu {
         // Read levels from level folder using resources
         File folder = new File(Menu.class.getResource("level").getFile());
         File[] files = folder.listFiles();
+        Arrays.sort(files);
         
-        
-        System.err.println("Warning: levels are loaded out of order");
         for (int i = 0; i < files.length; i++) {
             String filename = files[i].getName();
             System.out.println(filename);
@@ -59,7 +58,8 @@ public class Menu {
             // Add the button to the grid
             int levelNum = Integer.parseInt(filename.replaceAll("[\\D]", ""));
             if (Profile.getMaxLevel() >= levelNum) {
-                Button button = new Button(filename);
+                
+                Button button = new Button(filename.replace(".txt", ""));
                 button.setOnAction(e -> {
                     String levelPath = "level/" + filename;
                     loadLevel(levelPath);

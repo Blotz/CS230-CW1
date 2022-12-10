@@ -79,7 +79,7 @@ public class Profile {
             saveProfile(profileName, maxLevel);
         }
     }
-    public static void createProfile(String profileName) {
+    public static void createProfile(String profileName, int maxLevel) {
         String path = Profile.class.getResource(PROFILE_PATH).getPath();
         // Save file to resources path
         try {
@@ -112,9 +112,9 @@ public class Profile {
             }
         }
         if (profile == null) {
-            Profile.createProfile(profileName);
             Profile.profileName = profileName;
             Profile.maxLevel = 1;
+            createProfile(profileName, maxLevel);
         } else {
             Scanner profileData = new Scanner(profile);
             String profileInfo = profileData.nextLine();
