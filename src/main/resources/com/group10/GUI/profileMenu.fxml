@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="616.0" prefWidth="776.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
    <children>
@@ -13,8 +13,9 @@
             <Text layoutX="105.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Cave Game" textAlignment="CENTER" />
             <Pane layoutX="388.0" layoutY="118.0" prefHeight="398.0" prefWidth="252.0">
                <children>
-                  <Button layoutX="31.0" layoutY="69.0" mnemonicParsing="false" onAction="#createProfileMenu" prefHeight="56.0" prefWidth="187.0" style="marg: 10;" text="Create Profile" textAlignment="CENTER" />
-                  <Button layoutX="31.0" layoutY="137.0" mnemonicParsing="false" onAction="#selectProfile" prefHeight="56.0" prefWidth="187.0" text="Select Profile" textAlignment="CENTER" />
+                  <Button layoutX="31.0" layoutY="214.0" mnemonicParsing="false" onAction="#setPlayerName" prefHeight="56.0" prefWidth="187.0" style="marg: 10;" text="Select" textAlignment="CENTER" />
+                  <Button layoutX="31.0" layoutY="284.0" mnemonicParsing="false" onAction="#quit" prefHeight="56.0" prefWidth="187.0" text="Exit" textAlignment="CENTER" />
+                  <TextField fx:id="playerName" layoutX="44.0" layoutY="68.0" />
                </children>
             </Pane>
          </children>

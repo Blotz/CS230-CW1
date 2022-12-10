@@ -13,8 +13,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class Menu {
-    private static ProfileHandler profileHandler;
-    private static Profile userProfile;
     @FXML
     private TextField playerName;
 
@@ -26,51 +24,17 @@ public class Menu {
     }
 
     public static void profileMenu() {
-        try {
-            profileHandler = new ProfileHandler();
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
         Main.changeScene(Main.getScene("GUI/profileMenu.fxml"));
     }
 
     @FXML
-    public void createProfileMenu(ActionEvent event) {
-        System.out.println("Create Profile");
-        Main.changeScene(Main.getScene("GUI/createProfileMenu.fxml"));
-    }
-
-    @FXML
-    public void createProfile(ActionEvent event) {
-        profileHandler.createProfile(playerName.getText());
-        ArrayList<Profile> profiles = profileHandler.selectProfiles();
-        for (Profile p : profiles) {
-            if (p.getPlayerName().equals(playerName.getText())) {
-                userProfile = p;
-            }
-        }
+    public void setPlayerName(ActionEvent event) {
+        System.out.println("Player Name: " + playerName.getText());
+        Profile.loadProfile(playerName.getText());
+        System.out.println("Profile loaded");
+        System.out.println(Profile.getMaxLevel());
+        
         mainMenu();
-    }
-
-    @FXML
-    public void selectProfile(ActionEvent event) {
-        System.out.println("Select Profile");
-        Scene scene = Main.getScene("GUI/selectProfile.fxml");
-        Parent root = scene.getRoot();
-        // Find the grid
-        GridPane grid = (GridPane) root.lookup("#grid");
-        Main.changeScene(scene);
-
-        ArrayList<Profile> profiles = profileHandler.selectProfiles();
-        for (int i = 0; i <profiles.size(); i++) {
-            Button button = new Button(profiles.get(i).getPlayerName());
-            int finalI = i;
-            button.setOnAction(e -> {
-                userProfile = profiles.get(finalI);
-                mainMenu();
-            });
-            grid.add(button, i % MAX_COLS_OF_PROFILE_SELECT , i / MAX_COLS_OF_PROFILE_SELECT);
-        }
     }
 
     @FXML
@@ -94,7 +58,7 @@ public class Menu {
             // Create a button which points to that level
             // Add the button to the grid
             int levelNum = Integer.parseInt(filename.replaceAll("[\\D]", ""));
-            if (userProfile.getMaxLevel() >= levelNum) {
+            if (Profile.getMaxLevel() >= levelNum) {
                 Button button = new Button(filename);
                 button.setOnAction(e -> {
                     String levelPath = "level/" + filename;
