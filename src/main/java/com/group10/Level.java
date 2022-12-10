@@ -1,8 +1,10 @@
 package com.group10;
 
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -44,7 +46,7 @@ public class Level {
     public final int MAX_WIDTH;
     private boolean gameOver = false;
     private boolean win = false;
-    
+    private final int levelNumber;
     private static final String FILE_NOT_FOUND = " didn't resolve to a file";
     private static final String NO_WIDTH_HEIGHT = "Please include height and width at the top of the file";
     private static final String WIDTH_HEIGHT_AND_MORE = "Please only include height and width at the top of the file";
@@ -62,15 +64,9 @@ public class Level {
     private static final String INVALID_DIRECTION = "Invalid direction %s";
 
     
-    public Level(String levelPath) throws FileNotFoundException {
-        
-        // Load file from resources path
-        InputStream file = Level.class.getResourceAsStream(levelPath);
-        // If the path is invalid, throw an error!
-        if (file == null) {
-            throw new FileNotFoundException(levelPath + FILE_NOT_FOUND);
-        }
-        Scanner in = new Scanner(file);
+    public Level(String levelData, int levelNumber) {
+        this.levelNumber = levelNumber;
+        Scanner in = new Scanner(levelData);
     
         // Read first line and parse dimensions
         String posString = in.nextLine();
@@ -231,6 +227,27 @@ public class Level {
                 }
             }
         }
+    }
+    
+    public static String loadLevel(String levelPath) throws FileNotFoundException {
+        // Load file from resources path
+        InputStream file = Level.class.getResourceAsStream(levelPath);
+        // If the path is invalid, throw an error!
+        if (file == null) {
+            throw new FileNotFoundException(levelPath + FILE_NOT_FOUND);
+        }
+        // Load entire file
+        Scanner in = new Scanner(file);
+        in.useDelimiter("\\Z");
+        String levelString = in.next();
+        in.close();
+        
+        // Read file into
+        return levelString;
+    }
+    
+    public int getLevelNumber() {
+        return levelNumber;
     }
     
     private static Color charToColor(char c) {
