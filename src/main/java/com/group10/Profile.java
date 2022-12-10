@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Profile {
     static private String profileName;
     static private int maxLevel;
+    static private String currentLevel;
     private static final String PROFILE_PATH = "profiles.txt";
     private static final String PROFILE_FORMAT = "\"%s\" %d%n## NEXT PROFILE ##%n";
     private static final String PROFILE_INFO = "\"%s\" %d%n";
@@ -73,6 +74,57 @@ public class Profile {
             e.printStackTrace();
         }
     }
+    
+    public static void saveLevel(String profileName, String currentLevel) {
+        Profile.profileName = profileName;
+        Profile.currentLevel = currentLevel;
+    
+        // Read the file
+        InputStream file = Profile.class.getResourceAsStream(PROFILE_PATH);
+        if (file == null) {
+            throw new RuntimeException(FILE_NOT_FOUND);
+        }
+        String fileContents = "";
+    
+        Scanner in = new Scanner(file);
+        in.useDelimiter(String.format(NEW_PROFILE));
+    
+        // Loop though and find the profile account
+        String profile = null;
+        while (in.hasNext()) {
+            String curProfile = in.next();
+            if (!curProfile.startsWith("\""+profileName+ "\"")) {
+                fileContents += String.format(curProfile + NEW_PROFILE);
+            } else {
+                profile = curProfile;
+            }
+        }
+        in.close();
+        // If the profile was not found, add it to the end of the file
+        // TODO:
+        if (profile == null) {
+            throw new IllegalArgumentException("Profile not found");
+        }
+    
+        Scanner profileData = new Scanner(profile);
+        profileData.nextLine();  // Throw away the first line
+        profileData.close();
+    
+        String profileInfo = String.format(PROFILE_INFO, profileName, maxLevel);
+        fileContents = String.format(profileInfo + currentLevel + NEW_PROFILE) + fileContents;
+    
+        // Write the file
+        String path = Profile.class.getResource(PROFILE_PATH).getPath();
+        try {
+            OutputStream os = new FileOutputStream(path);
+            os.write(fileContents.getBytes(), 0, fileContents.length());
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        
+    }
     public static void updateProfile(int maxLevel) {
         if (maxLevel > Profile.maxLevel) {
             Profile.maxLevel = maxLevel;
@@ -114,6 +166,7 @@ public class Profile {
         if (profile == null) {
             Profile.profileName = profileName;
             Profile.maxLevel = 1;
+            Profile.currentLevel = "";
             createProfile(profileName, maxLevel);
         } else {
             Scanner profileData = new Scanner(profile);
@@ -122,6 +175,12 @@ public class Profile {
             String[] profileInfoSplit = profileInfo.split("\"");
             Profile.profileName = profileInfoSplit[1];
             Profile.maxLevel = Integer.parseInt(profileInfoSplit[2].strip());
+            profileData.useDelimiter("\\Z");
+            if (profileData.hasNext()) {
+                Profile.currentLevel = profileData.next().strip();
+            } else {
+                Profile.currentLevel = "";
+            }
             profileData.close();
         }
         in.close();
