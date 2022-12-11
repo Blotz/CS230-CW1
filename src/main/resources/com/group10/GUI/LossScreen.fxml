@@ -6,24 +6,23 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="616.0" prefWidth="776.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
-   <children>
-      <Pane prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+
+<BorderPane prefHeight="366.0" prefWidth="575.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="149.0" layoutY="185.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Game Over!" textAlignment="CENTER" wrappingWidth="478.8115234375">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Game Over!" textAlignment="CENTER" wrappingWidth="478.8115234375">
                <font>
                   <Font size="36.0" />
-               </font></Text>
-            <Pane layoutX="75.0" layoutY="361.0" prefHeight="200.0" prefWidth="617.0">
+               </font>
+            </Text>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="60.0">
                <children>
-                  <Button layoutX="393.0" layoutY="72.0" mnemonicParsing="false" onAction="#mainMenu" prefHeight="56.0" prefWidth="187.0" text="Main Menu" textAlignment="CENTER" />
-                  <Button layoutX="47.0" layoutY="72.0" mnemonicParsing="false" onAction="#quit" prefHeight="56.0" prefWidth="187.0" text="Exit" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#quit" prefHeight="56.0" prefWidth="187.0" text="Exit" textAlignment="CENTER" />
+                  <Button mnemonicParsing="false" onAction="#mainMenu" prefHeight="56.0" prefWidth="187.0" text="Main Menu" textAlignment="CENTER" />
                </children>
-            </Pane>
+            </HBox>
          </children>
-      </Pane>
-   </children>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
-</AnchorPane>
+      </VBox>
+   </center>
+</BorderPane>

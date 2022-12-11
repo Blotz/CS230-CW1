@@ -267,7 +267,7 @@ public class Game {
                 moveRight();
                 break;
             case P:
-                Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
+                pauseGame();
                 break;
             case F:
                 Main.toggleFullScreen(F);
@@ -335,8 +335,11 @@ public class Game {
     }
 
     public void Pause(ActionEvent event) {
+        pauseGame();
+    }
+    
+    public static void pauseGame() {
         tickTimeline.pause();
-        out.println("Pause");
         Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
     }
 
