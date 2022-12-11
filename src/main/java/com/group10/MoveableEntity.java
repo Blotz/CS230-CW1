@@ -1,7 +1,18 @@
 package com.group10;
 
+/**
+ * This base class which all Moving entities in the game extend.
+ * Allows them to move around the game.
+ */
 public abstract class MoveableEntity implements Entity {
     
+    /**
+     * Moves the entity to the right
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return the new position of the entity
+     */
     public int[] moveRight(Level level, int x, int y) {
 
         int[] newPosition = new int[]{x, y};
@@ -22,6 +33,13 @@ public abstract class MoveableEntity implements Entity {
         return newPosition;
     }
     
+    /**
+     * Moves the entity to the left
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return the new position of the entity
+     */
     public int[] moveLeft(Level level, int x, int y) {
         int[] newPosition = new int[]{x, y};
         Color[] colorsOnCurTile = level.getTileColorEntity(this);
@@ -40,6 +58,13 @@ public abstract class MoveableEntity implements Entity {
         return newPosition;
     }
     
+    /**
+     * Moves the entity down
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return the new position of the entity
+     */
     public int[] moveDown(Level level, int x, int y) {
         int[] newPosition = new int[]{x, y};
         Color[] colorsOnCurTile = level.getTileColorEntity(this);
@@ -58,6 +83,14 @@ public abstract class MoveableEntity implements Entity {
         return newPosition;
     }
     
+    
+    /**
+     * Moves the entity up
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return the new position of the entity
+     */
     public int[] moveUp(Level level, int x, int y) {
         int[] newPosition = new int[]{x, y};
         Color[] colorsOnCurTile = level.getTileColorEntity(this);

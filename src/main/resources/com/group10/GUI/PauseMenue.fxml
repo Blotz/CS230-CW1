@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Game">
-    <children>
-        <BorderPane layoutX="-7.0" prefHeight="400.0" prefWidth="606.0">
-         <center>
-            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                        <Button layoutX="255.0" layoutY="208.0" mnemonicParsing="false" onAction="#Resume" style="-fx-padding: 10;" text="Resume" />
-                        <Button layoutX="264.0" layoutY="162.0" mnemonicParsing="false" onAction="#Save" style="-fx-padding: 10;" text="Save" />
-                  <Button layoutX="237.0" layoutY="259.0" mnemonicParsing="false" onAction="#MMenue" text="Main Menue" />
-               </children>
-            </Pane>
-         </center>
-        </BorderPane>
-    </children>
-</Pane>
+
+  <BorderPane prefHeight="400.0" prefWidth="606.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Game">
+   <center>
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+                  <Button mnemonicParsing="false" onAction="#Resume" style="-fx-padding: 10;" text="Resume" />
+                  <Button mnemonicParsing="false" onAction="#Save" style="-fx-padding: 10;" text="Save" />
+            <Button mnemonicParsing="false" onAction="#MMenue" text="Main Menue" />
+         </children>
+      </VBox>
+   </center>
+  </BorderPane>

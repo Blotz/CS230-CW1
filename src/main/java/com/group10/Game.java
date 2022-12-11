@@ -10,32 +10,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.util.Arrays;
+import static javafx.scene.input.KeyCode.F;
 
-import static com.group10.Color.RED;
-import static java.lang.System.*;
-
+/**
+ * The main Game loop.
+ */
 public class Game {
     private static Level level = null;
     private static Player player;
     private static Scene scene;
     private static Timeline tickTimeline;
     private static final int GRID_SIZE = 50;
-    
+    private static double SCALE = 1.0;
     private static Image playerImage;
     private static Image flyassImage;
     private static Image smartthiefImage;
     private static Image floorthiefImage;
 
     private static Image exitImage;
+
+    private static Image clockImage;
 
     private static Image rubyImage;
     private static Image diamondImage;
@@ -60,10 +59,21 @@ public class Game {
     private static Image cyanTile;
     private static Image gridImage;
     
+    /**
+     * Sets up all the data required for the level.
+     * @param level the level to be loaded
+     */
     public static void setLevel(Level level) {
         Game.level = level;
         Game.player = Game.level.getPlayer();
         Game.scene = Main.getScene("GUI/level.fxml");
+        Parent root = Game.scene.getRoot();
+        
+        Canvas canvas = (Canvas) root.lookup(".canvas");
+        canvas.setWidth(Game.level.getWidth() * GRID_SIZE);
+        canvas.setHeight(Game.level.getHeight() * GRID_SIZE);
+       
+        
         Game.scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
         Game.tickTimeline = new Timeline(new KeyFrame(Duration.millis(500), event -> tick()));
         Game.tickTimeline.setCycleCount(Animation.INDEFINITE);
@@ -75,6 +85,8 @@ public class Game {
         floorthiefImage = new Image(Game.class.getResource("images/entity/floorfollowingthief.png").toString());
 
         exitImage = new Image(Game.class.getResource("images/entity/exit.png").toString());
+
+        clockImage = new Image(Game.class.getResource("images/entity/clock.png").toString());
 
         rubyImage = new Image(Game.class.getResource("images/entity/ruby.png").toString());
         diamondImage = new Image(Game.class.getResource("images/entity/diamond.png").toString());
@@ -109,6 +121,9 @@ public class Game {
         Main.changeScene(scene);
     }
     
+    /**
+     * Draws the level onto the scene obj's canvas
+     */
     private static void drawLevel() {
         // Get canvas
         Parent root = scene.getRoot();
@@ -145,6 +160,14 @@ public class Game {
             }
         }
     }
+    
+    /**
+     * Draws an entity onto the canvas
+     * @param gc the graphics context of the canvas
+     * @param entity the entity to be drawn
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     */
     private static void drawEntity(GraphicsContext gc, Entity entity, int x, int y) {
         // Guard
         if (entity == null) {
@@ -160,23 +183,25 @@ public class Game {
         } else if (entity instanceof FloorFollowingThief) {
              gc.drawImage(floorthiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (entity instanceof Exit) {
-             gc.drawImage(exitImage, x * GRID_SIZE, y * GRID_SIZE);
+            gc.drawImage(exitImage, x * GRID_SIZE, y * GRID_SIZE);
+        } else if (entity instanceof Clock) {
+            gc.drawImage(clockImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (entity instanceof Loot) {
-            String gemName = ((Loot) entity).getGemName();
-            switch (gemName) {
-                case "Ruby":
-                    gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-                case "Diamond":
-                    gc.drawImage(diamondImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-                case "Dollar":
-                    gc.drawImage(dollarImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-                case "Cent":
-                    gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-            }
+                String gemName = ((Loot) entity).getGemName();
+                switch (gemName) {
+                    case "Ruby":
+                        gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                    case "Diamond":
+                        gc.drawImage(diamondImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                    case "Dollar":
+                        gc.drawImage(dollarImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                    case "Cent":
+                        gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                }
         } else if (entity instanceof Gate) {
             Color gateColor = ((Gate) entity).getColour();
             switch (gateColor) {
@@ -190,7 +215,6 @@ public class Game {
                 case RED -> gc.drawImage(redSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
                 case GREEN -> gc.drawImage(greenSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
                 case BLUE -> gc.drawImage(blueSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
-
             }
         } else if (entity instanceof Bomb) {
            gc.drawImage(bombImage, x * GRID_SIZE, y * GRID_SIZE);
@@ -198,6 +222,9 @@ public class Game {
 
     }
     
+    /**
+     * Calculates the next frame of the game
+     */
     private static void tick() {
         // Update the level
          level.update(); // that was commented out
@@ -213,8 +240,17 @@ public class Game {
             }
         }
         // Redraw the level
+        Parent root = scene.getRoot();
+        Text time = (Text) root.lookup(".title");
+        time.setText("Time: " + level.getTime() / 2);
         drawLevel();
     }
+    
+    /**
+     * Converts a color to an image
+     * @param tiles the colors to be converted
+     * @return the images of the colors
+     */
     private static Image[] convertColorToImage(Color[] tiles) {
         Image[] tileImages = new Image[4];
         for (int i = 0; i<4; i++){
@@ -245,6 +281,10 @@ public class Game {
         return tileImages;
     }
     
+    /**
+     * Handles the key presses
+     * @param event the key event
+     */
     private static void processKeyEvent(KeyEvent event) {
         switch (event.getCode()) {
             case UP:
@@ -259,31 +299,45 @@ public class Game {
             case RIGHT:
                 moveRight();
                 break;
-            case ESCAPE:
-                Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
+            case P:
+                pauseGame();
                 break;
+            case F:
+                Main.toggleFullScreen(F);
             default:
-                out.println("Unknown key pressed: " + event.getCode());
+                System.out.println("Unknown key pressed: " + event.getCode());
         }
         drawLevel();
         event.consume();
     }
     
+    /**
+     * Moves the player right
+     */
     private static void moveRight() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveRight(level,oldPos[0], oldPos[1]);
         level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
+    /**
+     * Moves the player left
+     */
     private static void moveLeft() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveLeft(level,oldPos[0], oldPos[1]);
         level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
+    /**
+     * Moves the player up
+     */
     private static void moveUp() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveUp(level,oldPos[0], oldPos[1]);
         level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
+    /**
+     * Moves the player down
+     */
     private static void moveDown() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveDown(level,oldPos[0], oldPos[1]);
@@ -291,43 +345,15 @@ public class Game {
     }
     
     @FXML
-    public void resetPlayerLocation(ActionEvent event) {
-        out.println("Resetting player location");
-        // Reset the player location
-        int[] oldPos = level.getEntityPosition(player);
-        int[] start = {0, 0};
-    
-        level.moveEntity(oldPos[0], oldPos[1], start[0], start[1]);
-        drawLevel();
-    }
-    
-    @FXML
-    public void movePlayerCenter(ActionEvent event) {
-        out.println("Move player to center");
-        // Move the player to the center of the level
-        int[] oldPos = level.getEntityPosition(player);
-
-        level.moveEntity(oldPos[0], oldPos[1], level.MAX_WIDTH / 2, level.MAX_HEIGHT / 2);
-        drawLevel();
-    }
-    
-    @FXML
-    public void startTicks(ActionEvent event) {
-        out.println("Starting ticks");
-        // Start the ticks
-        tickTimeline.play();
-    }
-    
-    @FXML
-    public void stopTicks(ActionEvent event) {
-        out.println("Stopping ticks");
-        // Stop the ticks
-        tickTimeline.stop();
-    }
-
     public void Pause(ActionEvent event) {
+        pauseGame();
+    }
+    
+    /**
+     * Pauses the game
+     */
+    public static void pauseGame() {
         tickTimeline.pause();
-        out.println("Pause");
         Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
     }
 
@@ -346,11 +372,15 @@ public class Game {
 
     @FXML
     public void MMenue(ActionEvent event){
-        out.println("Menue");
+        System.out.println("Menue");
         Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
 
     }
 
+    /**
+     * Generates the win screen
+     * and updates the profile and highscore
+     */
     private static void winScreen(){
         int levelNum = level.getLevelNumber();
         Profile.updateProfile(levelNum + 1);

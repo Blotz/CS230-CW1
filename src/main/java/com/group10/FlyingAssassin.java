@@ -3,9 +3,9 @@ package com.group10;
 import java.util.Objects;
 
 
-/*TODO: If the Flying Assassin collides with the player, the player should loose
-        and the game should end or level reset.
-*  */
+/**
+ * The Flying Assassin NPC is an enemy that can fly and kill the player.
+ */
 public class FlyingAssassin extends MoveableEntity{
     private Direction direction;
     
@@ -20,6 +20,10 @@ public class FlyingAssassin extends MoveableEntity{
         return String.format(FORMAT, Level.directionToString(direction));
     }
     
+    /**
+     * Calculates the next direction the assassin should move in
+     * @return next position the thief should move to
+     */
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;
@@ -29,7 +33,8 @@ public class FlyingAssassin extends MoveableEntity{
             case UP:
                  newPos = moveUp(level, pos[0], pos[1]);
                  entity = level.getEntity(newPos[0], newPos[1]);
-                 if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                 if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                         (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                      direction = Direction.DOWN;
                      return move(level);
                  } else {
@@ -38,7 +43,8 @@ public class FlyingAssassin extends MoveableEntity{
             case DOWN:
                 newPos = moveDown(level, pos[0], pos[1]);
                 entity = level.getEntity(newPos[0], newPos[1]);
-                if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                        (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                     direction = Direction.UP;
                     return move(level);
                 } else {
@@ -47,7 +53,8 @@ public class FlyingAssassin extends MoveableEntity{
             case LEFT:
                 newPos = moveLeft(level, pos[0], pos[1]);
                 entity = level.getEntity(newPos[0], newPos[1]);
-                if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                        (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                     direction = Direction.RIGHT;
                     return move(level);
                 } else {
@@ -56,7 +63,8 @@ public class FlyingAssassin extends MoveableEntity{
             case RIGHT:
                 newPos = moveRight(level, pos[0], pos[1]);
                 entity = level.getEntity(newPos[0], newPos[1]);
-                if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                        (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                     direction = Direction.LEFT;
                     return move(level);
                 } else {
@@ -66,6 +74,13 @@ public class FlyingAssassin extends MoveableEntity{
         return pos;
     }
 
+    /**
+     * Moves the assassin right
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveRight(Level level, int x, int y) {
         if (level.MAX_WIDTH <= x + 1) {
@@ -74,6 +89,13 @@ public class FlyingAssassin extends MoveableEntity{
         return new int[]{x + 1, y};
     }
 
+    /**
+     * Moves the assassin left
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveLeft(Level level, int x, int y) {
         if (x - 1 < 0) {
@@ -82,6 +104,13 @@ public class FlyingAssassin extends MoveableEntity{
         return new int[]{x - 1, y};
     }
 
+    /**
+     * Moves the assassin down
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveDown(Level level, int x, int y) {
         if (level.MAX_HEIGHT <= y + 1) {
@@ -89,7 +118,13 @@ public class FlyingAssassin extends MoveableEntity{
         }
         return new int[]{x, y + 1};
     }
-
+    /**
+     * Moves the assassin up
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveUp(Level level, int x, int y) {
         if (y - 1 < 0) {

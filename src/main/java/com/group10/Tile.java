@@ -1,5 +1,8 @@
 package com.group10;
 
+/**
+ * A basic tile in the game.
+ */
 public class Tile {
     private Color[] tiles = new Color[4] ;
     public Tile (Color c1, Color c2, Color c3, Color c4) {

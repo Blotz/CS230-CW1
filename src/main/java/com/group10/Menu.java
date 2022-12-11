@@ -2,25 +2,38 @@ package com.group10;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class handles all the menu interactions
+ */
 public class Menu {
     @FXML
     private TextField playerName;
 
     private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
     
+    /**
+     * Loads the main menu
+     */
     public static void mainMenu() {
         Scene scene = Main.getScene("GUI/mainMenu.fxml");
         Parent root = scene.getRoot();
+    
+        Label motd = (Label) root.lookup(".motd");
+        motd.setText(MOTDRetriever.getMOTD());
         
         if (!Profile.getLevel().equals("")) {
             System.out.println("Level: " + Profile.getLevel());
@@ -78,18 +91,24 @@ public class Menu {
             // Add the button to the grid
             int levelNum = Integer.parseInt(filename.replaceAll("[\\D]", ""));
             if (Profile.getMaxLevel() >= levelNum) {
-                
+                VBox vbox = new VBox();
                 Button button = new Button(filename.replace(".txt", ""));
                 button.setOnAction(e -> {
                     String levelPath = "level/" + filename;
                     loadLevel(levelPath, levelNum);
                 });
-                grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT, i / MAX_COLS_OF_LEVEL_SELECT);
+                vbox.getChildren().add(button);
+                vbox.setAlignment(Pos.CENTER);
+                grid.add(vbox, i % MAX_COLS_OF_LEVEL_SELECT, i / MAX_COLS_OF_LEVEL_SELECT);
             }
         }
         Main.changeScene(scene);
     }
-    
+    @FXML
+    public void fullscreen(KeyEvent event) {
+        Main.toggleFullScreen(event.getCode());
+        event.consume();
+    }
     private static void loadLevel(String name, int levelNum) {
         System.out.println("Loading level: " + name);
         // Load the level
@@ -107,6 +126,12 @@ public class Menu {
     }
     
     @FXML
+    public void deleteProfile(ActionEvent event) {
+        Profile.deleteProfile(Profile.getProfileName());
+        profileMenu();
+    }
+    
+    @FXML
     public void highScores() {
         System.out.println("High Scores");
 
@@ -121,19 +146,20 @@ public class Menu {
         File folder = new File(Menu.class.getResource("level").getFile());
         File[] files = folder.listFiles();
         Arrays.sort(files);
-
         for (int i = 0; i < files.length; i++) {
             String filename = files[i].getName();
             // Create a button which points to that level
             // Add the button to the grid
             int levelNum = Integer.parseInt(filename.replaceAll("[\\D]", ""));
             if (Profile.getMaxLevel() >= levelNum) {
-
+                VBox vbox = new VBox();
                 Button button = new Button(filename.replace(".txt", ""));
                 button.setOnAction(e -> {
                     loadHighscore(levelNum);
                 });
-                grid.add(button, i % MAX_COLS_OF_LEVEL_SELECT, i / MAX_COLS_OF_LEVEL_SELECT);
+                vbox.getChildren().add(button);
+                vbox.setAlignment(Pos.CENTER);
+                grid.add(vbox, i % MAX_COLS_OF_LEVEL_SELECT, i / MAX_COLS_OF_LEVEL_SELECT);
             }
         }
         Main.changeScene(scene);
@@ -144,10 +170,10 @@ public class Menu {
 
         Scene scene = Main.getScene("GUI/highScore.fxml");
         Parent root = scene.getRoot();
-
-
+        // Find the grid
+        GridPane grid = (GridPane) root.lookup(".grid");
+        
         ArrayList<String> highscores = Highscores.getHighscores(levelNum);
-
         String[] playerData = new String[highscores.size()];
 
         // Converts arraylist into an array of strings
@@ -158,7 +184,6 @@ public class Menu {
         Arrays.sort(playerData, new Comparator<String>() {
             @Override
             public int compare(String s1, String s2) {
-
                 // Extracts the 2 scores
                 int score1 = Integer.parseInt(s1.split(" ")[1]);
                 int score2 = Integer.parseInt(s2.split(" ")[1]);
@@ -174,57 +199,39 @@ public class Menu {
         for (String s : playerData) {
             sortedScores.add(s);
         }
-
-        // populates the highscore screen with players in order
-        for (String p : sortedScores) {
-
-            String[] splitData = p.split(" ");
-
-            if (p == playerData[0]) {
-                Text pos = (Text) root.lookup(".position1");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[1]) {
-                Text pos = (Text) root.lookup(".position2");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[2]) {
-                Text pos = (Text) root.lookup(".position3");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[3]) {
-                Text pos = (Text) root.lookup(".position4");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[4]) {
-                Text pos = (Text) root.lookup(".position5");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[5]) {
-                Text pos = (Text) root.lookup(".position6");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[6]) {
-                Text pos = (Text) root.lookup(".position6");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[7]) {
-                Text pos = (Text) root.lookup(".position7");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[8]) {
-                Text pos = (Text) root.lookup(".position9");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
-            else if (p == playerData[9]) {
-                Text pos = (Text) root.lookup(".position10");
-                pos.setText(splitData[0] + " : " + splitData[1]);
-            }
+    
+        if (playerData.length == 0) {
+            Main.changeScene(scene);
+            return;
         }
-
+        // populates the highscore screen with players in order
+        for (int i = 0; i < 10; i++) {
+            
+            if (playerData.length > i) {
+                break;
+            }
+            String[] player = playerData[i].split("\"");
+            String name = player[1];
+            String score = player[2];
+            System.out.println(name + " " + score);
+            
+            VBox vboxl = new VBox();
+            VBox vboxr = new VBox();
+            Text nameText = new Text(name);
+            Text scoreText = new Text(score);
+            
+            vboxl.getChildren().add(nameText);
+            vboxr.getChildren().add(scoreText);
+            
+            vboxl.setAlignment(Pos.CENTER);
+            vboxr.setAlignment(Pos.CENTER);
+            
+            grid.add(vboxl, 0, i+1);
+            grid.add(vboxr, 1, i+1);
+        }
         Main.changeScene(scene);
     }
-
+    
     @FXML
     public void mainMenu(ActionEvent event) {
         Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));

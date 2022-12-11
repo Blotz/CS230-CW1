@@ -60,6 +60,12 @@ public class Level {
     private static final String ENTITY_FORMAT = "(%d,%d) %s%n";
 
     
+    /**
+     * Loads a level from a String
+     * @param levelData the level to load
+     * @param levelNumber the level number
+     * @throws IllegalArgumentException if the level file is incorrectly formatted
+     */
     public Level(String levelData, int levelNumber) {
         this.levelNumber = levelNumber;
         Scanner in = new Scanner(levelData);
@@ -196,6 +202,8 @@ public class Level {
                     entityMap[creatureY][creatureX] = loot;
                     break;
                 case "Clock":
+                    Clock clock = new Clock();
+                    entityMap[creatureY][creatureX] = clock;
                     break;
                 case "Bomb":
                     Bomb bomb = new Bomb();
@@ -218,6 +226,12 @@ public class Level {
         }
     }
     
+    /**
+     * Loads a level from a file.
+     * @param levelPath The path to the level file.
+     * @return The level loaded from the file.
+     * @throws FileNotFoundException If the file is not found.
+     */
     public static String loadLevel(String levelPath) throws FileNotFoundException {
         // Load file from resources path
         InputStream file = Level.class.getResourceAsStream(levelPath);
@@ -235,6 +249,10 @@ public class Level {
         return levelString;
     }
     
+    /**
+     * Saves a level to a String.
+     * @return The level as a String.
+     */
     public String saveLevel() {
         String levelString = "";
         levelString += String.valueOf(getLevelNumber()) + "\n";
@@ -263,6 +281,12 @@ public class Level {
     public int getLevelNumber() {
         return levelNumber;
     }
+    
+    /**
+     * Converts a character into a color
+     * @param c The character to convert
+     * @return The color corresponding to the character
+     */
     private static Color charToColor(char c) {
         switch (Character.toLowerCase(c)) {
             case 'r':
@@ -281,6 +305,12 @@ public class Level {
                 throw new IllegalArgumentException(String.format(INVALID_COLOR, c));
         }
     }
+    
+    /**
+     * Converts a color into a character
+     * @param c The color to convert
+     * @return The character corresponding to the color
+     */
     public static char colorToChar(Color c) {
         switch (c) {
             case RED:
@@ -299,6 +329,12 @@ public class Level {
                     throw new IllegalArgumentException(String.format(INVALID_COLOR, c));
         }
     }
+    
+    /**
+     * Converts a string into a direction
+     * @param s The string to convert
+     * @return The direction corresponding to the string
+     */
     private static Direction stringToDirection(String s) {
         switch (s.toUpperCase()) {
             case "UP":
@@ -313,6 +349,12 @@ public class Level {
                 throw new IllegalArgumentException(String.format(INVALID_DIRECTION, s));
         }
     }
+    
+    /**
+     * Converts a direction into a string
+     * @param d The direction to convert
+     * @return The string corresponding to the direction
+     */
     public static String directionToString(Direction d) {
         switch (d) {
             case UP:
@@ -327,7 +369,11 @@ public class Level {
                 throw new IllegalArgumentException(String.format(INVALID_DIRECTION, d));
         }
     }
-
+    
+    /**
+     * Checks whether there is Loot on the map
+     * @return True if there is loot, false otherwise
+     */
     public boolean isLootOnMap() {
         for (int i = 0; i < MAX_HEIGHT; i++) {
             for (int j = 0; j < MAX_WIDTH; j++) {
@@ -338,7 +384,11 @@ public class Level {
         }
         return false;
     }
-
+    
+    /**
+     * Checks whether there is a Switch on the map
+     * @return True if there is a switch, false otherwise
+     */
     public boolean isSwitchOnMap() {
         for (int i = 0; i < MAX_HEIGHT; i++) {
             for (int j = 0; j < MAX_WIDTH; j++) {
@@ -349,7 +399,7 @@ public class Level {
         }
         return false;
     }
-
+    
     public int getTime() {
         return time;
     }
@@ -359,11 +409,13 @@ public class Level {
         return time;
     }
     
-    public Color[] getEntityTileColor(Entity entity) {
-        int[] pos = getEntityPosition(entity);
-        return getTileColor(pos[0], pos[1]);
-    }
     
+    /**
+     * gets the position of an entity
+     * @param entity The entity to check
+     * @return The position of the entity
+     * @throws IllegalArgumentException If the entity is not on the map
+     */
     public int[] getEntityPosition(Entity entity) {
         for (int y=0; y<MAX_HEIGHT; y++) {
             for (int x = 0; x < MAX_WIDTH; x++) {
@@ -374,7 +426,13 @@ public class Level {
         }
         throw new IllegalArgumentException(ENTITY_NOT_FOUND_ERROR);
     }
-
+    
+    /**
+     * Get the entity at a given position
+     * @param x The x coordinate
+     * @param y The y coordinate
+     * @return The entity at the given position
+     */
     public Entity getEntity(int x, int y) {
         return entityMap[y][x];
     }
@@ -385,7 +443,11 @@ public class Level {
     public Tile getTile(int x, int y) {
         return map[y][x];
     }
-
+    
+    /**
+     * Get the Plauer object
+     * @return The Player object
+     */
     public Player getPlayer() {
         // Search entityMap for player
         for (int i = 0; i < MAX_HEIGHT; i++) {
@@ -398,6 +460,11 @@ public class Level {
         return null;
     }
     
+    /**
+     * gets the colors of the tiles that an entity is on
+     * @param entity The entity to check
+     * @return The colors of the tiles that the entity is on
+     */
     public Color[] getTileColorEntity(Entity entity) {
         for (int row = 0; row < entityMap.length; row++) {
             for (int col = 0; col < entityMap[row].length; col++) {
@@ -437,8 +504,15 @@ public class Level {
     public boolean getWin() {
         return win;
     }
-
-
+    
+    
+    /**
+     * Moves an entity in a given direction
+     * @param oldX The old x coordinate
+     * @param oldY The old y coordinate
+     * @param newX The new x coordinate
+     * @param newY The new y coordinate
+     */
     public void moveEntity(int oldX,  int oldY, int newX, int newY) {
         Entity movingEntity = entityMap[oldY][oldX];
         Entity targetEntity = entityMap[newY][newX];
@@ -488,7 +562,7 @@ public class Level {
                 setGameOver(true);
                 setWin(false);
             }
-        } else if (movingEntity instanceof SmartThief) {
+        } else if (movingEntity instanceof SmartThief || movingEntity instanceof FloorFollowingThief) {
             if (targetEntity instanceof Exit) {
                 if (!isLootOnMap() && !isSwitchOnMap()) {
                     setGameOver(true);
@@ -520,8 +594,11 @@ public class Level {
         entityMap[newY][newX] = movingEntity;
         entityMap[oldY][oldX] = targetEntity;
     }
-
-
+    
+    
+    /**
+     * Calculates the next frame of game logic
+     */
     public void update() {
 
         for(Entity entity : npcs) {
@@ -554,5 +631,12 @@ public class Level {
             setGameOver(true);
             setWin(false);
         }
+    }
+    
+    public double getWidth() {
+        return MAX_WIDTH;
+    }
+    public double getHeight() {
+        return MAX_HEIGHT;
     }
 }
