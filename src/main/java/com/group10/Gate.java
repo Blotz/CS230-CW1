@@ -16,7 +16,11 @@ public class Gate implements Entity {
         String gateColour = "";
         return String.format(FORMAT, Level.colorToChar(colour));
     }
-
+    
+    /**
+     * Opens the gate
+     * @param level the level that the gate is on
+     */
     public void setOpen(Level level) {
         int[] pos = level.getEntityPosition(this);
         level.setEntity(null, pos[0], pos[1]);

@@ -12,6 +12,12 @@ public class Highscores {
     private static final String HIGHSCORES_FORMAT = "\"%s\" %d %d%n";
     private static final String FILE_NOT_FOUND = " didn't resolve to a file";
     
+    /**
+     * Reads the highscores file and returns the highscores
+     * @param profileName the name of the profile to get the highscores for
+     * @param level the level to get the highscores for
+     * @param score the score to add to the highscores
+     */
     public static void addHighscore(String profileName, int level, int score) {
         ArrayList<String> highscores = getHighscores(level);
         if (highscores.size() < 10) {
@@ -35,6 +41,18 @@ public class Highscores {
             }
         }
     }
+    
+    /**
+     * Replaces a replaces the score of a profile in the highscores file
+     * @param profileName the name of the profile to replace the score for
+     * @param level the level to replace the score for
+     * @param score the score to replace
+     * @param oldHighscore the old highscore to replace
+     *
+     * @throws RuntimeException if the highscores file doesn't exist
+     * @throws IOException if there is an error reading the highscores file
+     * @throws IOException if there is an error writing to the highscores file
+     */
     private static void replaceHighscore(String profileName, int level, int score, String oldHighscore) {
         // Read the file
         InputStream file = Highscores.class.getResourceAsStream(HIGHSCORES_PATH);
@@ -63,6 +81,13 @@ public class Highscores {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * Creates a new highscore in the highscores file
+     * @param profileName the name of the profile to create the highscore for
+     * @param level the level to create the highscore for
+     * @param score the score to create
+     */
     private static void createHighscore(String profileName, int level, int score) {
         String path = Highscores.class.getResource(HIGHSCORES_PATH).getPath();
     
@@ -76,6 +101,12 @@ public class Highscores {
         }
     }
     
+    /**
+     * Returns all the highscores for a level
+     * @param targetLevel the level to get the highscores for
+     * @return the highscores for the level
+     * @throws RuntimeException if the highscores file doesn't exist
+     */
     public static ArrayList<String> getHighscores(int targetLevel) {
         InputStream file = Highscores.class.getResourceAsStream(HIGHSCORES_PATH);
         if (file == null) {

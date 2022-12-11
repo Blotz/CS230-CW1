@@ -20,6 +20,10 @@ public class FlyingAssassin extends MoveableEntity{
         return String.format(FORMAT, Level.directionToString(direction));
     }
     
+    /**
+     * Calculates the next direction the assassin should move in
+     * @return next position the thief should move to
+     */
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;
@@ -70,6 +74,13 @@ public class FlyingAssassin extends MoveableEntity{
         return pos;
     }
 
+    /**
+     * Moves the assassin right
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveRight(Level level, int x, int y) {
         if (level.MAX_WIDTH <= x + 1) {
@@ -78,6 +89,13 @@ public class FlyingAssassin extends MoveableEntity{
         return new int[]{x + 1, y};
     }
 
+    /**
+     * Moves the assassin left
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveLeft(Level level, int x, int y) {
         if (x - 1 < 0) {
@@ -86,6 +104,13 @@ public class FlyingAssassin extends MoveableEntity{
         return new int[]{x - 1, y};
     }
 
+    /**
+     * Moves the assassin down
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveDown(Level level, int x, int y) {
         if (level.MAX_HEIGHT <= y + 1) {
@@ -93,7 +118,13 @@ public class FlyingAssassin extends MoveableEntity{
         }
         return new int[]{x, y + 1};
     }
-
+    /**
+     * Moves the assassin up
+     * @level the level the assassin is on
+     * @x the x position of the assassin
+     * @y the y position of the assassin
+     * @return next position the thief should move to
+     */
     @Override
     public int[] moveUp(Level level, int x, int y) {
         if (y - 1 < 0) {

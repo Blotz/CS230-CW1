@@ -22,6 +22,10 @@ public class FloorFollowingThief extends MoveableEntity {
         return String.format(FORMAT, Level.directionToString(initDirection), Level.colorToChar(colour));
     }
     
+    /**
+     * Calculates the next direction the thief should move in
+     * @return next position the thief should move to
+     */
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;
@@ -78,6 +82,13 @@ public class FloorFollowingThief extends MoveableEntity {
         return newPos;
     }
     
+    /**
+     * Calculates the position if the thief moves up
+     * @param level the level the thief is on
+     * @param x the x position of the thief
+     * @param y the y position of the thief
+     * @return the new position of the thief
+     */
     @Override
     public int[] moveLeft(Level level, int x, int y) {
         if (x - 1 >= 0) {
@@ -91,6 +102,13 @@ public class FloorFollowingThief extends MoveableEntity {
         return new int[]{x , y};
     }
 
+    /**
+     * Calculates the position if the thief moves down
+     * @param level the level the thief is on
+     * @param x the x position of the thief
+     * @param y the y position of the thief
+     * @return the new position of the thief
+     */
     @Override
     public int[] moveDown(Level level, int x, int y) {
         if (y + 1 < level.MAX_HEIGHT) {
@@ -104,6 +122,13 @@ public class FloorFollowingThief extends MoveableEntity {
         return new int[]{x , y};
     }
 
+    /**
+     * Calculates the position if the thief moves right
+     * @param level the level the thief is on
+     * @param x the x position of the thief
+     * @param y the y position of the thief
+     * @return the new position of the thief
+     */
     @Override
     public int[] moveUp(Level level, int x, int y) {
         if (y - 1 >= 0) {
@@ -117,6 +142,13 @@ public class FloorFollowingThief extends MoveableEntity {
         return new int[]{x , y};
     }
 
+    /**
+     * Calculates the position if the thief moves left
+     * @param level the level the thief is on
+     * @param x the x position of the thief
+     * @param y the y position of the thief
+     * @return the new position of the thief
+     */
     @Override
     public int[] moveRight(Level level, int x, int y) {
         if (x + 1 < level.MAX_WIDTH) {

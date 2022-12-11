@@ -61,6 +61,10 @@ public class Game {
     private static Image cyanTile;
     private static Image gridImage;
     
+    /**
+     * Sets up all the data required for the level.
+     * @param level the level to be loaded
+     */
     public static void setLevel(Level level) {
         Game.level = level;
         Game.player = Game.level.getPlayer();
@@ -117,6 +121,9 @@ public class Game {
         Main.changeScene(scene);
     }
     
+    /**
+     * Draws the level onto the scene obj's canvas
+     */
     private static void drawLevel() {
         // Get canvas
         Parent root = scene.getRoot();
@@ -153,6 +160,14 @@ public class Game {
             }
         }
     }
+    
+    /**
+     * Draws an entity onto the canvas
+     * @param gc the graphics context of the canvas
+     * @param entity the entity to be drawn
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     */
     private static void drawEntity(GraphicsContext gc, Entity entity, int x, int y) {
         // Guard
         if (entity == null) {
@@ -200,11 +215,13 @@ public class Game {
                 case RED -> gc.drawImage(redSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
                 case GREEN -> gc.drawImage(greenSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
                 case BLUE -> gc.drawImage(blueSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
-
             }
         }
     }
     
+    /**
+     * Calculates the next frame of the game
+     */
     private static void tick() {
         // Update the level
          level.update(); // that was commented out
@@ -222,6 +239,12 @@ public class Game {
         // Redraw the level
         drawLevel();
     }
+    
+    /**
+     * Converts a color to an image
+     * @param tiles the colors to be converted
+     * @return the images of the colors
+     */
     private static Image[] convertColorToImage(Color[] tiles) {
         Image[] tileImages = new Image[4];
         for (int i = 0; i<4; i++){
@@ -252,6 +275,10 @@ public class Game {
         return tileImages;
     }
     
+    /**
+     * Handles the key presses
+     * @param event the key event
+     */
     private static void processKeyEvent(KeyEvent event) {
         switch (event.getCode()) {
             case UP:
@@ -278,21 +305,33 @@ public class Game {
         event.consume();
     }
     
+    /**
+     * Moves the player right
+     */
     private static void moveRight() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveRight(level,oldPos[0], oldPos[1]);
         level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
+    /**
+     * Moves the player left
+     */
     private static void moveLeft() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveLeft(level,oldPos[0], oldPos[1]);
         level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
+    /**
+     * Moves the player up
+     */
     private static void moveUp() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveUp(level,oldPos[0], oldPos[1]);
         level.moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
     }
+    /**
+     * Moves the player down
+     */
     private static void moveDown() {
         int[] oldPos = level.getEntityPosition(player);
         int[] newPos = player.moveDown(level,oldPos[0], oldPos[1]);
@@ -300,44 +339,13 @@ public class Game {
     }
     
     @FXML
-    public void resetPlayerLocation(ActionEvent event) {
-        out.println("Resetting player location");
-        // Reset the player location
-        int[] oldPos = level.getEntityPosition(player);
-        int[] start = {0, 0};
-    
-        level.moveEntity(oldPos[0], oldPos[1], start[0], start[1]);
-        drawLevel();
-    }
-    
-    @FXML
-    public void movePlayerCenter(ActionEvent event) {
-        out.println("Move player to center");
-        // Move the player to the center of the level
-        int[] oldPos = level.getEntityPosition(player);
-
-        level.moveEntity(oldPos[0], oldPos[1], level.MAX_WIDTH / 2, level.MAX_HEIGHT / 2);
-        drawLevel();
-    }
-    
-    @FXML
-    public void startTicks(ActionEvent event) {
-        out.println("Starting ticks");
-        // Start the ticks
-        tickTimeline.play();
-    }
-    
-    @FXML
-    public void stopTicks(ActionEvent event) {
-        out.println("Stopping ticks");
-        // Stop the ticks
-        tickTimeline.stop();
-    }
-
     public void Pause(ActionEvent event) {
         pauseGame();
     }
     
+    /**
+     * Pauses the game
+     */
     public static void pauseGame() {
         tickTimeline.pause();
         Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
@@ -363,6 +371,10 @@ public class Game {
 
     }
 
+    /**
+     * Generates the win screen
+     * and updates the profile and highscore
+     */
     private static void winScreen(){
         int levelNum = level.getLevelNumber();
         Profile.updateProfile(levelNum + 1);

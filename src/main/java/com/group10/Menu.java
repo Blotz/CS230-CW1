@@ -21,6 +21,9 @@ public class Menu {
 
     private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
     
+    /**
+     * Loads the main menu
+     */
     public static void mainMenu() {
         Scene scene = Main.getScene("GUI/mainMenu.fxml");
         Parent root = scene.getRoot();

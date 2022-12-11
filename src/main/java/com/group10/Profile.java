@@ -17,6 +17,11 @@ public class Profile {
     private static final String NEW_PROFILE = "## NEXT PROFILE ##%n";
     private static final String FILE_NOT_FOUND = " didn't resolve to a file";
     
+    /**
+     * Saves the new max level to the profile
+     * @param profileName the name of the profile to be saved to
+     * @param maxLevel the new max level
+     */
     public static void saveProfile(String profileName, int maxLevel) {
         Profile.profileName = profileName;
         Profile.maxLevel = maxLevel;
@@ -75,6 +80,11 @@ public class Profile {
         }
     }
     
+    /**
+     * Saves the level to the profile
+     * @param profileName the name of the profile to be saved to
+     * @param currentLevel the current level to be saved
+     */
     public static void saveLevel(String profileName, String currentLevel) {
         Profile.profileName = profileName;
         Profile.currentLevel = currentLevel;
@@ -122,15 +132,24 @@ public class Profile {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        
     }
+    
+    /**
+     * Updates the profile with the new max level if the new max level is greater than the old max level
+     * @param maxLevel the new max level
+     */
     public static void updateProfile(int maxLevel) {
         if (maxLevel > Profile.maxLevel) {
             Profile.maxLevel = maxLevel;
             saveProfile(profileName, maxLevel);
         }
     }
+    
+    /**
+     * Creates a new profile
+     * @param profileName the name of the profile to be created
+     * @param maxLevel the max level of the profile to be created
+     */
     public static void createProfile(String profileName, int maxLevel) {
         String path = Profile.class.getResource(PROFILE_PATH).getPath();
         // Save file to resources path
@@ -144,6 +163,11 @@ public class Profile {
         }
     }
     
+    /**
+     * Gets the max level of the profile
+     * @param profileName the name of the profile to get the max level of
+     * @return sets the Profile.profileName, Profile.maxLevel and Profile.currentLevel
+     */
     public static void loadProfile(String profileName) {
         // Read the file
         InputStream file = Profile.class.getResourceAsStream(PROFILE_PATH);
@@ -185,29 +209,7 @@ public class Profile {
         }
         in.close();
     }
-    public static ArrayList<String> listProfiles() {
-        // Read the file
-        InputStream file = Profile.class.getResourceAsStream(PROFILE_PATH);
-        if (file == null) {
-            throw new RuntimeException(FILE_NOT_FOUND);
-        }
-        
-        Scanner in = new Scanner(file);
-        in.useDelimiter(String.format(NEW_PROFILE));
-        
-        ArrayList<String> profiles = new ArrayList<>();
-        while (in.hasNext()) {
-            String profile = in.next();
-            Scanner profileData = new Scanner(profile);
-            String profileInfo = profileData.nextLine();
-            // split on "
-            String[] profileInfoSplit = profileInfo.split("\"");
-            profiles.add(profileInfoSplit[1]);
-            profileData.close();
-        }
-        in.close();
-        return profiles;
-    }
+    
     public static String getProfileName() {
         return profileName;
     }

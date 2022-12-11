@@ -23,16 +23,13 @@ public class Player extends MoveableEntity {
         this.score = score;
     }
     
-    public int getX(Level level) {
-        int[] pos = level.getEntityPosition(this);
-        return pos[0];
-    }
-
-    public int getY(Level level) {
-        int[] pos = level.getEntityPosition(this);
-        return pos[1];
-    }
-
+    /**
+     * Moves the player in the down direction
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return
+     */
     @Override
     public int[] moveDown(Level level, int x, int y) {
         if (y == level.MAX_HEIGHT - 1) {
@@ -48,7 +45,14 @@ public class Player extends MoveableEntity {
         }
         return super.moveDown(level, x, y);
     }
-
+    
+    /**
+     * Moves the player in the up direction
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return
+     */
     @Override
     public int[] moveUp(Level level, int x, int y) {
         if (y == 0) {
@@ -64,7 +68,14 @@ public class Player extends MoveableEntity {
         }
         return super.moveUp(level, x, y);
     }
-
+    
+    /**
+     * Moves the player in the right direction
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return
+     */
     @Override
     public int[] moveRight(Level level, int x, int y) {
         if (x == level.MAX_WIDTH - 1) {
@@ -80,7 +91,14 @@ public class Player extends MoveableEntity {
         }
         return super.moveRight(level, x, y);
     }
-
+    
+    /**
+     * Moves the player in the left direction
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return
+     */
     @Override
     public int[] moveLeft(Level level, int x, int y) {
         if (x == 0) {

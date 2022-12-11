@@ -17,7 +17,12 @@ public class SmartThief extends MoveableEntity {
     public String toString() {
         return String.format(FORMAT);
     }
-
+    
+    /**
+     * Calculates the next move for the smart thief
+     * @param level the level that the entity is on
+     * @return the next move for the smart thief
+     */
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int x = pos[0];
@@ -39,7 +44,14 @@ public class SmartThief extends MoveableEntity {
         return moveInDirection(level, x, y);
 
     }
-
+    
+    /**
+     * Moves in the direction specified by the direction variable
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @return the new position of the entity
+     */
     private int[] moveInDirection(Level level, int x, int y) {
         switch (direction) {
             case UP:
@@ -53,7 +65,12 @@ public class SmartThief extends MoveableEntity {
         }
         return new int[]{x, y};
     }
-
+    
+    /**
+     * Moves in a random direction
+     * @param depth the depth of the search
+     * @return the direction to move in
+     */
     private int randomMove(int depth) {
         Random rand = new Random();
         int randNum = rand.nextInt(4);
@@ -71,7 +88,15 @@ public class SmartThief extends MoveableEntity {
             return depth;
         }
     }
-
+    
+    /**
+     * Finds the closest loot to the entity
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @param depth the depth of the search
+     * @return the depth of the search and sets the direction variable to the direction to move in
+     */
     private int findClosestLoot(Level level, int x, int y, int depth) {
         //Base case
         if (depth >= MAX_DEPTH) {
@@ -119,7 +144,15 @@ public class SmartThief extends MoveableEntity {
         // set direction to closest loot
         return findClosest(leftDepth, rightDepth, upDepth, downDepth);
     }
-
+    
+    /**
+     * Finds the closest exit to the entity
+     * @param level the level that the entity is on
+     * @param x the x coordinate of the entity
+     * @param y the y coordinate of the entity
+     * @param depth the depth of the search
+     * @return the depth of the search and sets the direction variable to the direction to move in
+     */
     private int findClosestExit(Level level, int x, int y, int depth) {
         //Base case
         if (depth >= MAX_DEPTH) {
@@ -163,7 +196,15 @@ public class SmartThief extends MoveableEntity {
         // set direction to closest loot
         return findClosest(leftDepth, rightDepth, upDepth, downDepth);
     }
-
+    
+    /**
+     * Finds the closest target out of the four possible directions
+     * @param leftDepth the depth of the search to the left
+     * @param rightDepth the depth of the search to the right
+     * @param upDepth the depth of the search up
+     * @param downDepth the depth of the search down
+     * @return the depth of the search and sets the direction variable to the direction to move in
+     */
     private int findClosest(int leftDepth, int rightDepth, int upDepth, int downDepth) {
 //        System.out.println("Left: " + leftDepth + " Right: " + rightDepth + " Up: " + upDepth + " Down: " + downDepth);
         if (leftDepth < rightDepth && leftDepth < upDepth && leftDepth < downDepth) {
