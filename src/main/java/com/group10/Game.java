@@ -38,6 +38,8 @@ public class Game {
 
     private static Image exitImage;
 
+    private static Image clockImage;
+
     private static Image rubyImage;
     private static Image diamondImage;
     private static Image dollarImage;
@@ -81,6 +83,8 @@ public class Game {
         floorthiefImage = new Image(Game.class.getResource("images/entity/floorfollowingthief.png").toString());
 
         exitImage = new Image(Game.class.getResource("images/entity/exit.png").toString());
+
+        clockImage = new Image(Game.class.getResource("images/entity/clock.png").toString());
 
         rubyImage = new Image(Game.class.getResource("images/entity/ruby.png").toString());
         diamondImage = new Image(Game.class.getResource("images/entity/diamond.png").toString());
@@ -164,23 +168,25 @@ public class Game {
         } else if (entity instanceof FloorFollowingThief) {
              gc.drawImage(floorthiefImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (entity instanceof Exit) {
-             gc.drawImage(exitImage, x * GRID_SIZE, y * GRID_SIZE);
+            gc.drawImage(exitImage, x * GRID_SIZE, y * GRID_SIZE);
+        } else if (entity instanceof Clock) {
+            gc.drawImage(clockImage, x * GRID_SIZE, y * GRID_SIZE);
         } else if (entity instanceof Loot) {
-            String gemName = ((Loot) entity).getGemName();
-            switch (gemName) {
-                case "Ruby":
-                    gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-                case "Diamond":
-                    gc.drawImage(diamondImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-                case "Dollar":
-                    gc.drawImage(dollarImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-                case "Cent":
-                    gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
-                    break;
-            }
+                String gemName = ((Loot) entity).getGemName();
+                switch (gemName) {
+                    case "Ruby":
+                        gc.drawImage(rubyImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                    case "Diamond":
+                        gc.drawImage(diamondImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                    case "Dollar":
+                        gc.drawImage(dollarImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                    case "Cent":
+                        gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
+                        break;
+                }
         } else if (entity instanceof Gate) {
             Color gateColor = ((Gate) entity).getColour();
             switch (gateColor) {
