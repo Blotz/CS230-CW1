@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="616.0" prefWidth="776.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
+    <children>
+        <Pane prefHeight="398.0" prefWidth="174.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Text layoutX="280.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Highscores" textAlignment="CENTER" wrappingWidth="215.265625">
+               <font>
+                  <Font size="20.0" />
+               </font></Text>
+            <Text layoutX="351.0" layoutY="202.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position1">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position2">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position3">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="310.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position4">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position5">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position6">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position7">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="454.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position8">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="490.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position9">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Text layoutX="351.0" layoutY="529.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="position10">
+               <font>
+                  <Font size="27.0" />
+               </font>
+            </Text>
+            <Button layoutX="609.0" layoutY="521.0" mnemonicParsing="false" onAction="#highScores" prefHeight="51.0" prefWidth="129.0" text="Back" />
+            </children>
+        </Pane>
+    </children>
+    <opaqueInsets>
+        <Insets />
+    </opaqueInsets>
+</AnchorPane>
