@@ -32,7 +32,71 @@ public class Player extends MoveableEntity {
         int[] pos = level.getEntityPosition(this);
         return pos[1];
     }
-    
+
+    @Override
+    public int[] moveDown(Level level, int x, int y) {
+        if (y == level.MAX_HEIGHT - 1) {
+            Color[] colorsOnCurTile = level.getTileColorEntity(this);
+            Color[] colorsOnNewTile = level.getTileColor(x, 0);
+            for (Color newColor: colorsOnNewTile) {
+                for (Color curColor: colorsOnCurTile) {
+                    if (curColor == newColor) {
+                        return new int[]{x, 0};
+                    }
+                }
+            }
+        }
+        return super.moveDown(level, x, y);
+    }
+
+    @Override
+    public int[] moveUp(Level level, int x, int y) {
+        if (y == 0) {
+            Color[] colorsOnCurTile = level.getTileColorEntity(this);
+            Color[] colorsOnNewTile = level.getTileColor(x, level.MAX_HEIGHT - 1);
+            for (Color newColor: colorsOnNewTile) {
+                for (Color curColor: colorsOnCurTile) {
+                    if (curColor == newColor) {
+                        return new int[]{x, level.MAX_HEIGHT - 1};
+                    }
+                }
+            }
+        }
+        return super.moveUp(level, x, y);
+    }
+
+    @Override
+    public int[] moveRight(Level level, int x, int y) {
+        if (x == level.MAX_WIDTH - 1) {
+            Color[] colorsOnCurTile = level.getTileColorEntity(this);
+            Color[] colorsOnNewTile = level.getTileColor(0, y);
+            for (Color newColor: colorsOnNewTile) {
+                for (Color curColor: colorsOnCurTile) {
+                    if (curColor == newColor) {
+                        return new int[]{0, y};
+                    }
+                }
+            }
+        }
+        return super.moveRight(level, x, y);
+    }
+
+    @Override
+    public int[] moveLeft(Level level, int x, int y) {
+        if (x == 0) {
+            Color[] colorsOnCurTile = level.getTileColorEntity(this);
+            Color[] colorsOnNewTile = level.getTileColor(level.MAX_WIDTH - 1, y);
+            for (Color newColor: colorsOnNewTile) {
+                for (Color curColor: colorsOnCurTile) {
+                    if (curColor == newColor) {
+                        return new int[]{level.MAX_WIDTH - 1, y};
+                    }
+                }
+            }
+        }
+        return super.moveLeft(level, x, y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
