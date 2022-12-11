@@ -17,7 +17,6 @@ public class Switch extends PickUp {
     }
 
     public void onInteract(Level level) {
-        System.out.println("Test");
         for (int x = 0; x < level.MAX_WIDTH; x++) {
             for (int y = 0; y < level.MAX_HEIGHT; y++) {
                 Entity tempEntity = level.getEntity(x, y);

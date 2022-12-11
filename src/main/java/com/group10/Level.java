@@ -447,7 +447,6 @@ public class Level {
                     entityMap[newY][newX] = movingEntity;
                     entityMap[oldY][oldX] = null;
                 }
-
             } else if (targetEntity instanceof PickUp) {
                 PickUp item = (PickUp) targetEntity;
 
@@ -471,6 +470,9 @@ public class Level {
                 // move
                 entityMap[newY][newX] = movingEntity;
                 entityMap[oldY][oldX] = null;
+            } else if (targetEntity instanceof FlyingAssassin) {
+                setGameOver(true);
+                setWin(false);
             }
         } else if (movingEntity instanceof SmartThief) {
             if (targetEntity instanceof Exit) {
@@ -478,7 +480,7 @@ public class Level {
                     setGameOver(true);
                     setWin(false);
                 }
-            }else if (targetEntity instanceof Loot) {
+            } else if (targetEntity instanceof Loot) {
                 // move
                 entityMap[newY][newX] = movingEntity;
                 entityMap[oldY][oldX] = null;
@@ -487,6 +489,11 @@ public class Level {
                 // move
                 entityMap[newY][newX] = movingEntity;
                 entityMap[oldY][oldX] = null;
+            }
+        } else if (movingEntity instanceof FlyingAssassin) {
+            if (targetEntity instanceof Player) {
+                setGameOver(true);
+                setWin(false);
             }
         }
         if (targetEntity != null) {
