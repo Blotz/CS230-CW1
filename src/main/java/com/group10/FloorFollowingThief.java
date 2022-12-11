@@ -25,7 +25,7 @@ public class FloorFollowingThief extends MoveableEntity {
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;
-        Entity entity
+        Entity entity;
 
         // Turn left?
         newPos = switch (direction) {
