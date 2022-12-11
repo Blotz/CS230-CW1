@@ -10,12 +10,18 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.util.Arrays;
+
 import static com.group10.Color.RED;
+import static java.lang.System.*;
 
 public class Game {
     private static Level level = null;
@@ -248,7 +254,7 @@ public class Game {
                 Menu.mainMenu();
                 break;
             default:
-                System.out.println("Unknown key pressed: " + event.getCode());
+                out.println("Unknown key pressed: " + event.getCode());
         }
         drawLevel();
         event.consume();
@@ -277,7 +283,7 @@ public class Game {
     
     @FXML
     public void resetPlayerLocation(ActionEvent event) {
-        System.out.println("Resetting player location");
+        out.println("Resetting player location");
         // Reset the player location
         int[] oldPos = level.getEntityPosition(player);
         int[] start = {0, 0};
@@ -288,7 +294,7 @@ public class Game {
     
     @FXML
     public void movePlayerCenter(ActionEvent event) {
-        System.out.println("Move player to center");
+        out.println("Move player to center");
         // Move the player to the center of the level
         int[] oldPos = level.getEntityPosition(player);
 
@@ -298,16 +304,42 @@ public class Game {
     
     @FXML
     public void startTicks(ActionEvent event) {
-        System.out.println("Starting ticks");
+        out.println("Starting ticks");
         // Start the ticks
         tickTimeline.play();
     }
     
     @FXML
     public void stopTicks(ActionEvent event) {
-        System.out.println("Stopping ticks");
+        out.println("Stopping ticks");
         // Stop the ticks
         tickTimeline.stop();
+    }
+
+    public void Pause(ActionEvent event) {
+        tickTimeline.pause();
+        out.println("Pause");
+        Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
+    }
+
+    @FXML
+    public void Save(ActionEvent event){
+        Profile.saveLevel(Profile.getProfileName(), level.saveLevel());
+        System.out.println("Save");
+
+    }
+
+    @FXML
+    public void Resume(ActionEvent event){
+        tickTimeline.play();
+        Main.changeScene(scene);
+    }
+
+    @FXML
+    public void MMenue(ActionEvent event){
+        out.println("Menue");
+        Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
+
     }
 
     private static void winScreen(){
