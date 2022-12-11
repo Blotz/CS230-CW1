@@ -193,6 +193,8 @@ public class Level {
                     break;
                 case "Clock":
                     break;
+                case "Bomb":
+                    break;
                 case "Switch":
                     color = charToColor(creature.next().charAt(0));
                     Switch sw = new Switch(color);
