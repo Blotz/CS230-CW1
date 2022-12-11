@@ -29,7 +29,8 @@ public class FlyingAssassin extends MoveableEntity{
             case UP:
                  newPos = moveUp(level, pos[0], pos[1]);
                  entity = level.getEntity(newPos[0], newPos[1]);
-                 if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                 if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                         (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                      direction = Direction.DOWN;
                      return move(level);
                  } else {
@@ -38,7 +39,8 @@ public class FlyingAssassin extends MoveableEntity{
             case DOWN:
                 newPos = moveDown(level, pos[0], pos[1]);
                 entity = level.getEntity(newPos[0], newPos[1]);
-                if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                        (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                     direction = Direction.UP;
                     return move(level);
                 } else {
@@ -47,7 +49,8 @@ public class FlyingAssassin extends MoveableEntity{
             case LEFT:
                 newPos = moveLeft(level, pos[0], pos[1]);
                 entity = level.getEntity(newPos[0], newPos[1]);
-                if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                        (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                     direction = Direction.RIGHT;
                     return move(level);
                 } else {
@@ -56,7 +59,8 @@ public class FlyingAssassin extends MoveableEntity{
             case RIGHT:
                 newPos = moveRight(level, pos[0], pos[1]);
                 entity = level.getEntity(newPos[0], newPos[1]);
-                if (newPos[0] == pos[0] && newPos[1] == pos[1] || (entity != null && !(entity instanceof Player))) {
+                if (newPos[0] == pos[0] && newPos[1] == pos[1] ||
+                        (entity != null && !(entity instanceof Player || entity instanceof FlyingAssassin))) {
                     direction = Direction.LEFT;
                     return move(level);
                 } else {
