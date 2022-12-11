@@ -101,6 +101,7 @@ public class Game {
             throw new RuntimeException("Level not set");
         }
         drawLevel();
+        tickTimeline.play();
         Main.changeScene(scene);
     }
     

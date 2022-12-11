@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
@@ -13,11 +14,7 @@
          <top>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#resetPlayerLocation" text="Reset Player Location" />
-                  <Button mnemonicParsing="false" onAction="#movePlayerCenter" text="Move Player Centre" />
-                  <Button mnemonicParsing="false" onAction="#stopTicks" text="Stop ticks" />
-                  <Button mnemonicParsing="false" onAction="#startTicks" style="-fx-padding: 10;" text="Start ticks" />
-                  <Button mnemonicParsing="false" onAction="#Pause"  style="-fx-padding: 10;" text="Pause" />
+                  <Button mnemonicParsing="false" onAction="#Pause" style="-fx-padding: 10;" text="Pause" />
                </children>
             </HBox>
          </top>
