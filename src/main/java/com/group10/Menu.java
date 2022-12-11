@@ -27,7 +27,7 @@ public class Menu {
             Button loadLevelButton = (Button) root.lookup("#levelLoadButton");
     
             // Make visible
-            loadLevelButton.setVisible(true);
+            loadLevelButton.setDisable(false);
         }
         
         Main.changeScene(scene);
