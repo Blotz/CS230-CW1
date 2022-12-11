@@ -4,8 +4,10 @@ package com.group10;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -17,7 +19,23 @@ public class Level {
     // Final because we won't want to change the size of these arrays
     private final Tile[][] map;
     private final Entity[][] entityMap;
-    private ArrayList<MoveableEntity> npcs = new ArrayList<MoveableEntity>();
+    private ArrayList<Entity> npcs = new ArrayList<Entity>();
+
+    /*
+    right so this is the new npcs arraylist
+    basically its conna contain all the npcs and let us easily access them
+
+    in the update code we can loop though this arraylist and call their respective move code
+
+    im gonna be workin ongetting Exit working!
+    yeah i saw, looks gd
+    there are also  a couple other changes
+    there is a new file called Color and file called Direction
+    they are both enums which lets us standardise what a direction is  and all posible colours
+    ive already changed the code to use them
+    #bangin
+
+     */
     private int time;
     public final int MAX_HEIGHT;
     public final int MAX_WIDTH;
@@ -152,6 +170,7 @@ public class Level {
                     int score = creature.nextInt();
                     Player player = new Player(score);
                     entityMap[creatureY][creatureX] = player;
+                    npcs.add(player);
                     break;
                 case "FloorFollowingThief":
                     direction = stringToDirection(creature.next());
@@ -187,6 +206,9 @@ public class Level {
                     entityMap[creatureY][creatureX] = clock;
                     break;
                 case "Bomb":
+                    Bomb bomb = new Bomb();
+                    entityMap[creatureY][creatureX] = bomb;
+                    npcs.add(bomb);
                     break;
                 case "Switch":
                     color = charToColor(creature.next().charAt(0));
@@ -435,7 +457,7 @@ public class Level {
                 }
             }
         }
-        throw new RuntimeException("Player not found");
+        return null;
     }
     
     /**
@@ -496,6 +518,11 @@ public class Level {
         Entity targetEntity = entityMap[newY][newX];
         // Lovely. just working on all the move interactions. ive decided to jsut code it here
 
+        if (getPlayer() == null) {
+            setGameOver(true);
+            setWin(false);
+        }
+
         if (movingEntity instanceof Player) {
             if (targetEntity instanceof Exit) {
                 // Winn condidtion
@@ -511,24 +538,26 @@ public class Level {
 
                 if (item instanceof Switch) {
                     ((Switch) item).onInteract(this);
-                }
 
-                // Checks if item is bomb
-                if (item instanceof Bomb) {
-                    // Starts the timer for the bomb
-                    ((Bomb) item).startBomb(3);
+                    // move
+                    entityMap[newY][newX] = movingEntity;
+                    entityMap[oldY][oldX] = null;
                 }
-
                 if (item instanceof Clock) {
                     ((Clock) item).onInteract(movingEntity, this);
+
+                    // move
+                    entityMap[newY][newX] = movingEntity;
+                    entityMap[oldY][oldX] = null;
                 }
                 if (targetEntity instanceof Loot) {
                     ((Loot) targetEntity).onInteract(movingEntity, this);
+
+                    // move
+                    entityMap[newY][newX] = movingEntity;
+                    entityMap[oldY][oldX] = null;
                 }
 
-                // move
-                entityMap[newY][newX] = movingEntity;
-                entityMap[oldY][oldX] = null;
             } else if (targetEntity instanceof FlyingAssassin) {
                 setGameOver(true);
                 setWin(false);
@@ -543,6 +572,7 @@ public class Level {
                 // move
                 entityMap[newY][newX] = movingEntity;
                 entityMap[oldY][oldX] = null;
+
             } else if (targetEntity instanceof Switch) {
                 ((Switch) targetEntity).onInteract(movingEntity, this);
                 // move
@@ -570,6 +600,7 @@ public class Level {
      * Calculates the next frame of game logic
      */
     public void update() {
+
         for(Entity entity : npcs) {
             if (entity instanceof FlyingAssassin) {
                 FlyingAssassin flyingAssassin = (FlyingAssassin) entity;
@@ -589,20 +620,10 @@ public class Level {
                 int[] newPos = floorFollowingThief.move(this);
 
                 moveEntity(oldPos[0], oldPos[1], newPos[0], newPos[1]);
-            }
-
-            // Bomb timer code
-            else if (entity instanceof Bomb) {
+            } else if (entity instanceof Bomb) {
+                // check near by squares for Player or SmartTheif or FloorFollowingTheif
                 Bomb bomb = (Bomb) entity;
-                // If the bombs timer has already begun, then countdown
-                if (bomb.hasTimerBegun() == true) {
-                    if (bomb.getTimer() > 0) {
-                        bomb.countdownTimer(1);
-                    }
-                    else if (bomb.getTimer() == 0) {
-                        bomb.explosion(this);
-                    }
-                }
+                bomb.update(this);
             }
         }
         time--;

@@ -41,6 +41,8 @@ public class Game {
     private static Image dollarImage;
     private static Image centImage;
 
+    private static Image bombImage;
+
     private static Image redGateImage;
     private static Image blueGateImage;
     private static Image greenGateImage;
@@ -90,6 +92,8 @@ public class Game {
         diamondImage = new Image(Game.class.getResource("images/entity/diamond.png").toString());
         dollarImage = new Image(Game.class.getResource("images/entity/dollar.png").toString());
         centImage = new Image(Game.class.getResource("images/entity/cent.png").toString());
+
+        bombImage = new Image((Game.class).getResource("images/entity/bomb.png").toString());
 
         redGateImage = new Image(Game.class.getResource("images/entity/redGate.png").toString());
         blueGateImage = new Image(Game.class.getResource("images/entity/blueGate.png").toString());
@@ -212,7 +216,10 @@ public class Game {
                 case GREEN -> gc.drawImage(greenSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
                 case BLUE -> gc.drawImage(blueSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
             }
+        } else if (entity instanceof Bomb) {
+           gc.drawImage(bombImage, x * GRID_SIZE, y * GRID_SIZE);
         }
+
     }
     
     /**
