@@ -1,10 +1,9 @@
 package com.group10;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Switch extends PickUp {
-
-    private ArrayList<Gate> gates = new ArrayList<>();
     private Color colour;
     private static final String FORMAT = "Switch %s";
 
@@ -17,18 +16,16 @@ public class Switch extends PickUp {
         return String.format(FORMAT, Level.colorToChar(colour));
     }
 
-    public void addGate(Gate gate) {
-        if (gate.getColour() == colour) {
-            gates.add(gate);
-        } else {
-            System.out.println("Switch is not the same color as the gate");
-        }
-    }
-
-    public void onInteract(Entity entity, Level level) {
-        if (entity instanceof Player) {
-            for (Gate g : gates) {
-                g.setOpen(level);
+    public void onInteract(Level level) {
+        System.out.println("Test");
+        for (int x = 0; x < level.MAX_WIDTH; x++) {
+            for (int y = 0; y < level.MAX_HEIGHT; y++) {
+                Entity tempEntity = level.getEntity(x, y);
+                if (tempEntity instanceof Gate ) {
+                    if (((Gate) tempEntity).getColour() == colour) {
+                        ((Gate) tempEntity).setOpen(level);
+                    }
+                }
             }
         }
     }

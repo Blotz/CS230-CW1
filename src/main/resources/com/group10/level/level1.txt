@@ -9,5 +9,6 @@ BBBB BBBB BBBB BBBB BBBB
 (3,0) Clock
 (1,1) Gate blue
 (0,2) Switch blue
+(2,2) Gate green
 (2,3) Exit
 180

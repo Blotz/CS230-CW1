@@ -449,6 +449,10 @@ public class Level {
             } else if (targetEntity instanceof PickUp) {
                 PickUp item = (PickUp) targetEntity;
 
+                if (item instanceof Switch) {
+                    ((Switch) item).onInteract(this);
+                }
+
                 // Checks if item is bomb
                 if (item instanceof Bomb) {
                     // Starts the timer for the bomb
