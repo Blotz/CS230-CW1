@@ -462,6 +462,9 @@ public class Level {
                 if (item instanceof Clock) {
                     ((Clock) item).onInteract(movingEntity, this);
                 }
+                if (targetEntity instanceof Loot) {
+                    ((Loot) targetEntity).onInteract(movingEntity, this);
+                }
 
                 // move
                 entityMap[newY][newX] = movingEntity;
