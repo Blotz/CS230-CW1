@@ -17,6 +17,7 @@
                   <Button mnemonicParsing="false" onAction="#movePlayerCenter" text="Move Player Centre" />
                   <Button mnemonicParsing="false" onAction="#stopTicks" text="Stop ticks" />
                   <Button mnemonicParsing="false" onAction="#startTicks" style="-fx-padding: 10;" text="Start ticks" />
+                  <Button mnemonicParsing="false" onAction="#Pause"  style="-fx-padding: 10;" text="Pause" />
                </children>
             </HBox>
          </top>

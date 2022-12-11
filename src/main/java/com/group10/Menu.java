@@ -233,6 +233,8 @@ public class Menu {
     public void mainMenu(ActionEvent event) {
         Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
     }
+
+
     
     @FXML
     public void quit(ActionEvent event) {
