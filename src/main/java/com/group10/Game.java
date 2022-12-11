@@ -252,7 +252,7 @@ public class Game {
                 moveRight();
                 break;
             case ESCAPE:
-                Menu.mainMenu();
+                Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
                 break;
             default:
                 out.println("Unknown key pressed: " + event.getCode());
