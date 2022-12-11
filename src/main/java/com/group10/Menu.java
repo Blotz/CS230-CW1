@@ -200,16 +200,21 @@ public class Menu {
             sortedScores.add(s);
         }
     
+        if (playerData.length == 0) {
+            Main.changeScene(scene);
+            return;
+        }
         // populates the highscore screen with players in order
         for (int i = 0; i < 10; i++) {
             
-            if (playerData[i] == null) {
+            if (playerData.length > i) {
                 break;
             }
             String[] player = playerData[i].split("\"");
             String name = player[1];
             String score = player[2];
-    
+            System.out.println(name + " " + score);
+            
             VBox vboxl = new VBox();
             VBox vboxr = new VBox();
             Text nameText = new Text(name);

@@ -46,8 +46,3 @@
 .hbox {
     -fx-spacing: 40;
 }
-
-.grid {
-    -fx-border-color: #a30000;
-    -fx-border-width: 2;
-}
