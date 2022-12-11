@@ -6,6 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -30,6 +31,9 @@ public class Menu {
     public static void mainMenu() {
         Scene scene = Main.getScene("GUI/mainMenu.fxml");
         Parent root = scene.getRoot();
+    
+        Label motd = (Label) root.lookup(".motd");
+        motd.setText(MOTDRetriever.getMOTD());
         
         if (!Profile.getLevel().equals("")) {
             System.out.println("Level: " + Profile.getLevel());

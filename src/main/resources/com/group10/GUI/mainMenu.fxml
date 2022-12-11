@@ -6,12 +6,16 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <BorderPane onKeyPressed="#fullscreen" prefHeight="566.0" prefWidth="717.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Menu">
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Cave Game" textAlignment="CENTER" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Cave Game" textAlignment="CENTER" />
+                  <Label styleClass="motd" text="MOTD" />
+               </children>
+            </VBox>
             <VBox alignment="CENTER" prefHeight="398.0" prefWidth="252.0" style="-fx-spacing: 10;">
                <children>
                   <Button id="levelLoadButton" disable="true" mnemonicParsing="false" onAction="#loadLevel" prefHeight="56.0" prefWidth="187.0" text="Load save" textAlignment="CENTER" />
