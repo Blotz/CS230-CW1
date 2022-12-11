@@ -1,63 +1,78 @@
 package com.group10;
 
+import java.util.ArrayList;
+
 public class Bomb extends Interaction {
-    private int currTimer;
-    private boolean timerBegun = false;
-    private int tempX = 0;
-    private int tempY = 0;
+    private int COUNTDOWN = 10;
+    private boolean timerStarts = false;
+
+    public void update(Level level) {
+        // Check the near by squares
+        if (!timerStarts) {
+            cheakNearby(level);
+        }
+        if (timerStarts) {
+            countdown(level);
+        }
+
+    }
+
+    private void cheakNearby(Level level) {
+        // Check the near by squares
+        int[] pos = level.getEntityPosition(this);
+
+        boolean hasEntity = check(level, pos[0], pos[1] + 1);  // up
+        hasEntity = hasEntity || check(level, pos[0], pos[1] - 1);  // down
+        hasEntity = hasEntity || check(level, pos[0] - 1, pos[1]);  // left
+        hasEntity = hasEntity || check(level, pos[0] + 1, pos[1]);  // right
+
+        if (hasEntity) {
+            timerStarts = true;
+        }
+    }
+
+    private boolean check(Level level, int x, int y) {
+
+        Entity entity = level.getEntity(x, y);
+
+        if (entity instanceof Player) {
+            return true;
+        } else if (entity instanceof FlyingAssassin) {
+            return true;
+        } else if (entity instanceof FlyingAssassin) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void countdown(Level level) {
+        COUNTDOWN--;
+        if (COUNTDOWN == 0) {
+            System.out.println("boom town");
+            explosion(level);
+        }
+    }
 
     public void explosion(Level level) {
 
         // Collects the y : [0] and x : [1] for the bomb position
         int[] bombPos = level.getEntityPosition(this);
 
-        for (int i = tempX; i < level.MAX_HEIGHT; i++) {
-            if (level.getEntity(i, bombPos[0]) != null) {
-                Entity e = (level.getEntity(i, bombPos[0]));
+        for (int x = 0; x < level.MAX_WIDTH; x++) {
+            Entity entity = level.getEntity(x, bombPos[1]);
+            if (entity != null && (!(entity instanceof Gate) || !(entity instanceof Exit))) {
 
-                //Change to Door not switch just place holder.
-                boolean val = e instanceof Switch;
-                boolean val2 = e instanceof Gate;
-                if (val != true && val2 != true) {
-                    level.setEntity(null, tempX, bombPos[0]);
-                }
+                level.setEntity(null, x, bombPos[1]);
+
             }
         }
-        for (int p = tempY; p < level.MAX_WIDTH; p++) {
-            if (level.getEntity(p, bombPos[0]) != null) {
-                Entity c = (level.getEntity(p, bombPos[1]));
+        for (int y = 0; y < level.MAX_HEIGHT; y++) {
+            Entity entity = level.getEntity(bombPos[0], y);
+            if (entity != null && (!(entity instanceof Gate) || !(entity instanceof Exit))) {
 
-                //Change to Door not switch just place holder.
-                boolean val3 = c instanceof Switch;
-                boolean val4 = c instanceof Gate;
-                if (val3 != true && val4 != true) {
-                    level.setEntity(null, bombPos[1], tempY);
-
-                }
+                level.setEntity(null, bombPos[0], y);
             }
         }
-
-        // Sets the bombs timer state to false, so it can't keep getting referenced
-        timerBegun = false;
-    }
-
-    // add bomb to npc array in level. Check if explosion is true. UPDATE function updates every tick
-    public void startBomb(int timer) {
-
-        currTimer = timer;
-        timerBegun = true;
-    }
-
-    public boolean hasTimerBegun() {
-        return timerBegun;
-    }
-
-    public int getTimer() {
-        return currTimer;
-    }
-
-    public int countdownTimer(int countdownValue) {
-        return currTimer - countdownValue;
     }
 }
-
