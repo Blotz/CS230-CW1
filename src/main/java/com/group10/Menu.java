@@ -122,6 +122,12 @@ public class Menu {
     }
     
     @FXML
+    public void deleteProfile(ActionEvent event) {
+        Profile.deleteProfile(Profile.getProfileName());
+        profileMenu();
+    }
+    
+    @FXML
     public void highScores() {
         System.out.println("High Scores");
 

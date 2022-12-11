@@ -134,4 +134,38 @@ public class Highscores {
     }
     
     
+    /**
+     * Deletes all the highscores for a profile
+     * @param profileName the name of the profile to delete the highscores for
+     */
+    public static void deleteHighscore(String profileName) {
+        // Read the file
+        InputStream file = Highscores.class.getResourceAsStream(HIGHSCORES_PATH);
+        if (file == null) {
+            throw new RuntimeException(FILE_NOT_FOUND);
+        }
+        String fileContents = "";
+    
+        Scanner in = new Scanner(file);
+        // Loop though and find the profile account
+        while (in.hasNext()) {
+            String highscore = in.nextLine();
+            if (!highscore.startsWith("\"" + profileName + "\"")) {
+                fileContents += String.format(highscore + "%n");
+            }
+        }
+        in.close();
+        // Write the file
+        String path = Highscores.class.getResource(HIGHSCORES_PATH).getPath();
+        try {
+            OutputStream out = new FileOutputStream(path);
+            out.write(fileContents.getBytes(), 0, fileContents.length());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
+    
 }

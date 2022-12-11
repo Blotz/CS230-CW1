@@ -49,8 +49,6 @@ public class Profile {
                 fileContents += String.format(profile + NEW_PROFILE);
             }
         }
-        // If the profile was not found, add it to the end of the file
-        // TODO:
         if (profile == null) {
             throw new IllegalArgumentException("Profile not found");
         }
@@ -112,8 +110,6 @@ public class Profile {
             }
         }
         in.close();
-        // If the profile was not found, add it to the end of the file
-        // TODO:
         if (profile == null) {
             throw new IllegalArgumentException("Profile not found");
         }
@@ -210,6 +206,54 @@ public class Profile {
             profileData.close();
         }
         in.close();
+    }
+    
+    /**
+     * Deletes the profile from the game
+     * @param profileName the name of the profile to be deleted
+     */
+    public static void deleteProfile(String profileName) {
+        Profile.profileName = null;
+        Profile.maxLevel = 0;
+        Profile.currentLevel = null;
+        deleteProfileFromFile(profileName);
+        Highscores.deleteHighscore(profileName);
+    }
+    
+    /**
+     * Deletes the profile from the file
+     * @param profileName the name of the profile to be deleted
+     */
+    private static void deleteProfileFromFile(String profileName) {
+        // Read the file
+        InputStream file = Profile.class.getResourceAsStream(PROFILE_PATH);
+        if (file == null) {
+            throw new RuntimeException(FILE_NOT_FOUND);
+        }
+        String fileContents = "";
+        
+        Scanner in = new Scanner(file);
+        in.useDelimiter(String.format(NEW_PROFILE));
+        
+        // Loop though and find the profile account
+        String profile = null;
+        while (in.hasNext()) {
+            profile = in.next();
+            if (!profile.startsWith("\""+profileName+ "\"")) {
+                fileContents += String.format(profile + NEW_PROFILE);
+            }
+        }
+        in.close();
+        
+        // Write the file
+        String path = Profile.class.getResource(PROFILE_PATH).getPath();
+        try {
+            OutputStream os = new FileOutputStream(path);
+            os.write(fileContents.getBytes(), 0, fileContents.length());
+            os.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     
     public static String getProfileName() {
