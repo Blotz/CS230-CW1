@@ -25,6 +25,7 @@ public class FloorFollowingThief extends MoveableEntity {
     public int[] move(Level level) {
         int[] pos = level.getEntityPosition(this);
         int[] newPos;
+        Entity entity
 
         // Turn left?
         newPos = switch (direction) {
@@ -33,8 +34,12 @@ public class FloorFollowingThief extends MoveableEntity {
             case LEFT -> moveDown(level, pos[0], pos[1]);
             case RIGHT -> moveUp(level, pos[0], pos[1]);
         };
-
-        if (newPos[0] != pos[0] || newPos[1] != pos[1]) {
+        
+        entity = level.getEntity(newPos[0], newPos[1]);
+        if ((newPos[0] != pos[0] || newPos[1] != pos[1])
+            && (entity != null
+                && (!(entity instanceof Switch) || !(entity instanceof Loot))
+          )) {
             direction = switch (direction) {
                 case UP -> Direction.LEFT;
                 case DOWN -> Direction.RIGHT;
@@ -50,7 +55,8 @@ public class FloorFollowingThief extends MoveableEntity {
             case LEFT -> moveLeft(level, pos[0], pos[1]);
             case RIGHT -> moveRight(level, pos[0], pos[1]);
         };
-        if (newPos[0] != pos[0] || newPos[1] != pos[1]) {
+        entity = level.getEntity(newPos[0], newPos[1]);
+        if (newPos[0] != pos[0] || newPos[1] != pos[1] || entity == null || entity instanceof Switch || entity instanceof Loot) {
             return newPos;
         }
         // Turn right!
