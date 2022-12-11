@@ -11,10 +11,7 @@ import javafx.scene.text.Text;
 
 import java.io.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+import java.util.*;
 
 public class Menu {
     @FXML
@@ -135,16 +132,34 @@ public class Menu {
 
         ArrayList<String> highscores = Highscores.getHighscores(levelNum);
 
-        String[] playerData = highscores.toArray(new String[0]);
+        String[] playerData = new String[highscores.size()];
 
-        Arrays.sort(playerData);
+        // Converts arraylist into an array of strings
+        for (int i = 0; i < highscores.size(); i++) {
+            playerData[i] = highscores.get(i);
+        }
+
+        Arrays.sort(playerData, new Comparator<String>() {
+            @Override
+            public int compare(String s1, String s2) {
+
+                // Extracts the 2 scores
+                int score1 = Integer.parseInt(s1.split(" ")[1]);
+                int score2 = Integer.parseInt(s2.split(" ")[1]);
+
+                // Compares scores and returns result
+                return Integer.compare(score2, score1);
+            }
+        });
 
         ArrayList<String> sortedScores = new ArrayList<>();
 
+        // Converts sorted array of string into an arraylist again
         for (String s : playerData) {
             sortedScores.add(s);
         }
 
+        // populates the highscore screen with players in order
         for (String p : sortedScores) {
 
             String[] splitData = p.split(" ");
