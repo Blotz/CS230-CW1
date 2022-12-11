@@ -192,6 +192,8 @@ public class Level {
                     entityMap[creatureY][creatureX] = loot;
                     break;
                 case "Clock":
+                    Clock clock = new Clock();
+                    entityMap[creatureY][creatureX] = clock;
                     break;
                 case "Bomb":
                     break;
