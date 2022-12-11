@@ -1,5 +1,9 @@
 package com.group10;
 
+/**
+ * This base class which all Moving entities in the game extend.
+ * Allows them to move around the game.
+ */
 public abstract class MoveableEntity implements Entity {
     
     /**

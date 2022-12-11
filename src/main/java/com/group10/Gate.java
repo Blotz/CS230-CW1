@@ -1,8 +1,8 @@
 package com.group10;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
+/**
+ * A Gate which can be opened by a switch
+ */
 public class Gate implements Entity {
     private Color colour;
     private static final String FORMAT = "Gate %s";

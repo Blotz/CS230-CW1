@@ -2,6 +2,9 @@ package com.group10;
 
 import java.util.Objects;
 
+/**
+ * This class represents a player in the game
+ */
 public class Player extends MoveableEntity {
     private int score = 0;
     

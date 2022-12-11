@@ -18,21 +18,6 @@ public class Level {
     private final Tile[][] map;
     private final Entity[][] entityMap;
     private ArrayList<MoveableEntity> npcs = new ArrayList<MoveableEntity>();
-    /*
-    right so this is the new npcs arraylist
-    basically its conna contain all the npcs and let us easily access them
-
-    in the update code we can loop though this arraylist and call their respective move code
-
-    im gonna be workin ongetting Exit working!
-    yeah i saw, looks gd
-    there are also  a couple other changes
-    there is a new file called Color and file called Direction
-    they are both enums which lets us standardise what a direction is  and all posible colours
-    ive already changed the code to use them
-    #bangin
-
-     */
     private int time;
     public final int MAX_HEIGHT;
     public final int MAX_WIDTH;

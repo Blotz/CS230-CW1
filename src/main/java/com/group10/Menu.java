@@ -15,6 +15,9 @@ import javafx.scene.text.Text;
 import java.io.*;
 import java.util.*;
 
+/**
+ * This class handles all the menu interactions
+ */
 public class Menu {
     @FXML
     private TextField playerName;

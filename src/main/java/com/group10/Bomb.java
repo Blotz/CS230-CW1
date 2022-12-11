@@ -27,7 +27,7 @@ public class Bomb extends Interaction {
             if (level.getEntity(p, bombPos[0]) != null) {
                 Entity c = (level.getEntity(p, bombPos[1]));
 
-                //Change to Door not switch just place holder.
+                //Change to Door not switch just placeholder.
                 boolean val3 = c instanceof Switch;
                 boolean val4 = c instanceof Gate;
                 if (val3 != true && val4 != true) {

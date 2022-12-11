@@ -10,20 +10,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-import java.io.File;
-import java.util.Arrays;
-
-import static com.group10.Color.RED;
-import static java.lang.System.*;
 import static javafx.scene.input.KeyCode.F;
 
+/**
+ * The main Game loop.
+ */
 public class Game {
     private static Level level = null;
     private static Player player;
@@ -299,7 +295,7 @@ public class Game {
             case F:
                 Main.toggleFullScreen(F);
             default:
-                out.println("Unknown key pressed: " + event.getCode());
+                System.out.println("Unknown key pressed: " + event.getCode());
         }
         drawLevel();
         event.consume();
@@ -366,7 +362,7 @@ public class Game {
 
     @FXML
     public void MMenue(ActionEvent event){
-        out.println("Menue");
+        System.out.println("Menue");
         Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
 
     }

@@ -1,8 +1,9 @@
 package com.group10;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
+/**
+ * An item which can be picked up in the game.
+ * Causes all gates which share the same color to open.
+ */
 public class Switch extends PickUp {
     private Color colour;
     private static final String FORMAT = "Switch %s";

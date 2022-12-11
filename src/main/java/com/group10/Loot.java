@@ -1,6 +1,8 @@
 package com.group10;
 
-
+/**
+ * A piece of loot which can be picked up in the game
+ */
 public class Loot extends PickUp{
 
     private String gemName;

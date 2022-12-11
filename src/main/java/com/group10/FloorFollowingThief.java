@@ -2,8 +2,8 @@ package com.group10;
 
 import java.util.Objects;
 
-/*
-TODO: Get FFT to pick up loot as it goes over it.
+/**
+ * The Floor Following Thief is a type of thief that follows the floor colour in a clockwise direction.
  */
 public class FloorFollowingThief extends MoveableEntity {
     private Direction initDirection;

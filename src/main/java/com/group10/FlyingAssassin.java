@@ -3,9 +3,9 @@ package com.group10;
 import java.util.Objects;
 
 
-/*TODO: If the Flying Assassin collides with the player, the player should loose
-        and the game should end or level reset.
-*  */
+/**
+ * The Flying Assassin NPC is an enemy that can fly and kill the player.
+ */
 public class FlyingAssassin extends MoveableEntity{
     private Direction direction;
     

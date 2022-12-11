@@ -3,7 +3,9 @@ package com.group10;
 import java.util.Objects;
 import java.util.Random;
 
-
+/**
+ * The smart thief is a thief that moves directly towards the closest loot on the map
+ */
 public class SmartThief extends MoveableEntity {
     private static final int MAX_DEPTH = 10;
     private Direction direction = Direction.UP;

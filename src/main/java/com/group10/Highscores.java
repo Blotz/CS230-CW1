@@ -7,6 +7,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * This handles all operations to do with highscores.
+ */
 public class Highscores {
     private static final String HIGHSCORES_PATH = "highscores.txt";
     private static final String HIGHSCORES_FORMAT = "\"%s\" %d %d%n";
