@@ -474,7 +474,7 @@ public class Level {
                 setGameOver(true);
                 setWin(false);
             }
-        } else if (movingEntity instanceof SmartThief) {
+        } else if (movingEntity instanceof SmartThief || movingEntity instanceof FloorFollowingThief) {
             if (targetEntity instanceof Exit) {
                 if (!isLootOnMap() && !isSwitchOnMap()) {
                     setGameOver(true);
