@@ -195,6 +195,7 @@ public class Game {
         // Update the level
          level.update(); // that was commented out
         if (level.getGameOver()) {
+            System.out.println("Game Over");
             tickTimeline.stop();
             if (level.getWin()) {
                 winScreen();

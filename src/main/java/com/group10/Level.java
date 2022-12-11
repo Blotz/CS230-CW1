@@ -480,6 +480,11 @@ public class Level {
                 // move
                 entityMap[newY][newX] = movingEntity;
                 entityMap[oldY][oldX] = null;
+            } else if (targetEntity instanceof Switch) {
+                ((Switch) targetEntity).onInteract(movingEntity, this);
+                // move
+                entityMap[newY][newX] = movingEntity;
+                entityMap[oldY][oldX] = null;
             }
         }
         if (targetEntity != null) {

@@ -5,7 +5,7 @@ import java.util.Random;
 
 
 public class SmartThief extends MoveableEntity {
-    private static final int MAX_DEPTH = 5;
+    private static final int MAX_DEPTH = 10;
     private Direction direction = Direction.UP;
 
     private static final String FORMAT = "SmartThief";
@@ -24,12 +24,18 @@ public class SmartThief extends MoveableEntity {
         int y = pos[1];
 
         // Is there loot on the map?
-        if (level.isLootOnMap()) {
+        if (level.isLootOnMap() || level.isSwitchOnMap()) {
+            System.out.println("Loot on map");
             int depth = findClosestLoot(level, x, y, 0);
+            System.out.println("Depth: " + depth);
+            System.out.println("Direction: " + direction);
             return moveInDirection(level, x, y);
         }
         // Move towards exit
+        System.out.println("No loot on map");
         int depth = findClosestExit(level, x, y, 0);
+        System.out.println("Depth: " + depth);
+        System.out.println("Direction: " + direction);
         return moveInDirection(level, x, y);
 
     }
@@ -75,31 +81,35 @@ public class SmartThief extends MoveableEntity {
         int rightDepth = MAX_DEPTH;
         int upDepth = MAX_DEPTH;
         int downDepth = MAX_DEPTH;
-
+        Entity entity;
 
         int[] left = moveLeft(level, x, y);
-        if (level.getEntity(left[0], left[1]) instanceof Loot) {
+        entity = level.getEntity(left[0], left[1]);
+        if (entity instanceof Loot || entity instanceof Switch) {
             direction = Direction.LEFT;
             return depth;
         } else if (level.getEntity(left[0], left[1]) == null) {
             leftDepth = findClosestLoot(level, left[0], left[1], depth + 1);
         }
         int[] right = moveRight(level, x, y);
-        if (level.getEntity(right[0], right[1]) instanceof Loot) {
+        entity = level.getEntity(right[0], right[1]);
+        if (entity instanceof Loot || entity instanceof Switch) {
             direction = Direction.RIGHT;
             return depth;
         } else if (level.getEntity(right[0], right[1]) == null) {
             rightDepth = findClosestLoot(level, right[0], right[1], depth + 1);
         }
         int[] up = moveUp(level, x, y);
-        if (level.getEntity(up[0], up[1]) instanceof Loot) {
+        entity = level.getEntity(up[0], up[1]);
+        if (entity instanceof Loot || entity instanceof Switch) {
             direction = Direction.UP;
             return depth;
         } else if (level.getEntity(up[0], up[1]) == null) {
             upDepth = findClosestLoot(level, up[0], up[1], depth + 1);
         }
         int[] down = moveDown(level, x, y);
-        if (level.getEntity(down[0], down[1]) instanceof Loot) {
+        entity = level.getEntity(down[0], down[1]);
+        if (entity instanceof Loot || entity instanceof Switch) {
             direction = Direction.DOWN;
             return depth;
         } else if (level.getEntity(down[0], down[1]) == null) {
@@ -107,7 +117,7 @@ public class SmartThief extends MoveableEntity {
         }
 
         // set direction to closest loot
-        return findClosest(depth, leftDepth, rightDepth, upDepth, downDepth);
+        return findClosest(leftDepth, rightDepth, upDepth, downDepth);
     }
 
     private int findClosestExit(Level level, int x, int y, int depth) {
@@ -126,35 +136,36 @@ public class SmartThief extends MoveableEntity {
             direction = Direction.LEFT;
             return depth;
         } else if (level.getEntity(left[0], left[1]) == null) {
-            leftDepth = findClosestLoot(level, left[0], left[1], depth + 1);
+            leftDepth = findClosestExit(level, left[0], left[1], depth + 1);
         }
         int[] right = moveRight(level, x, y);
         if (level.getEntity(right[0], right[1]) instanceof Exit) {
             direction = Direction.RIGHT;
             return depth;
         } else if (level.getEntity(right[0], right[1]) == null) {
-            rightDepth = findClosestLoot(level, right[0], right[1], depth + 1);
+            rightDepth = findClosestExit(level, right[0], right[1], depth + 1);
         }
         int[] up = moveUp(level, x, y);
         if (level.getEntity(up[0], up[1]) instanceof Exit) {
             direction = Direction.UP;
             return depth;
         } else if (level.getEntity(up[0], up[1]) == null) {
-            upDepth = findClosestLoot(level, up[0], up[1], depth + 1);
+            upDepth = findClosestExit(level, up[0], up[1], depth + 1);
         }
         int[] down = moveDown(level, x, y);
         if (level.getEntity(down[0], down[1]) instanceof Exit) {
             direction = Direction.DOWN;
             return depth;
         } else if (level.getEntity(down[0], down[1]) == null) {
-            downDepth = findClosestLoot(level, down[0], down[1], depth + 1);
+            downDepth = findClosestExit(level, down[0], down[1], depth + 1);
         }
 
         // set direction to closest loot
-        return findClosest(depth, leftDepth, rightDepth, upDepth, downDepth);
+        return findClosest(leftDepth, rightDepth, upDepth, downDepth);
     }
 
-    private int findClosest(int depth, int leftDepth, int rightDepth, int upDepth, int downDepth) {
+    private int findClosest(int leftDepth, int rightDepth, int upDepth, int downDepth) {
+//        System.out.println("Left: " + leftDepth + " Right: " + rightDepth + " Up: " + upDepth + " Down: " + downDepth);
         if (leftDepth < rightDepth && leftDepth < upDepth && leftDepth < downDepth) {
             direction = Direction.LEFT;
             return leftDepth;
@@ -171,7 +182,7 @@ public class SmartThief extends MoveableEntity {
             direction = Direction.DOWN;
             return downDepth;
         }
-        return randomMove(depth);
+        return randomMove(leftDepth);
     }
 
     @Override
