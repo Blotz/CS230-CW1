@@ -529,5 +529,10 @@ public class Level {
                 }
             }
         }
+        time--;
+        if (time == 0) {
+            setGameOver(true);
+            setWin(false);
+        }
     }
 }
