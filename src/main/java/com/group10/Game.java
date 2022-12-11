@@ -233,6 +233,9 @@ public class Game {
             }
         }
         // Redraw the level
+        Parent root = scene.getRoot();
+        Text time = (Text) root.lookup(".title");
+        time.setText("Time: " + level.getTime() / 2);
         drawLevel();
     }
     

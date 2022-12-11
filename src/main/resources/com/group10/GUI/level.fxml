@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.layout.*?>
-
 
 <BorderPane prefHeight="400.0" prefWidth="606.0" styleClass="background" stylesheets="@../style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.group10.Game">
    <center>
@@ -16,9 +16,10 @@
       </Canvas>
    </center>
    <top>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="70.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#Pause" style="-fx-padding: 10;" text="Pause" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title" text="Time Left:" />
          </children>
       </HBox>
    </top>
