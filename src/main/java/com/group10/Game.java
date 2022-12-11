@@ -36,6 +36,13 @@ public class Game {
     private static Image dollarImage;
     private static Image centImage;
 
+    private static Image redGateImage;
+    private static Image blueGateImage;
+    private static Image greenGateImage;
+    private static Image redSwitchImage;
+    private static Image greenSwitchImage;
+    private static Image blueSwitchImage;
+
     private static Image dirtImage;
     private static Image redTile;
     private static Image greenTile;
@@ -65,6 +72,13 @@ public class Game {
         diamondImage = new Image(Game.class.getResource("images/entity/diamond.png").toString());
         dollarImage = new Image(Game.class.getResource("images/entity/dollar.png").toString());
         centImage = new Image(Game.class.getResource("images/entity/cent.png").toString());
+
+        redGateImage = new Image(Game.class.getResource("images/entity/redGate.png").toString());
+        blueGateImage = new Image(Game.class.getResource("images/entity/blueGate.png").toString());
+        greenGateImage = new Image(Game.class.getResource("images/entity/greenGate.png").toString());
+        redSwitchImage = new Image(Game.class.getResource("images/entity/redSwitch.png").toString());
+        greenSwitchImage = new Image(Game.class.getResource("images/entity/greenSwitch.png").toString());
+        blueSwitchImage = new Image(Game.class.getResource("images/entity/blueSwitch.png").toString());
 
         dirtImage = new Image(Game.class.getResource("images/dirt.png").toString());
         redTile = new Image(Game.class.getResource("images/red.png").toString());
@@ -151,6 +165,21 @@ public class Game {
                 case "Cent":
                     gc.drawImage(centImage, x * GRID_SIZE, y * GRID_SIZE);
                     break;
+            }
+        } else if (entity instanceof Gate) {
+            Color gateColor = ((Gate) entity).getColour();
+            switch (gateColor) {
+                case RED -> gc.drawImage(redGateImage, x * GRID_SIZE, y * GRID_SIZE);
+                case GREEN -> gc.drawImage(greenGateImage, x * GRID_SIZE, y * GRID_SIZE);
+                case BLUE -> gc.drawImage(blueGateImage, x * GRID_SIZE, y * GRID_SIZE);
+            }
+        } else if (entity instanceof Switch) {
+            Color swColor = ((Switch) entity).getColour();
+            switch (swColor) {
+                case RED -> gc.drawImage(redSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
+                case GREEN -> gc.drawImage(greenSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
+                case BLUE -> gc.drawImage(blueSwitchImage, x * GRID_SIZE, y * GRID_SIZE);
+
             }
         }
     }

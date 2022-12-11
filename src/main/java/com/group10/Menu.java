@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Menu {
@@ -20,7 +19,18 @@ public class Menu {
     private static final int MAX_COLS_OF_LEVEL_SELECT = 3;
     
     public static void mainMenu() {
-        Main.changeScene(Main.getScene("GUI/mainMenu.fxml"));
+        Scene scene = Main.getScene("GUI/mainMenu.fxml");
+        Parent root = scene.getRoot();
+        
+        if (!Profile.getLevel().equals("")) {
+            System.out.println("Level: " + Profile.getLevel());
+            Button loadLevelButton = (Button) root.lookup("#levelLoadButton");
+    
+            // Make visible
+            loadLevelButton.setVisible(true);
+        }
+        
+        Main.changeScene(scene);
     }
 
     public static void profileMenu() {
@@ -37,6 +47,16 @@ public class Menu {
         mainMenu();
     }
 
+    @FXML void loadLevel(ActionEvent event) {
+        System.out.println("Loading level: " + Profile.getLevel());
+        String[] levelString = Profile.getLevel().split("\n", 2);
+        System.out.println(Arrays.toString(levelString));
+        int levelNumber = Integer.parseInt(levelString[0]);
+        String levelData = levelString[1];
+        Level level = new Level(levelData, levelNumber);
+        Game.setLevel(level);
+        Game.start();
+    }
     @FXML
     public void levelSelect(ActionEvent event) {
         System.out.println("Level Select");
