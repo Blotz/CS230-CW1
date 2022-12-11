@@ -100,12 +100,8 @@ public class Menu {
             throw new RuntimeException(e);
         }
         Level level = new Level(levelData, levelNum);
-        System.out.println(levelData);
-        System.out.println("################################");
-        System.out.println(level.saveLevel());
         
         // Load the game
-        // Game.display(Main.getStage());
          Game.setLevel(level);
          Game.start();
     }
