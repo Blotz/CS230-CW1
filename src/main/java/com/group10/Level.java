@@ -549,4 +549,11 @@ public class Level {
             setWin(false);
         }
     }
+    
+    public double getWidth() {
+        return MAX_WIDTH;
+    }
+    public double getHeight() {
+        return MAX_HEIGHT;
+    }
 }

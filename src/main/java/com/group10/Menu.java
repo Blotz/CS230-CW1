@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -90,6 +91,11 @@ public class Menu {
         Main.changeScene(scene);
     }
     
+    @FXML
+    public void fullscreen(KeyEvent event) {
+        Main.toggleFullScreen(event.getCode());
+        event.consume();
+    }
     private static void loadLevel(String name, int levelNum) {
         System.out.println("Loading level: " + name);
         // Load the level

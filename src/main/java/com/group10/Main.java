@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 /**
@@ -18,8 +19,9 @@ import javafx.stage.Stage;
  */
 public class Main extends Application {
 	public static final int WIDTH = 1050;
-	public static final int HEIGHT = 600;
+	public static final int HEIGHT = 800;
 	private static Stage stage;
+	private static boolean fullScreen = false;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
@@ -32,8 +34,11 @@ public class Main extends Application {
 	}
 	
 	public static void changeScene(Scene scene) {
-		Main.getStage().setScene(scene);
-		Main.getStage().show();
+		stage.setScene(scene);
+		stage.setWidth(WIDTH);
+		stage.setHeight(HEIGHT);
+		stage.setFullScreen(fullScreen);
+		stage.show();
 	}
 	public static Scene getScene(String fxml) {
 		Parent root = null;
@@ -48,5 +53,15 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
+	}
+	
+	public static void toggleFullScreen(KeyCode key) {
+		if (key == KeyCode.F) {
+			fullScreen = true;
+			Main.getStage().setFullScreen(true);
+		} else if (key == KeyCode.ESCAPE) {
+			fullScreen = false;
+			Main.getStage().setFullScreen(false);
+		}
 	}
 }

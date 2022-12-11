@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 import static com.group10.Color.RED;
 import static java.lang.System.*;
+import static javafx.scene.input.KeyCode.F;
 
 public class Game {
     private static Level level = null;
@@ -29,7 +30,7 @@ public class Game {
     private static Scene scene;
     private static Timeline tickTimeline;
     private static final int GRID_SIZE = 50;
-    
+    private static double SCALE = 1.0;
     private static Image playerImage;
     private static Image flyassImage;
     private static Image smartthiefImage;
@@ -62,6 +63,13 @@ public class Game {
         Game.level = level;
         Game.player = Game.level.getPlayer();
         Game.scene = Main.getScene("GUI/level.fxml");
+        Parent root = Game.scene.getRoot();
+        
+        Canvas canvas = (Canvas) root.lookup(".canvas");
+        canvas.setWidth(Game.level.getWidth() * GRID_SIZE);
+        canvas.setHeight(Game.level.getHeight() * GRID_SIZE);
+       
+        
         Game.scene.addEventFilter(KeyEvent.KEY_PRESSED, event -> processKeyEvent(event));
         Game.tickTimeline = new Timeline(new KeyFrame(Duration.millis(500), event -> tick()));
         Game.tickTimeline.setCycleCount(Animation.INDEFINITE);
@@ -252,9 +260,11 @@ public class Game {
             case RIGHT:
                 moveRight();
                 break;
-            case ESCAPE:
+            case P:
                 Main.changeScene(Main.getScene("GUI/PauseMenue.fxml"));
                 break;
+            case F:
+                Main.toggleFullScreen(F);
             default:
                 out.println("Unknown key pressed: " + event.getCode());
         }
