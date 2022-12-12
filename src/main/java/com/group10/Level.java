@@ -600,7 +600,7 @@ public class Level {
      * Calculates the next frame of game logic
      */
     public void update() {
-
+        System.out.println("Updating");
         for(Entity entity : npcs) {
             if (entity instanceof FlyingAssassin) {
                 FlyingAssassin flyingAssassin = (FlyingAssassin) entity;

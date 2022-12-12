@@ -132,18 +132,5 @@ public class FlyingAssassin extends MoveableEntity{
         }
         return new int[]{x, y - 1};
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FlyingAssassin that = (FlyingAssassin) o;
-        return direction == that.direction;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(direction);
-    }
 }
 

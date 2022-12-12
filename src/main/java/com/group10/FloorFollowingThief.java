@@ -40,10 +40,10 @@ public class FloorFollowingThief extends MoveableEntity {
         };
         
         entity = level.getEntity(newPos[0], newPos[1]);
-        if ((newPos[0] != pos[0] || newPos[1] != pos[1])
-            && (entity != null
-                && (!(entity instanceof Switch) || !(entity instanceof Loot))
-          )) {
+        
+        boolean canMove = newPos[0] != pos[0] ^ newPos[1] != pos[1];
+        canMove = canMove && ((entity == null) || (entity instanceof Loot) || (entity instanceof Switch));
+        if (canMove) {
             direction = switch (direction) {
                 case UP -> Direction.LEFT;
                 case DOWN -> Direction.RIGHT;
@@ -60,7 +60,9 @@ public class FloorFollowingThief extends MoveableEntity {
             case RIGHT -> moveRight(level, pos[0], pos[1]);
         };
         entity = level.getEntity(newPos[0], newPos[1]);
-        if (newPos[0] != pos[0] || newPos[1] != pos[1] || entity == null || entity instanceof Switch || entity instanceof Loot) {
+        canMove = newPos[0] != pos[0] ^ newPos[1] != pos[1];
+        canMove = canMove && ((entity == null) || (entity instanceof Loot) || (entity instanceof Switch));
+        if (canMove) {
             return newPos;
         }
         // Turn right!
@@ -160,18 +162,5 @@ public class FloorFollowingThief extends MoveableEntity {
             }
         }
         return new int[]{x , y};
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FloorFollowingThief that = (FloorFollowingThief) o;
-        return initDirection == that.initDirection && direction == that.direction && colour == that.colour;
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(initDirection, direction, colour);
     }
 }
