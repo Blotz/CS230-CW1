@@ -5,7 +5,11 @@ import java.util.ArrayList;
 public class Bomb extends Interaction {
     private int COUNTDOWN = 10;
     private boolean timerStarts = false;
-
+    
+    /**
+     * Runs though bomb logic and sees if it should explode
+     * @param level the level that the entity is on
+     */
     public void update(Level level) {
         // Check the near by squares
         if (!timerStarts) {
@@ -16,7 +20,11 @@ public class Bomb extends Interaction {
         }
 
     }
-
+    
+    /**
+     * Checks the nearby squares to see if there is a Player or Thief
+     * @param level the level that the entity is on
+     */
     private void cheakNearby(Level level) {
         // Check the near by squares
         int[] pos = level.getEntityPosition(this);
@@ -30,7 +38,14 @@ public class Bomb extends Interaction {
             timerStarts = true;
         }
     }
-
+    
+    /**
+     * Checks if the entity is a Player or Thief
+     * @param level the level that the entity is on
+     * @param x the x position of the entity
+     * @param y the y position of the entity
+     * @return true if there is a Player or Thief
+     */
     private boolean check(Level level, int x, int y) {
 
         Entity entity = level.getEntity(x, y);
@@ -45,7 +60,11 @@ public class Bomb extends Interaction {
             return false;
         }
     }
-
+    
+    /**
+     * Counts down the timer and explodes if the timer is 0
+     * @param level the level that the entity is on
+     */
     private void countdown(Level level) {
         COUNTDOWN--;
         if (COUNTDOWN == 0) {
@@ -53,7 +72,11 @@ public class Bomb extends Interaction {
             explosion(level);
         }
     }
-
+    
+    /**
+     * Explodes the bomb killing everything on the same axis except Exit and Gate
+     * @param level the level that the entity is on
+     */
     public void explosion(Level level) {
 
         // Collects the y : [0] and x : [1] for the bomb position
